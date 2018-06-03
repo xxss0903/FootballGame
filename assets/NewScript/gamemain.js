@@ -28,13 +28,14 @@ cc.Class({
             type: cc.Label
         },
 
-        startPosition: new cc.Rect()
+        startPosition: new cc.Rect(),
+        socket: {},
+        resetSize: 20
 
     },
 
-    // self define function
+    // 初始化控制系统
     setupControl: function () {
-
         var self = this;
         var ftball = self.football.getComponent(tmpFootball);
         var pl = self.player.getComponent(tmpPlayer);
@@ -56,12 +57,13 @@ cc.Class({
         }, self.node);
     },
 
+    // 游戏结束
     gameOver: function () {
         cc.director.loadScene("gameover");
     },
 
+    // 重置足球，摆到球员脚下
     resetFootball: function () {
-
         var self = this;
         var ftball = self.football.getComponent(tmpFootball);
         var pl = self.player.getComponent(tmpPlayer);
@@ -69,9 +71,33 @@ cc.Class({
 
         ftball.node.setPosition(this.startPosition.x - 520 - 30, this.startPosition.y - 950 - 30);
         ftball.node.stopAllActions();
+    },
+
+    resetFootballDirection: function (direction) {
+        var self = this;
+        var ftball = self.football.getComponent(tmpFootball);
+
+        var x = ftball.node.x
+        var y = ftball.node.y
+        switch (direction) {
+            case 'up':
+                y = y + this.resetSize;
+                break;
+            case 'down':
+                y = y - this.resetSize
+                break;
+            case 'left':
+                x = x - this.resetSize
+                break;
+            case 'right':
+                x = x + this.resetSize
+                break;
+        }
+        ftball.node.setPosition(x, y);
 
     },
 
+    // 足球踢出去的移动轨迹
     moveFootball: function () {
         var randomX = 400 - cc.random0To1() * 800;
 
@@ -79,10 +105,66 @@ cc.Class({
         this.football.runAction(moveto);
     },
 
+    onMessage: function (obj) {
+        console.log("Hello Football cup");
+    },
+
+    // 初始化socket
+    setupWebsocket: function () {
+        if (cc.sys.isNative) {
+            window.io = SocketIO;
+        } else {
+            window.io = require('socket.io')
+        }
+        let self = this
+        self.socket = window.io('http://localhost:9999');
+        self.socket.on('connected', (msg) => {
+            console.log('链接上了 ' + msg);
+        })
+
+        self.socket.on('handplay', (msg) => {
+            console.log(msg)
+            var obj = JSON.parse(msg);
+
+            console.log('手柄消息 移动方向' + obj.direction);
+            switch (obj.direction) {
+                case 'up':
+                    console.log('up up')
+                    self.resetFootballDirection('up')
+                    break;
+                case 'down':
+                    console.log('down down')
+                    self.resetFootballDirection('down')
+                    break;
+                case 'left':
+                    console.log('left left')
+                    self.resetFootballDirection('left')
+                    break;
+                case 'right':
+                    console.log('right right')
+                    self.resetFootballDirection('right')
+                    break;
+                case 'press':
+                    self.moveFootball();
+                    break;
+            }
+        })
+
+        self.socket.on('disconnect', function (data) {
+            console.log('游戏断开链接')
+        })
+
+        self.socket.on('error', (msg) => {
+            console.log('发生错误 ' + msg);
+        })
+
+    },
+
     // use this for initialization
     onLoad: function () {
         this.setupControl();
         this.moveFootball();
+        this.setupWebsocket();
     },
 
     // called every frame
