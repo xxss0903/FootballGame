@@ -185,7 +185,7 @@ cc.Class({
         }, 0, 0);
     },
 
-    keepBall: function(){
+    keepBall: function () {
         let self = this;
         console.log("扑球");
         var keeper = self.goalkeeper.getComponent(tmpKeeper);
@@ -224,20 +224,43 @@ cc.Class({
         console.log("Hello Football cup");
     },
 
-    // 初始化socket
-    setupWebsocket: function () {
+    // 如果断开链接，尝试重新链接
+    tryConnectSocket: function () {
+        console.log('尝试重新链接');
         if (cc.sys.isNative) {
             window.io = SocketIO;
         } else {
             window.io = require('socket.io')
         }
         let self = this
-        self.socket = window.io('http://localhost:9999');
-        self.socket.on('connected', (msg) => {
+        self.socket = window.io(socketurl);
+        mysocket = self.socket;
+        self.socket.on('connection', function(){
+            console.log('连接上了')
+        });
+
+        self.socket.on('connect', function(){
+            mysocket = self.socket;
             console.log('链接上了 ' + msg);
+        });
+
+        self.socket.on('disconnect', function (data) {
+            console.log('游戏断开链接')
         })
 
-        self.socket.on('handplay', (msg) => {
+        self.socket.on('error', (msg) => {
+            console.log('发生错误 ' + msg);
+        })
+
+        self.socket.on('timeout', (msg) => {
+            console.log('链接超时');
+        })
+    },
+
+    // 初始化socket
+    setupWebsocket: function () {
+        let self = this;
+        mysocket.on('handplay', (msg) => {
             var obj = JSON.parse(msg);
             console.log(msg)
 
@@ -261,18 +284,21 @@ cc.Class({
             }
         })
 
-        self.socket.on('disconnect', function (data) {
+
+        mysocket.on('disconnect', function (data) {
             console.log('游戏断开链接')
+            self.tryConnectSocket();
         })
 
-        self.socket.on('error', (msg) => {
+        mysocket.on('error', (msg) => {
             console.log('发生错误 ' + msg);
+            self.tryConnectSocket();
         })
 
-        self.socket.on('timeout', (msg) => {
+        mysocket.on('timeout', (msg) => {
+            self.tryConnectSocket();
             console.log('链接超时');
         })
-
     },
 
     setupPlayer: function () {
@@ -308,22 +334,6 @@ cc.Class({
 
     // called every frame
     update: function (dt) {
-        // var self = this;
-        // var ftball = self.football.getComponent(tmpFootball);
-        // var pl = self.player.getComponent(tmpPlayer);
-        // var gt = self.gate.getComponent(tmpGate);
-        // 碰撞检测，碰撞球门
-        // if (cc.rectIntersectsRect(gt.getRect1(), ftball.node.getBoundingBoxToWorld())) {
-        //     pl.addScore(1);
-        //     this.resetFootball();
-        //     this.score.string = pl.score;
-        // }
-
-        // 分数获取
-        // if (cc.rectIntersectsRect(gt.getRect2(), ftball.node.getBoundingBoxToWorld())) {
-        //     pl.addScore(2)
-        //     this.score.string = pl.score;
-        // }
 
     },
 });

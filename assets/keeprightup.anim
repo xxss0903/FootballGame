@@ -3,7 +3,7 @@
   "_name": "keeprightup",
   "_objFlags": 0,
   "_rawFiles": null,
-  "_duration": 1,
+  "_duration": 2.0166666666666666,
   "sample": 60,
   "speed": 1,
   "wrapMode": 1,
@@ -15,12 +15,12 @@
           "value": 0
         },
         {
-          "frame": 0.4,
+          "frame": 0.9666666666666667,
           "value": 45
         },
         {
-          "frame": 1,
-          "value": 90
+          "frame": 2.0166666666666666,
+          "value": 75
         }
       ],
       "x": [
@@ -29,11 +29,11 @@
           "value": 28
         },
         {
-          "frame": 0.4166666666666667,
+          "frame": 0.9666666666666667,
           "value": 100
         },
         {
-          "frame": 1,
+          "frame": 2.0166666666666666,
           "value": 300
         }
       ],
@@ -43,12 +43,12 @@
           "value": 100
         },
         {
-          "frame": 0.4166666666666667,
+          "frame": 0.9666666666666667,
           "value": 140
         },
         {
-          "frame": 1,
-          "value": 180
+          "frame": 2.0166666666666666,
+          "value": 200
         }
       ]
     }

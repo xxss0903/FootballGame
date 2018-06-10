@@ -8,6 +8,8 @@
 //  - [Chinese] http://docs.cocos.com/creator/manual/zh/scripting/life-cycle-callbacks.html
 //  - [English] http://www.cocos2d-x.org/docs/creator/en/scripting/life-cycle-callbacks.html
 
+
+
 cc.Class({
     extends: cc.Component,
 
@@ -28,8 +30,8 @@ cc.Class({
             type: cc.Button
         },
 
-
-
+        playername: 'player',
+        playercount: 1,
         // foo: {
         //     // ATTRIBUTES:
         //     default: null,        // The default value will be used only when the component attaching
@@ -61,23 +63,65 @@ cc.Class({
             if (item.isChecked == true) {
                 var selectedPlayerName = item.name.replace("<Toggle>", "");
                 console.log('选中了 ' + selectedPlayerName);
-                playerrole = selectedPlayerName;
+                return selectedPlayerName;
                 break;
             }
         }
+        return 'henry';
     },
 
     setupClick: function () {
         let self = this;
+        switch (gamemode) {
+            case 'single':
+                this.selectSinglePlayer(player1);
+                break;
+
+            case 'multi':
+                this.selectMultiPlayer();
+                break;
+        }
+    },
+
+    selectSinglePlayer: function (player) {
+        let self = this;
         this.confirm.node.on('click', function (event) {
             console.log('confirm');
-            self.getSelectedPlayer();
+            player.rolepic = self.getSelectedPlayer();
             cc.director.loadScene('game');
         })
     },
 
+    selectMultiPlayer: function () {
+        let self = this;
+        this.confirm.node.on('click', function (event) {
+            console.log('confirm');
+            player1.rolepic = self.getSelectedPlayer();
+            self.selectSinglePlayer(player2);
+        })
+    },
+
+    // 初始化玩家
+    setupPlayer: function () {
+
+        console.log(gamemode);
+        switch (gamemode) {
+            case 'single':
+                // 单个玩家
+                player1.name = "player1";
+                break;
+
+            case 'multi':
+                // 多个玩家
+                player1.name = "player1";
+                player2.name = "player2";
+                break;
+        }
+    },
+
 
     onLoad() {
+        this.setupPlayer();
         this.setupToggleGroup();
         this.setupClick();
     },

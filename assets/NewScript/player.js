@@ -12,7 +12,10 @@ cc.Class({
     extends: cc.Component,
 
     properties: {
-        score: 0
+        score: 0,
+        rolepic: "",
+        roomname: "",
+        name: '',
         // foo: {
         //     // ATTRIBUTES:
         //     default: null,        // The default value will be used only when the component attaching
