@@ -12,6 +12,10 @@ cc.Class({
     extends: cc.Component,
 
     properties: {
+        football:{
+            default: null,
+            type: cc.Node
+        }
         // foo: {
         //     // ATTRIBUTES:
         //     default: null,        // The default value will be used only when the component attaching
@@ -31,11 +35,20 @@ cc.Class({
 
     // LIFE-CYCLE CALLBACKS:
     startGame: function(){
-        cc.director.loadScene("game")
+        cc.director.loadScene("selectmode")
     },
 
 
-    // onLoad () {},
+    onLoad () {
+        this.rotateFootball();
+    },
+
+    rotateFootball: function(){
+        let self = this;
+        var rotateAnim = self.football.getComponent(cc.Animation);
+        var animState = rotateAnim.play("fullrotate", 0);
+        animState.wrapMode = cc.WrapMode.Loop;
+    },
 
     start () {
 

@@ -14,6 +14,7 @@ cc.Class({
     extends: cc.Component,
 
     properties: {
+
         // foo: {
         //     // ATTRIBUTES:
         //     default: null,        // The default value will be used only when the component attaching
@@ -41,7 +42,7 @@ cc.Class({
         var y = this.getBox().y;
         var width = this.getBox().width;
         var height = this.getBox().height;
-        var rect1 = new cc.Rect(x , y, width / 2, height);
+        var rect1 = new cc.Rect(x, y, width / 3, height / 2);
         return rect1;
     },
 
@@ -50,7 +51,34 @@ cc.Class({
         var y = this.getBox().y;
         var width = this.getBox().width;
         var height = this.getBox().height;
-        var rect2 = new cc.Rect(x + width/2, y, width / 2, height);
+        var rect2 = new cc.Rect(x, y + height / 2, width / 3, height / 2);
+        return rect2;
+    },
+
+    getRect3: function () {
+        var x = this.getBox().x;
+        var y = this.getBox().y;
+        var width = this.getBox().width;
+        var height = this.getBox().height;
+        var rect3 = new cc.Rect(x + width/3, y , width / 3, height);
+        return rect3;
+    },
+
+    getRect4: function () {
+        var x = this.getBox().x;
+        var y = this.getBox().y;
+        var width = this.getBox().width;
+        var height = this.getBox().height;
+        var rect2 = new cc.Rect(x + 2 * width/3 , y , width / 3, height/2);
+        return rect2;
+    },
+
+    getRect5: function () {
+        var x = this.getBox().x;
+        var y = this.getBox().y;
+        var width = this.getBox().width;
+        var height = this.getBox().height;
+        var rect2 = new cc.Rect(x + 2 * width / 3, y + height/2, width / 3, height/2);
         return rect2;
     },
 

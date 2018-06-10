@@ -8,11 +8,18 @@
 //  - [Chinese] http://docs.cocos.com/creator/manual/zh/scripting/life-cycle-callbacks.html
 //  - [English] http://www.cocos2d-x.org/docs/creator/en/scripting/life-cycle-callbacks.html
 
-
 cc.Class({
     extends: cc.Component,
 
     properties: {
+        single:{
+            default: null,
+            type: cc.Node
+        },
+        multi:{
+            default: null,
+            type: cc.Node
+        }
         // foo: {
         //     // ATTRIBUTES:
         //     default: null,        // The default value will be used only when the component attaching
@@ -28,50 +35,24 @@ cc.Class({
         //         this._bar = value;
         //     }
         // },
-        speed: "int",
-        
     },
-
-    // getPosition: function(){
-    //     return this.kickpoint.getPosition();
-    // },
-
-    // up: function () {
-    //     var x = this.getPosition().x;
-    //     var y = this.getPosition().y;
-    //     this.node.setPosition(x, y + MOVESTEP);
-    // },
-    // down: function () {
-    //     var x = this.getPosition().x;
-    //     var y = this.getPosition().y;
-    //     this.node.setPosition(x, y - MOVESTEP);
-    // },
-    // left: function () {
-    //     var x = this.getPosition().x;
-    //     var y = this.getPosition().y;
-    //     this.node.setPosition(x - MOVESTEP, y);
-    // },
-    // right: function () {
-    //     var x = this.getPosition().x;
-    //     var y = this.getPosition().y;
-    //     this.node.setPosition(x + MOVESTEP, y);
-    // },
 
     // LIFE-CYCLE CALLBACKS:
-    getBox: function () {
-        return this.node.getBoundingBoxToWorld();
+    setupControlEvent: function(){
+        let self = this;
+        self.single.on('click', function(event){
+            cc.director.loadScene('selectplayer');
+        });
+        self.multi.on('click', function(event){
+            cc.director.loadScene('selectplayer');
+        })
     },
 
-    kickMe: function () {
-        var rotateAnim = this.getComponent(cc.Animation);
-        var animState = rotateAnim.play("football");
+    // onLoad () {},
+
+    start () {
+        this.setupControlEvent();
     },
 
-    onLoad() {},
-
-    start() {
-
-    },
-
-    update(dt) {},
+    // update (dt) {},
 });

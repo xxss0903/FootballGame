@@ -1,0 +1,30 @@
+{
+  "ver": "1.0.0",
+  "uuid": "a8fa67db-56bb-4e95-a8af-57a1e6bb7ee7",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "subMetas": {
+    "maradona_selected": {
+      "ver": "1.0.3",
+      "uuid": "7bf1e68e-eb70-42eb-86af-576a96c549e6",
+      "rawTextureUuid": "a8fa67db-56bb-4e95-a8af-57a1e6bb7ee7",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": -0.5,
+      "offsetY": 0.5,
+      "trimX": 0,
+      "trimY": 0,
+      "width": 381,
+      "height": 494,
+      "rawWidth": 382,
+      "rawHeight": 495,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}
