@@ -104,7 +104,32 @@ cc.Class({
         var animState = rotateAnim.play("keepup");
         console.log('扑救正上方')
     },
-    // onLoad () {},
+
+
+    // 初始化碰撞系统
+    setupCollisionSystem: function () {
+        cc.director.getCollisionManager().enabled = true;
+        cc.director.getCollisionManager().enabledDebugDraw = true;
+        cc.director.getCollisionManager().enabledDrawBoundingBox = true;
+
+    },
+
+    onCollisionEnter: function (other, self) {
+        console.log('发生碰撞 enter' + other)
+    },
+
+    onCollisionStay: function (other, self) {
+        console.log("发生碰撞 stay" + other)
+    },
+
+    onCollisionExit: function (other, self) {
+        console.log("发生碰撞 exit" + other)
+    },
+
+
+    onLoad() {
+
+    },
 
     start() {
 

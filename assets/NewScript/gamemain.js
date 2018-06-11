@@ -84,6 +84,11 @@ cc.Class({
         }, self.node);
     },
 
+    // 判断射门点是否在门框内
+    isEndPositionInGate: function(){
+        return cc.rectContainsRect(this.gate.getBoundingBoxToWorld(), this.kickpoint.getBoundingBoxToWorld());
+    },
+
     // 更新箭头的转动角度
     updateArrowDirection: function () {
         var p = this.startPosition.sub(this.endPosition);
@@ -108,6 +113,17 @@ cc.Class({
         this.updateArrowDirection();
         this.goalkeeper.setPosition(this.keeperPosition);
         this.goalkeeper.rotation = 0;
+
+
+        // 重置了，发信号给手柄能够继续点击按钮
+        this.sendShootEndSinal();
+    },
+
+    // 发送信号表示一个射击完成
+    sendShootEndSinal: function(){
+        var status = {'shootstatus': "end"}
+        var statusStr = JSON.stringify(status)
+        mysocket.emit("shootstatus", statusStr);
     },
 
     setFootballStartPosition: function () {
@@ -305,7 +321,7 @@ cc.Class({
         let self = this;
         var resStr = 'resources/' + playerrole + '.png'
         var realUrl = cc.url.raw(resStr);
-        console.log('加载玩家头像')
+        console.log('加载玩家头像 '+ playerrole)
         console.log(playerrole);
         cc.loader.loadRes(playerrole.toString(), cc.SpriteFrame, function (err, spriteFrame) {
             console.log(spriteFrame)
@@ -314,13 +330,14 @@ cc.Class({
         });
     },
 
-    // 守门员扑救
-    keeperSave: function () {
-
-    },
-
     setupParams: function () {
         this.maxHeight = this.gate.height * 1.5;
+    },
+
+    // 足球被扑到了
+    keepOut: function(){
+        let self = this;
+        self.resetFootball();
     },
 
     // use this for initialization
@@ -334,6 +351,12 @@ cc.Class({
 
     // called every frame
     update: function (dt) {
-
+        let self = this;
+        var ftball = self.football.getComponent(tmpFootball);
+        if(ftball.getCollisionStatus() && self.isEndPositionInGate()){
+            // 已经碰撞到了，得分，重置
+            self.keepOut();
+            ftball.resetCollisionStatus();
+        }
     },
 });

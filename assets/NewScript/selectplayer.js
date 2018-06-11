@@ -63,6 +63,7 @@ cc.Class({
             if (item.isChecked == true) {
                 var selectedPlayerName = item.name.replace("<Toggle>", "");
                 console.log('选中了 ' + selectedPlayerName);
+                playerrole = selectedPlayerName;
                 return selectedPlayerName;
                 break;
             }
@@ -99,22 +100,26 @@ cc.Class({
             player1.rolepic = self.getSelectedPlayer();
             self.selectSinglePlayer(player2);
         })
+
+        this.back.node.on('click', function(event){
+            console.log('返回选择模式');
+            cc.director.loadScene('selectmode');
+        })
     },
 
     // 初始化玩家
     setupPlayer: function () {
-
         console.log(gamemode);
         switch (gamemode) {
             case 'single':
                 // 单个玩家
-                player1.name = "player1";
+                player1.myname = "player1";
                 break;
 
             case 'multi':
                 // 多个玩家
-                player1.name = "player1";
-                player2.name = "player2";
+                player1.myname = "player1";
+                player2.myname = "player2";
                 break;
         }
     },

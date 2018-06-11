@@ -14,8 +14,9 @@ cc.Class({
     properties: {
         score: 0,
         rolepic: "",
+        // 角色名
         roomname: "",
-        name: '',
+        myname: '',
         // foo: {
         //     // ATTRIBUTES:
         //     default: null,        // The default value will be used only when the component attaching

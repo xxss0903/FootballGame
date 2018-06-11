@@ -29,6 +29,7 @@ cc.Class({
         //     }
         // },
         speed: "int",
+        collisionStatus: false,
         
     },
 
@@ -67,7 +68,39 @@ cc.Class({
         var animState = rotateAnim.play("football");
     },
 
-    onLoad() {},
+    getCollisionStatus: function(){
+        return this.collisionStatus;
+    },
+
+    resetCollisionStatus: function(){
+        this.collisionStatus = false;
+    },
+
+    // 初始化碰撞系统
+    setupCollisionSystem: function(){
+        cc.director.getCollisionManager().enabled = true;
+        cc.director.getCollisionManager().enabledDebugDraw = true;
+        cc.director.getCollisionManager().enabledDrawBoundingBox = true;
+
+    },
+
+    onCollisionEnter: function(other, self){
+        this.collisionStatus = true;
+        console.log('发生碰撞 enter')
+    },
+
+    onCollisionStay: function(other, self){
+        console.log("发生碰撞 stay")
+    },
+
+    onCollisionExit: function(other, self){
+        console.log("发生碰撞 exit")
+    },
+
+
+    onLoad() {
+        this.setupCollisionSystem();
+    },
 
     start() {
 
