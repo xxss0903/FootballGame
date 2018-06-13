@@ -44,16 +44,16 @@ cc.Class({
         let self = this;
         self.single.on('click', function (event) {
             // 进入单人模式
-            self.loginSingle();
+            self.chooseSingleMode();
         });
         self.multi.on('click', function (event) {
             // 进入多人模式
-            self.loginIntoRoom();
+            self.chooseMultiMode();
         })
     },
 
     // 链接socket
-    loginSingle: function () {
+    chooseSingleMode: function () {
         let self = this;
         if (cc.sys.isNative) {
             window.io = SocketIO;
@@ -63,6 +63,11 @@ cc.Class({
         console.log('单人登陆')
         self.socket = window.io(socketurl);
         console.log(self.socket);
+
+
+        // 测试不了解
+        gamemode = 'single';
+        cc.director.loadScene('selectplayer');
 
         self.socket.on('connect', (msg) => {
             console.log('链接上了 ' + msg);
@@ -96,7 +101,7 @@ cc.Class({
     },
 
     // 进入房间，多人模式
-    loginIntoRoom: function () {
+    chooseMultiMode: function () {
         let self = this;
         if (cc.sys.isNative) {
             window.io = SocketIO;
@@ -106,6 +111,11 @@ cc.Class({
         console.log('多人登陆')
         self.socket = window.io(socketurl);
         console.log(self.socket);
+
+        // 测试不了解
+        gamemode = 'multi';
+        cc.director.loadScene('selectplayer');
+
 
         self.socket.on('connect', (msg) => {
             cc.director.loadScene('selectplayer');
