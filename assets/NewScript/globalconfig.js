@@ -15,4 +15,4 @@ window.socketurl = 'http://localhost:9999?type=football';
 window.gamemode = 'single';
 window.player1 = {};
 window.player2 = {};
-window.currentroom = '';
+window.currentroom = 'room1';

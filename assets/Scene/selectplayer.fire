@@ -2011,6 +2011,9 @@
       "__id__": 2
     },
     "_enabled": true,
+    "playerprefab": {
+      "__uuid__": "3abb09bd-b74e-4b60-af6f-729085d301dc"
+    },
     "selectgroup": {
       "__id__": 44
     },
@@ -2019,6 +2022,8 @@
     },
     "confirm": {
       "__id__": 12
-    }
+    },
+    "playername": "player",
+    "playercount": 1
   }
 ]
