@@ -8,7 +8,7 @@
 //  - [Chinese] http://docs.cocos.com/creator/manual/zh/scripting/life-cycle-callbacks.html
 //  - [English] http://www.cocos2d-x.org/docs/creator/en/scripting/life-cycle-callbacks.html
 
-
+var tmpplayer = require('player');
 
 cc.Class({
     extends: cc.Component,
@@ -35,10 +35,21 @@ cc.Class({
             type: cc.Button
         },
 
-        playername: 'player',
-        playercount: 1,
-        player1: cc.Sprite,
-        player2: cc.Sprite
+        playersp1: {
+            default: null,
+            type: cc.Sprite
+        },
+        playersp2: {
+            default: null,
+            type: cc.Sprite
+        },
+        // 当前选择显示的角色精灵
+        currentsprite: {
+            default: null,
+            type: cc.Sprite
+        },
+        // 当前对应的全局选手
+        currentplayer: cc.player,
         // foo: {
         //     // ATTRIBUTES:
         //     default: null,        // The default value will be used only when the component attaching
@@ -66,7 +77,7 @@ cc.Class({
             var item = items[i];
             console.log(item)
             item.node.on('toggle', function (event) {
-                self.changeToggleItem(item);
+                self.changeToggleItem(event.target);
             }, self);
         }
     },
@@ -74,11 +85,14 @@ cc.Class({
     // 选择球员之后设置
     changeToggleItem: function (item) {
         let self = this;
-        var name = item.name.replace('<Toggle>', '')
-        console.log('选中球员 ' + name);
-        console.log(self.player1);
+        var name = item.name.replace('<Toggle>', '');
         cc.loader.loadRes(name.toString(), cc.SpriteFrame, function (err, spriteFrame) {
-            self.player1.spriteFrame = spriteFrame;
+            console.log('玩家 ')
+            console.log(self.currentsprite);
+            console.log(self.playersp1);
+            console.log(self.playersp2);
+            console.log('选中了  ' + name);
+            self.currentsprite.spriteFrame = spriteFrame;
         });
     },
 
@@ -89,7 +103,6 @@ cc.Class({
             var item = items[i];
             if (item.isChecked == true) {
                 var selectedPlayerName = item.name.replace("<Toggle>", "");
-                console.log('选中了 ' + selectedPlayerName);
                 playerrole = selectedPlayerName;
                 return selectedPlayerName;
                 break;
@@ -102,7 +115,7 @@ cc.Class({
         let self = this;
         switch (gamemode) {
             case 'single':
-                this.selectSinglePlayer(player1);
+                this.selectSinglePlayer();
                 break;
 
             case 'multi':
@@ -114,26 +127,25 @@ cc.Class({
     selectSinglePlayer: function (player) {
         let self = this;
         this.confirm.node.on('click', function (event) {
-            console.log('confirm');
-            player.rolepic = self.getSelectedPlayer();
+            self.currentplayer.rolepic = self.getSelectedPlayer();
             cc.director.loadScene('game');
+        })
+
+        this.back.node.on('click', function (event) {
+            console.log('返回选择模式');
+            self.resetConfig();
+            cc.director.loadScene('selectmode');
         })
     },
 
-    // 创建一个新的选手对象
-    createNewPlayer: function () {
-        // 使用给定的模板在场景中生成一个新节点
-        var newPlayer = cc.instantiate(this.playerprefab);
-        // 将新增的节点添加到 Canvas 节点下面
-        this.node.addChild(newPlayer);
-        return newPlayer;
-    },
-
+    // 初始化多人模式
     selectMultiPlayer: function () {
         let self = this;
         this.confirm.node.on('click', function (event) {
-            console.log('confirm');
-            player1.rolepic = self.getSelectedPlayer();
+            self.currentplayer.rolepic = self.getSelectedPlayer();
+            self.currentplayer = player2;
+            // 切换精灵
+            self.currentsprite = self.playersp2
             self.selectSinglePlayer(player2);
         })
 
@@ -144,55 +156,80 @@ cc.Class({
         })
     },
 
+    // 重置全局的player设置
     resetConfig: function () {
+        gamemode = 'single'
         player1 = {};
         player2 = {};
-        gamemode = 'single'
     },
 
-    createSinglePlayer: function () {
-        let self = this;
-        self.player1 = self.createNewPlayer();
-        self.player1.setPosition(-100, -400);
+    // 隐藏所有玩家角色
+    hideAllPlayer: function () {
+        console.log(self.playersp1);
+        console.log(self.playersp2);
+        // self.playersp1.enabled = false;
+        // self.playersp2.enabled = false;
     },
 
-    createMultiPlayers: function () {
-        let self = this;
-        var player1 = self.createNewPlayer();
-        player1.setPosition(-100, -400);
-        var player2 = self.createNewPlayer();
-        player2.setPosition(100, -400);
+    setupSinglePlayer: function () {
+        player1 = new tmpplayer();
+        player1.myname = 'player1';
+
+        // self.playersp1.enabled = true
+        // self.playersp2.enabled = false
+    },
+
+    setupMultiPlayer: function () {
+        player1 = new tmpplayer();
+        player1.myname = 'player1';
+
+        player2 = new tmpplayer();
+        player2.myname = 'player2';
+
+        // self.playersp1.enabled = true
+        // self.playersp2.enabled = true
     },
 
     // 初始化玩家
     setupPlayer: function () {
+        let self = this;
+        self.hideAllPlayer();
         console.log(gamemode);
         switch (gamemode) {
             case 'single':
                 // 单个玩家
-                this.createSinglePlayer();
-                player1.myname = "player1";
+                this.setupSinglePlayer();
                 break;
 
             case 'multi':
                 // 多个玩家 
-                this.createMultiPlayers();
-                player1.myname = "player1";
-                player2.myname = "player2";
+                this.setupMultiPlayer();
                 break;
         }
+        self.currentsprite = self.playersp1;
+        self.currentplayer = player1;
     },
-
 
     onLoad() {
-        this.setupPlayer();
+        cc.LoadingItems.onProgress = function(c1, c2, c3){
+            console.log(c1 + " # " + c2 + " # " + c3);           
+        }
+        console.log('onLoad')
+        cc.loader.onProgress = function (completedCount, totalCount, item) {
+            var progress = (completedCount / totalCount).toFixed(2);
+            console.log("completedCount = " + completedCount + ",totalCount=" + totalCount + ",progress=" + progress);
+        }
         this.setupToggleGroup();
         this.setupClick();
+        this.setupPlayer();
     },
 
-    start() {
-
-    },
-
+    start: function () {
+        console.log("开始")
+        cc.loader.onProgress = function (completedCount, totalCount, item) {
+            var progress = (completedCount / totalCount).toFixed(2);
+            console.log("completedCount = " + completedCount + ",totalCount=" + totalCount + ",progress=" + progress);
+        }
+    }
     // update (dt) {},
 });

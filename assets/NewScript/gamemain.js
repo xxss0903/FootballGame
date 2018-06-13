@@ -13,7 +13,15 @@ cc.Class({
             type: cc.Node
         },
 
-        player: {
+        playersp: {
+            default: null,
+            type: cc.Sprite
+        },
+        playersp1: {
+            default: null,
+            type: cc.Sprite
+        },
+        playersp2: {
             default: null,
             type: cc.Sprite
         },
@@ -58,14 +66,16 @@ cc.Class({
         defaultKickPoint: cc.p(),
         socket: {},
         resetSize: 1,
-        center: new cc.p()
+        center: new cc.p(),
+        // 当前踢球的运动员
+        currentplayer: cc.player,
     },
 
     // 初始化控制系统 
     setupControl: function () {
         var self = this;
         var ftball = self.football.getComponent(tmpFootball);
-        var pl = self.player.getComponent(tmpPlayer);
+        var pl = self.playersp.getComponent(tmpPlayer);
         var gt = self.gate.getComponent(tmpGate);
 
         // this.startPosition = ftball.node.getBoundingBoxToWorld();
@@ -85,7 +95,7 @@ cc.Class({
     },
 
     // 判断射门点是否在门框内
-    isEndPositionInGate: function(){
+    isEndPositionInGate: function () {
         return cc.rectContainsRect(this.gate.getBoundingBoxToWorld(), this.kickpoint.getBoundingBoxToWorld());
     },
 
@@ -120,8 +130,10 @@ cc.Class({
     },
 
     // 发送信号表示一个射击完成
-    sendShootEndSinal: function(){
-        var status = {'shootstatus': "end"}
+    sendShootEndSinal: function () {
+        var status = {
+            'shootstatus': "end"
+        }
         var statusStr = JSON.stringify(status)
         mysocket.emit("shootstatus", statusStr);
     },
@@ -211,7 +223,7 @@ cc.Class({
     // 计算当前球得位置计算分数
     calculateScore: function () {
         var self = this;
-        var pl = self.player.getComponent(tmpPlayer);
+        var pl = self.playersp.getComponent(tmpPlayer);
         // 球门
         var gt = self.gate.getComponent(tmpGate);
         if (cc.rectIntersectsRect(gt.getRect1(), this.kickpoint.getBoundingBoxToWorld())) {
@@ -251,11 +263,11 @@ cc.Class({
         let self = this
         self.socket = window.io(socketurl);
         mysocket = self.socket;
-        self.socket.on('connection', function(){
+        self.socket.on('connection', function () {
             console.log('连接上了')
         });
 
-        self.socket.on('connect', function(){
+        self.socket.on('connect', function () {
             mysocket = self.socket;
             console.log('链接上了 ' + msg);
         });
@@ -317,17 +329,43 @@ cc.Class({
         })
     },
 
+    setupSingleMode: function () {
+        let self = this;
+        self.currentplayer = player1;
+        self.player = self.playersp1;
+        console.log(self.playersp1)
+        cc.loader.loadRes(player1.rolepic.toString(), cc.SpriteFrame, function (err, spriteFrame) {
+            console.log(spriteFrame)
+            self.playersp1.spriteFrame = spriteFrame;
+        });
+    },
+
+    setupMultiMode: function () {
+        self.currentplayer = player1;
+        console.log(self.playersp1)
+        console.log(self.playersp2)
+        self.playersp = self.playersp1;
+        cc.loader.loadRes(player1.rolepic.toString(), cc.SpriteFrame, function (err, spriteFrame) {
+            console.log(spriteFrame)
+            self.playersp1.spriteFrame = spriteFrame;
+        });
+        cc.loader.loadRes(player2.rolepic.toString(), cc.SpriteFrame, function (err, spriteFrame) {
+            console.log(spriteFrame)
+            self.playersp2.spriteFrame = spriteFrame;
+        });
+    },
+
     setupPlayer: function () {
         let self = this;
-        var resStr = 'resources/' + playerrole + '.png'
-        var realUrl = cc.url.raw(resStr);
-        console.log('加载玩家头像 '+ playerrole)
-        console.log(playerrole);
-        cc.loader.loadRes(playerrole.toString(), cc.SpriteFrame, function (err, spriteFrame) {
-            console.log(spriteFrame)
-            self.player.spriteFrame = spriteFrame;
-            console.log(self.player.node.spriteFrame);
-        });
+        switch (gamemode) {
+            case 'single':
+                this.setupSingleMode();
+                break;
+
+            case 'multi':
+                this.setupMultiMode();
+                break;
+        }
     },
 
     setupParams: function () {
@@ -335,25 +373,49 @@ cc.Class({
     },
 
     // 足球被扑到了
-    keepOut: function(){
+    keepOut: function () {
         let self = this;
         self.resetFootball();
     },
 
     // use this for initialization
     onLoad: function () {
-        this.setupParams();
-        this.setupPlayer();
-        this.setupControl();
-        this.setFootballStartPosition();
-        this.setupWebsocket();
+        let self = this;
+
+        console.log('初始化选手')
+        // self.setupParams();
+        // self.setupPlayer();
+        // self.setupControl();
+        // self.setFootballStartPosition();
+        // self.setupWebsocket();
+    },
+
+    // 显示加载进度
+    start: function () {
+        var self = this;
+        var items = cc.LoadingItems
+        console.log(items)
+        cc.LoadingItems.onProgress = function (completedCount, totalCount, item) {
+            var progress = (100 * completedCount / totalCount).toFixed(2);
+            cc.log(progress + '%');
+        }
+        cc.LoadingItems.onComlete = function (errors, items) {
+            if (error)
+                cc.log('Completed with ' + errors.length + ' errors');
+            else
+                cc.log('Completed ' + items.totalCount + ' items');
+        }
+        // cc.loader.onProgress = function (completedCount, totalCount, item) {
+        //     var progress = (completedCount / totalCount).toFixed(2);
+        //     cc.log("completedCount = " + completedCount + ",totalCount=" + totalCount + ",progress=" + progress);
+        // };
     },
 
     // called every frame
     update: function (dt) {
         let self = this;
         var ftball = self.football.getComponent(tmpFootball);
-        if(ftball.getCollisionStatus() && self.isEndPositionInGate()){
+        if (ftball.getCollisionStatus() && self.isEndPositionInGate()) {
             // 已经碰撞到了，得分，重置
             self.keepOut();
             ftball.resetCollisionStatus();

@@ -64,11 +64,6 @@ cc.Class({
         self.socket = window.io(socketurl);
         console.log(self.socket);
 
-
-        // 测试不了解
-        gamemode = 'single';
-        cc.director.loadScene('selectplayer');
-
         self.socket.on('connect', (msg) => {
             console.log('链接上了 ' + msg);
             mysocket = self.socket;
@@ -80,7 +75,9 @@ cc.Class({
             var obj = JSON.parse(msg);
             gamemode = obj.mode;
             currentroom = obj.room;
-            cc.director.loadScene('selectplayer');
+            cc.director.loadScene('selectplayer', function(){
+                console.log('加载完毕')
+            });
         })
 
         self.socket.on('disconnect', function (data) {
@@ -112,13 +109,7 @@ cc.Class({
         self.socket = window.io(socketurl);
         console.log(self.socket);
 
-        // 测试不了解
-        gamemode = 'multi';
-        cc.director.loadScene('selectplayer');
-
-
         self.socket.on('connect', (msg) => {
-            cc.director.loadScene('selectplayer');
             console.log('链接上了 ' + msg);
             mysocket = self.socket;
             // 将游戏模式发送给服务器
@@ -129,7 +120,9 @@ cc.Class({
             var obj = JSON.parse(msg);
             gamemode = obj.mode;
             currentroom = obj.room;
-            cc.director.loadScene('selectplayer');
+            cc.director.loadScene('selectplayer', function(){
+                console.log('加载完毕')
+            });
         })
 
         self.socket.on('disconnect', function (data) {
@@ -149,7 +142,12 @@ cc.Class({
         })
     },
 
-    onLoad() {},
+    onLoad() {
+        cc.loader.onProgress = function (completedCount, totalCount, item) {
+            var progress = (completedCount / totalCount).toFixed(2);
+            console.log("completedCount = " + completedCount + ",totalCount=" + totalCount + ",progress=" + progress);
+        }
+    },
 
     start() {
         this.setupControlEvent();
