@@ -60,14 +60,12 @@ cc.Class({
 
     // 向左下方扑救
     keepLeftDown: function () {
-        console.log('扑救左下方')
         var rotateAnim = this.getComponent(cc.Animation);
         var animState = rotateAnim.play("keepleftdown");
     },
 
     // 左上方扑救
     keepLeftTop: function () {
-        console.log('扑救左上方')
         var rotateAnim = this.getComponent(cc.Animation);
         var animState = rotateAnim.play("keepleftup");
 
@@ -75,42 +73,37 @@ cc.Class({
 
     // 右下方扑救
     keepRightDown: function () {
-        console.log('扑救右下方')
-
         var rotateAnim = this.getComponent(cc.Animation);
         var animState = rotateAnim.play("keeprightdown");
     },
 
     // 右上方扑救
     keepRightTop: function () {
-        console.log('扑救右上方')
-
         var rotateAnim = this.getComponent(cc.Animation);
         var animState = rotateAnim.play("keeprightup");
     },
 
     // 正下方扑救
     keepDown: function () {
-
         var rotateAnim = this.getComponent(cc.Animation);
         var animState = rotateAnim.play("keepdown");
-        console.log('扑救正下方')
     },
 
     // 正上方扑救
     keepTop: function () {
-
         var rotateAnim = this.getComponent(cc.Animation);
         var animState = rotateAnim.play("keepup");
-        console.log('扑救正上方')
     },
 
+    switchCollide: function(collide){
+        cc.director.getCollisionManager().enabled = collide;
+        cc.director.getCollisionManager().enabledDebugDraw = collide;
+        cc.director.getCollisionManager().enabledDrawBoundingBox = collide;
+    },
 
     // 初始化碰撞系统
     setupCollisionSystem: function () {
-        cc.director.getCollisionManager().enabled = true;
-        cc.director.getCollisionManager().enabledDebugDraw = true;
-        cc.director.getCollisionManager().enabledDrawBoundingBox = true;
+
 
     },
 

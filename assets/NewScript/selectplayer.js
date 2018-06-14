@@ -75,7 +75,6 @@ cc.Class({
         var items = self.selectgroup.toggleItems;
         for (var i = 0; i < items.length; i++) {
             var item = items[i];
-            console.log(item)
             item.node.on('toggle', function (event) {
                 self.changeToggleItem(event.target);
             }, self);
@@ -85,15 +84,17 @@ cc.Class({
     // 选择球员之后设置
     changeToggleItem: function (item) {
         let self = this;
-        var name = item.name.replace('<Toggle>', '');
-        cc.loader.loadRes(name.toString(), cc.SpriteFrame, function (err, spriteFrame) {
-            console.log('玩家 ')
-            console.log(self.currentsprite);
-            console.log(self.playersp1);
-            console.log(self.playersp2);
-            console.log('选中了  ' + name);
-            self.currentsprite.spriteFrame = spriteFrame;
-        });
+        var name = item.name.replace('<Toggle>', '') + "_selected";
+        try {
+            cc.loader.loadRes(name.toString(), cc.SpriteFrame, function (err, spriteFrame) {
+                self.currentsprite.spriteFrame = spriteFrame;
+            });
+        } catch (error) {
+            cc.loader.loadRes(name.toString(), cc.SpriteFrame, function (err, spriteFrame) {
+                self.currentsprite.spriteFrame = spriteFrame;
+            });
+        }
+
     },
 
     getSelectedPlayer: function () {
@@ -132,7 +133,6 @@ cc.Class({
         })
 
         this.back.node.on('click', function (event) {
-            console.log('返回选择模式');
             self.resetConfig();
             cc.director.loadScene('selectmode');
         })
@@ -150,7 +150,6 @@ cc.Class({
         })
 
         this.back.node.on('click', function (event) {
-            console.log('返回选择模式');
             self.resetConfig();
             cc.director.loadScene('selectmode');
         })
@@ -165,36 +164,37 @@ cc.Class({
 
     // 隐藏所有玩家角色
     hideAllPlayer: function () {
-        console.log(self.playersp1);
-        console.log(self.playersp2);
-        // self.playersp1.enabled = false;
-        // self.playersp2.enabled = false;
+        let self = this;
+        self.playersp1.enabled = false;
+        self.playersp2.enabled = false;
     },
 
     setupSinglePlayer: function () {
+        let self = this;
         player1 = new tmpplayer();
         player1.myname = 'player1';
 
-        // self.playersp1.enabled = true
-        // self.playersp2.enabled = false
+        self.playersp1.enabled = true
+        self.playersp2.enabled = false
     },
 
     setupMultiPlayer: function () {
+        let self = this;
+        self.playersp1.enabled = true
+        self.playersp2.enabled = true
+
         player1 = new tmpplayer();
         player1.myname = 'player1';
 
         player2 = new tmpplayer();
         player2.myname = 'player2';
 
-        // self.playersp1.enabled = true
-        // self.playersp2.enabled = true
     },
 
     // 初始化玩家
     setupPlayer: function () {
         let self = this;
         self.hideAllPlayer();
-        console.log(gamemode);
         switch (gamemode) {
             case 'single':
                 // 单个玩家
@@ -211,25 +211,10 @@ cc.Class({
     },
 
     onLoad() {
-        cc.LoadingItems.onProgress = function(c1, c2, c3){
-            console.log(c1 + " # " + c2 + " # " + c3);           
-        }
-        console.log('onLoad')
-        cc.loader.onProgress = function (completedCount, totalCount, item) {
-            var progress = (completedCount / totalCount).toFixed(2);
-            console.log("completedCount = " + completedCount + ",totalCount=" + totalCount + ",progress=" + progress);
-        }
         this.setupToggleGroup();
         this.setupClick();
         this.setupPlayer();
     },
 
-    start: function () {
-        console.log("开始")
-        cc.loader.onProgress = function (completedCount, totalCount, item) {
-            var progress = (completedCount / totalCount).toFixed(2);
-            console.log("completedCount = " + completedCount + ",totalCount=" + totalCount + ",progress=" + progress);
-        }
-    }
     // update (dt) {},
 });

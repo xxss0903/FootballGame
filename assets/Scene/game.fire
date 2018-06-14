@@ -311,7 +311,8 @@
     "node": {
       "__id__": 6
     },
-    "_enabled": true
+    "_enabled": true,
+    "cancollide": false
   },
   {
     "__type__": "cc.Node",
@@ -409,7 +410,8 @@
     },
     "_enabled": true,
     "speed": "2",
-    "collisionStatus": false
+    "collisionStatus": false,
+    "cancollide": false
   },
   {
     "__type__": "cc.Animation",
@@ -488,7 +490,7 @@
     "_position": {
       "__type__": "cc.Vec2",
       "x": 0,
-      "y": 0
+      "y": 51
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -1037,9 +1039,7 @@
     "football": {
       "__id__": 9
     },
-    "player": {
-      "__id__": 26
-    },
+    "playersp": null,
     "playersp1": {
       "__id__": 26
     },
@@ -1074,7 +1074,7 @@
     "endPosition": {
       "__type__": "cc.Vec2",
       "x": 0,
-      "y": 0
+      "y": 51
     },
     "keeperPosition": {
       "__type__": "cc.Vec2",
@@ -1091,6 +1091,8 @@
       "__type__": "cc.Vec2",
       "x": 0,
       "y": -300
-    }
+    },
+    "keepdelay": 2,
+    "canCollide": false
   }
 ]

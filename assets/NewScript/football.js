@@ -30,7 +30,7 @@ cc.Class({
         // },
         speed: "int",
         collisionStatus: false,
-        
+        cancollide: false,
     },
 
     // getPosition: function(){
@@ -76,11 +76,14 @@ cc.Class({
         this.collisionStatus = false;
     },
 
+    switchCollide: function(collide){
+        cc.director.getCollisionManager().enabled = collide;
+        cc.director.getCollisionManager().enabledDebugDraw = collide;
+        cc.director.getCollisionManager().enabledDrawBoundingBox = collide;
+    },
+
     // 初始化碰撞系统
     setupCollisionSystem: function(){
-        cc.director.getCollisionManager().enabled = true;
-        cc.director.getCollisionManager().enabledDebugDraw = true;
-        cc.director.getCollisionManager().enabledDrawBoundingBox = true;
 
     },
 

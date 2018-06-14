@@ -69,6 +69,10 @@ cc.Class({
         center: new cc.p(),
         // 当前踢球的运动员
         currentplayer: cc.player,
+        // 扑球在踢球后的时间
+        keepdelay: 2.0,
+        // 是否检测允许碰撞
+        canCollide: false,
     },
 
     // 初始化控制系统 
@@ -90,7 +94,7 @@ cc.Class({
             onTouchMoved: function (touch, event) {
 
             },
-            onTouchEnded: function (touch, event) {}
+            onTouchEnded: function (touch, event) { }
         }, self.node);
     },
 
@@ -114,7 +118,10 @@ cc.Class({
 
     // 重置足球，摆到球员脚下
     resetFootball: function () {
+        let self = this;
         var ftball = this.football.getComponent(tmpFootball);
+        // 关闭碰撞
+        ftball.switchCollide(false);
         ftball.node.setPosition(this.startPosition);
         this.endPosition = cc.p(0, 0);
         this.kickpoint.setPosition(this.endPosition)
@@ -124,7 +131,7 @@ cc.Class({
         this.goalkeeper.setPosition(this.keeperPosition);
         this.goalkeeper.rotation = 0;
 
-
+        self.canCollide = false;
         // 重置了，发信号给手柄能够继续点击按钮
         this.sendShootEndSinal();
     },
@@ -151,7 +158,6 @@ cc.Class({
 
         var x = this.kickpoint.x
         var y = this.kickpoint.y
-        console.log(x);
         switch (direction) {
             case 'up':
                 y = y + this.resetSize / 2;
@@ -194,7 +200,6 @@ cc.Class({
 
         var startP = cc.p(this.football.x, this.football.y);
         var endP = this.endPosition;
-        console.log('运动到 ' + endP);
 
         var moveto = cc.moveTo(moveTime, endP);
         moveto.easing(cc.easeOut(moveTime));
@@ -210,14 +215,18 @@ cc.Class({
         // 定时进行扑球
         this.schedule(function () {
             self.keepBall();
-        }, 0, 0);
+        }, self.keepdelay, 0);
     },
 
     keepBall: function () {
         let self = this;
-        console.log("扑球");
+        self.canCollide = true;
+        console.log("开始扑球");
         var keeper = self.goalkeeper.getComponent(tmpKeeper);
         keeper.keepBall();
+        // 开启碰撞
+        var ftball = self.football.getComponent(tmpFootball);
+        ftball.switchCollide(self.isEndPositionInGate());
     },
 
     // 计算当前球得位置计算分数
@@ -290,7 +299,6 @@ cc.Class({
         let self = this;
         mysocket.on('handplay', (msg) => {
             var obj = JSON.parse(msg);
-            console.log(msg)
 
             switch (obj.direction) {
                 case 'up':
@@ -331,32 +339,38 @@ cc.Class({
 
     setupSingleMode: function () {
         let self = this;
+        self.playersp1.enabled = true;
+        self.playersp2.enabled = false;
         self.currentplayer = player1;
         self.player = self.playersp1;
-        console.log(self.playersp1)
         cc.loader.loadRes(player1.rolepic.toString(), cc.SpriteFrame, function (err, spriteFrame) {
-            console.log(spriteFrame)
             self.playersp1.spriteFrame = spriteFrame;
         });
     },
 
     setupMultiMode: function () {
+        let self = this;
+        self.playersp1.enabled = true;
+        self.playersp2.enabled = true;
         self.currentplayer = player1;
-        console.log(self.playersp1)
-        console.log(self.playersp2)
-        self.playersp = self.playersp1;
         cc.loader.loadRes(player1.rolepic.toString(), cc.SpriteFrame, function (err, spriteFrame) {
-            console.log(spriteFrame)
             self.playersp1.spriteFrame = spriteFrame;
         });
         cc.loader.loadRes(player2.rolepic.toString(), cc.SpriteFrame, function (err, spriteFrame) {
-            console.log(spriteFrame)
             self.playersp2.spriteFrame = spriteFrame;
         });
     },
 
+    hideAllPlayer: function(){
+        let self = this;
+        self.playersp1.enabled = false;
+        self.playersp2.enabled = false;
+    },
+
     setupPlayer: function () {
         let self = this;
+        self.playersp = self.playersp1;
+        self.hideAllPlayer();
         switch (gamemode) {
             case 'single':
                 this.setupSingleMode();
@@ -375,47 +389,25 @@ cc.Class({
     // 足球被扑到了
     keepOut: function () {
         let self = this;
+        console.log('球被扑救到');
         self.resetFootball();
     },
 
     // use this for initialization
     onLoad: function () {
         let self = this;
-
-        console.log('初始化选手')
-        // self.setupParams();
-        // self.setupPlayer();
-        // self.setupControl();
-        // self.setFootballStartPosition();
-        // self.setupWebsocket();
-    },
-
-    // 显示加载进度
-    start: function () {
-        var self = this;
-        var items = cc.LoadingItems
-        console.log(items)
-        cc.LoadingItems.onProgress = function (completedCount, totalCount, item) {
-            var progress = (100 * completedCount / totalCount).toFixed(2);
-            cc.log(progress + '%');
-        }
-        cc.LoadingItems.onComlete = function (errors, items) {
-            if (error)
-                cc.log('Completed with ' + errors.length + ' errors');
-            else
-                cc.log('Completed ' + items.totalCount + ' items');
-        }
-        // cc.loader.onProgress = function (completedCount, totalCount, item) {
-        //     var progress = (completedCount / totalCount).toFixed(2);
-        //     cc.log("completedCount = " + completedCount + ",totalCount=" + totalCount + ",progress=" + progress);
-        // };
+        self.setupParams();
+        self.setupPlayer();
+        self.setupControl();
+        self.setFootballStartPosition();
+        self.setupWebsocket();
     },
 
     // called every frame
     update: function (dt) {
         let self = this;
         var ftball = self.football.getComponent(tmpFootball);
-        if (ftball.getCollisionStatus() && self.isEndPositionInGate()) {
+        if (ftball.getCollisionStatus()) {
             // 已经碰撞到了，得分，重置
             self.keepOut();
             ftball.resetCollisionStatus();
