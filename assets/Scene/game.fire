@@ -80,17 +80,17 @@
         "__id__": 25
       },
       {
-        "__id__": 28
+        "__id__": 29
       }
     ],
     "_tag": -1,
     "_active": true,
     "_components": [
       {
-        "__id__": 31
+        "__id__": 32
       },
       {
-        "__id__": 32
+        "__id__": 33
       }
     ],
     "_prefab": null,
@@ -840,6 +840,9 @@
       },
       {
         "__id__": 27
+      },
+      {
+        "__id__": 28
       }
     ],
     "_prefab": null,
@@ -860,8 +863,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 400,
-      "height": 500
+      "width": 300,
+      "height": 400
     },
     "_rotationX": 0,
     "_rotationY": 0,
@@ -869,8 +872,8 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": -414,
-      "y": -141
+      "x": -322,
+      "y": -163
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -888,7 +891,7 @@
     },
     "_enabled": true,
     "_spriteFrame": {
-      "__uuid__": "ce481a6b-a488-45e8-914d-7843bc03bf8e"
+      "__uuid__": "90dcaa5e-a523-4b78-b22f-dee7d5738e20"
     },
     "_type": 0,
     "_sizeMode": 0,
@@ -919,6 +922,22 @@
     "myname": ""
   },
   {
+    "__type__": "cc.Animation",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 25
+    },
+    "_enabled": true,
+    "_defaultClip": null,
+    "_clips": [
+      {
+        "__uuid__": "f6da3c9d-ed51-43d7-bc0f-1b23fcd5de44"
+      }
+    ],
+    "playOnLoad": false
+  },
+  {
     "__type__": "cc.Node",
     "_name": "player2",
     "_objFlags": 0,
@@ -930,10 +949,10 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 29
+        "__id__": 30
       },
       {
-        "__id__": 30
+        "__id__": 31
       }
     ],
     "_prefab": null,
@@ -978,7 +997,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 28
+      "__id__": 29
     },
     "_enabled": true,
     "_spriteFrame": {
@@ -1004,7 +1023,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 28
+      "__id__": 29
     },
     "_enabled": true,
     "score": 0,
@@ -1044,7 +1063,7 @@
       "__id__": 26
     },
     "playersp2": {
-      "__id__": 29
+      "__id__": 30
     },
     "gate": {
       "__id__": 6
@@ -1065,7 +1084,7 @@
       "__id__": 23
     },
     "maxHeight": 200,
-    "moveDuration": 2,
+    "moveDuration": 3,
     "startPosition": {
       "__type__": "cc.Vec2",
       "x": -150,
@@ -1092,7 +1111,8 @@
       "x": 0,
       "y": -300
     },
-    "keepdelay": 2,
+    "keepdelay": 1,
+    "playduration": 0.2,
     "canCollide": false
   }
 ]

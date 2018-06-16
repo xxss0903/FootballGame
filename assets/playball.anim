@@ -1,0 +1,67 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "playball",
+  "_objFlags": 0,
+  "_rawFiles": null,
+  "_duration": 0.35,
+  "sample": 60,
+  "speed": 1,
+  "wrapMode": 1,
+  "curveData": {
+    "comps": {
+      "cc.Sprite": {
+        "spriteFrame": [
+          {
+            "frame": 0,
+            "value": {
+              "__uuid__": "90dcaa5e-a523-4b78-b22f-dee7d5738e20"
+            }
+          },
+          {
+            "frame": 0.05,
+            "value": {
+              "__uuid__": "0cc08e48-e0d0-4992-9267-cd3939ed8637"
+            }
+          },
+          {
+            "frame": 0.1,
+            "value": {
+              "__uuid__": "dc2d71df-8d51-4a4f-b206-ac5fc73abecc"
+            }
+          },
+          {
+            "frame": 0.15,
+            "value": {
+              "__uuid__": "c703016e-bd74-4e86-aacd-2ba7061586aa"
+            }
+          },
+          {
+            "frame": 0.2,
+            "value": {
+              "__uuid__": "1622e678-6a76-4810-8be1-c89282f11343"
+            }
+          },
+          {
+            "frame": 0.23333333333333334,
+            "value": {
+              "__uuid__": "c91cf05d-8b8c-4cd1-9fa3-7ce6d557059b"
+            }
+          },
+          {
+            "frame": 0.2833333333333333,
+            "value": {
+              "__uuid__": "73471150-6310-4aa6-959a-5a5bf82b9699"
+            }
+          },
+          {
+            "frame": 0.3333333333333333,
+            "value": {
+              "__uuid__": "f1a17f2d-4ba5-4a1c-a350-cbf87cf3d572"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "events": []
+}

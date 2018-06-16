@@ -40,6 +40,11 @@ cc.Class({
         cc.sys.localStorage.setItem("score", this.score);
     },
 
+    // 移动踢球
+    playBall: function () {
+        var rotateAnim = this.getComponent(cc.Animation);
+        var animState = rotateAnim.play("playball");
+    },
 
     // onLoad () {},
 

@@ -57,7 +57,7 @@ cc.Class({
         },
 
         maxHeight: 400,
-        moveDuration: 2,
+        moveDuration: 5,
         // 足球起始点
         startPosition: cc.p(),
         // 足球踢出去的点
@@ -70,7 +70,9 @@ cc.Class({
         // 当前踢球的运动员
         currentplayer: cc.player,
         // 扑球在踢球后的时间
-        keepdelay: 2.0,
+        keepdelay: 0.5,
+        // 球员踢球动作的时间
+        playduration: 0.2,
         // 是否检测允许碰撞
         canCollide: false,
     },
@@ -89,7 +91,7 @@ cc.Class({
             event: cc.EventListener.TOUCH_ONE_BY_ONE,
             swallowTouches: true,
             onTouchBegan: function (touch, event) {
-                self.moveFootball();
+                self.beginTiqiu();
             },
             onTouchMoved: function (touch, event) {
 
@@ -294,6 +296,28 @@ cc.Class({
         })
     },
 
+    // 球员开始移动准备踢球
+    playerBegin: function(){
+        let self = this;
+        self.playersp.getComponent('player').playBall();
+    },
+
+    beginMoveBall: function(){
+        let self = this;
+        this.schedule(function () {
+            self.moveFootball();
+        }, self.playduration, 0);
+    },
+
+    // 开始踢球
+    beginTiqiu: function(){
+        let self = this;
+        // 执行踢球的动作
+        // 移动球 
+        var seq = cc.sequence([self.playerBegin(), self.beginMoveBall()]);
+
+    },
+
     // 初始化socket
     setupWebsocket: function () {
         let self = this;
@@ -315,7 +339,7 @@ cc.Class({
                     break;
                 case 'press':
                     self.resetFootballDirection('press', obj.power);
-                    self.moveFootball();
+                    self.beginTiqiu();
                     break;
             }
         })
@@ -346,6 +370,8 @@ cc.Class({
         cc.loader.loadRes(player1.rolepic.toString(), cc.SpriteFrame, function (err, spriteFrame) {
             self.playersp1.spriteFrame = spriteFrame;
         });
+        console.log('当前球员')
+        console.log(self.currentplayer);
     },
 
     setupMultiMode: function () {
