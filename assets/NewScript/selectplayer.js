@@ -104,7 +104,6 @@ cc.Class({
             var item = items[i];
             if (item.isChecked == true) {
                 var selectedPlayerName = item.name.replace("<Toggle>", "");
-                playerrole = selectedPlayerName;
                 return selectedPlayerName;
                 break;
             }
@@ -176,6 +175,17 @@ cc.Class({
 
         self.playersp1.enabled = true
         self.playersp2.enabled = false
+        try {
+            var selectedname = self.getSelectedPlayer();            
+            selectedname = selectedname + "_selected"
+            cc.loader.loadRes(selectedname, cc.SpriteFrame, function (err, spriteFrame) {
+                self.playersp1.spriteFrame = spriteFrame;
+            });
+        } catch (error) {
+            cc.loader.loadRes(selectedname, cc.SpriteFrame, function (err, spriteFrame) {
+                self.playersp1.spriteFrame = spriteFrame;
+            });
+        }
     },
 
     setupMultiPlayer: function () {
@@ -188,7 +198,19 @@ cc.Class({
 
         player2 = new tmpplayer();
         player2.myname = 'player2';
-
+        try {
+            var selectedname = self.getSelectedPlayer();            
+            selectedname = selectedname + "_selected"
+            cc.loader.loadRes(selectedname, cc.SpriteFrame, function (err, spriteFrame) {
+                self.playersp1.spriteFrame = spriteFrame;
+                self.playersp2.spriteFrame = spriteFrame;
+            });
+        } catch (error) {
+            cc.loader.loadRes(selectedname, cc.SpriteFrame, function (err, spriteFrame) {
+                self.playersp1.spriteFrame = spriteFrame;
+                self.playersp2.spriteFrame = spriteFrame;
+            });
+        }
     },
 
     // 初始化玩家

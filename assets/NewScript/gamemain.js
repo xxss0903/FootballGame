@@ -36,6 +36,15 @@ cc.Class({
             type: cc.Label
         },
 
+        score1: {
+            default: null,
+            type: cc.Label
+        },
+        score2: {
+            default: null,
+            type: cc.Label
+        },
+
         kickpoint: {
             default: null,
             type: cc.Node
@@ -56,6 +65,8 @@ cc.Class({
             type: cc.Node
         },
 
+        // 每次射球次数，每个选手轮流射球
+        shootTimes: 5,
         maxHeight: 400,
         moveDuration: 5,
         // 足球起始点
@@ -75,6 +86,9 @@ cc.Class({
         playduration: 0.2,
         // 是否检测允许碰撞
         canCollide: false,
+        // 是否被普救到
+        isKeepOut: false,
+        shootCallback: null,
     },
 
     // 初始化控制系统 
@@ -96,7 +110,7 @@ cc.Class({
             onTouchMoved: function (touch, event) {
 
             },
-            onTouchEnded: function (touch, event) { }
+            onTouchEnded: function (touch, event) {}
         }, self.node);
     },
 
@@ -134,8 +148,33 @@ cc.Class({
         this.goalkeeper.rotation = 0;
 
         self.canCollide = false;
+
+        // 判断是否切换球员
+        if (gamemode == 'multi') {
+            self.switchPlayer();
+        }
+
         // 重置了，发信号给手柄能够继续点击按钮
         this.sendShootEndSinal();
+    },
+
+    // 切换球员进行射
+    switchPlayer: function () {
+        let self = this;
+        var tmpposition1 = cc.p(self.playersp1.node.x, self.playersp1.node.y);
+        var tmpposition2 = cc.p(self.playersp2.node.x, self.playersp2.node.y);
+
+        if (self.currentplayer.myname == 'player1') {
+            self.currentplayer = player2;
+            self.playersp = self.playersp2;
+            self.score = self.score2;
+        } else {
+            self.currentplayer = player1;
+            self.playersp = self.playersp1;
+            self.score = self.score1;
+        }
+        self.playersp1.node.setPosition(tmpposition2);
+        self.playersp2.node.setPosition(tmpposition1);
     },
 
     // 发送信号表示一个射击完成
@@ -191,6 +230,14 @@ cc.Class({
         return Pair
     },
 
+    shootResult: function () {
+        let self = this;
+        // 先计算分数
+        self.calculateScore();
+        // 重置足球
+        self.resetFootball();
+    },
+
     // 足球踢出去的移动轨迹
     moveFootball: function (power) {
         let self = this;
@@ -210,10 +257,7 @@ cc.Class({
         var movePath = cc.spawn(moveto, rotateto, fadeto);
         this.football.runAction(movePath);
         // 定时重置足球乙级计算最后分数
-        this.schedule(function () {
-            self.calculateScore();
-            self.resetFootball();
-        }, moveTime, 0, moveTime);
+        this.schedule(self.shootCallback, moveTime, 0, moveTime);
         // 定时进行扑球
         this.schedule(function () {
             self.keepBall();
@@ -223,7 +267,6 @@ cc.Class({
     keepBall: function () {
         let self = this;
         self.canCollide = true;
-        console.log("开始扑球");
         var keeper = self.goalkeeper.getComponent(tmpKeeper);
         keeper.keepBall();
         // 开启碰撞
@@ -237,26 +280,28 @@ cc.Class({
         var pl = self.playersp.getComponent(tmpPlayer);
         // 球门
         var gt = self.gate.getComponent(tmpGate);
-        if (cc.rectIntersectsRect(gt.getRect1(), this.kickpoint.getBoundingBoxToWorld())) {
-            pl.addScore(2)
-            this.score.string = pl.score;
+        console.log('计算fenshu ')
+        console.log(pl);
+        console.log(self.score);
+        if (!self.isKeepOut) {
+            if (cc.rectIntersectsRect(gt.getRect1(), this.kickpoint.getBoundingBoxToWorld())) {
+                pl.addScore(2)
+            }
+            if (cc.rectIntersectsRect(gt.getRect2(), this.kickpoint.getBoundingBoxToWorld())) {
+                pl.addScore(3)
+            }
+            if (cc.rectIntersectsRect(gt.getRect3(), this.kickpoint.getBoundingBoxToWorld())) {
+                pl.addScore(1)
+            }
+            if (cc.rectIntersectsRect(gt.getRect4(), this.kickpoint.getBoundingBoxToWorld())) {
+                pl.addScore(2)
+            }
+            if (cc.rectIntersectsRect(gt.getRect5(), this.kickpoint.getBoundingBoxToWorld())) {
+                pl.addScore(3)
+            }
         }
-        if (cc.rectIntersectsRect(gt.getRect2(), this.kickpoint.getBoundingBoxToWorld())) {
-            pl.addScore(3)
-            this.score.string = pl.score;
-        }
-        if (cc.rectIntersectsRect(gt.getRect3(), this.kickpoint.getBoundingBoxToWorld())) {
-            pl.addScore(1)
-            this.score.string = pl.score;
-        }
-        if (cc.rectIntersectsRect(gt.getRect4(), this.kickpoint.getBoundingBoxToWorld())) {
-            pl.addScore(2)
-            this.score.string = pl.score;
-        }
-        if (cc.rectIntersectsRect(gt.getRect5(), this.kickpoint.getBoundingBoxToWorld())) {
-            pl.addScore(3)
-            this.score.string = pl.score;
-        }
+        self.score.string = pl.score;
+        self.isKeepOut = false;
     },
 
     onMessage: function (obj) {
@@ -297,12 +342,12 @@ cc.Class({
     },
 
     // 球员开始移动准备踢球
-    playerBegin: function(){
+    playerBegin: function () {
         let self = this;
         self.playersp.getComponent('player').playBall();
     },
 
-    beginMoveBall: function(){
+    beginMoveBall: function () {
         let self = this;
         this.schedule(function () {
             self.moveFootball();
@@ -310,7 +355,7 @@ cc.Class({
     },
 
     // 开始踢球
-    beginTiqiu: function(){
+    beginTiqiu: function () {
         let self = this;
         // 执行踢球的动作
         // 移动球 
@@ -365,20 +410,15 @@ cc.Class({
         let self = this;
         self.playersp1.enabled = true;
         self.playersp2.enabled = false;
-        self.currentplayer = player1;
-        self.player = self.playersp1;
         cc.loader.loadRes(player1.rolepic.toString(), cc.SpriteFrame, function (err, spriteFrame) {
             self.playersp1.spriteFrame = spriteFrame;
         });
-        console.log('当前球员')
-        console.log(self.currentplayer);
     },
 
     setupMultiMode: function () {
         let self = this;
         self.playersp1.enabled = true;
         self.playersp2.enabled = true;
-        self.currentplayer = player1;
         cc.loader.loadRes(player1.rolepic.toString(), cc.SpriteFrame, function (err, spriteFrame) {
             self.playersp1.spriteFrame = spriteFrame;
         });
@@ -387,7 +427,7 @@ cc.Class({
         });
     },
 
-    hideAllPlayer: function(){
+    hideAllPlayer: function () {
         let self = this;
         self.playersp1.enabled = false;
         self.playersp2.enabled = false;
@@ -395,7 +435,9 @@ cc.Class({
 
     setupPlayer: function () {
         let self = this;
+        self.currentplayer = player1;
         self.playersp = self.playersp1;
+        self.score = self.score1;
         self.hideAllPlayer();
         switch (gamemode) {
             case 'single':
@@ -409,14 +451,21 @@ cc.Class({
     },
 
     setupParams: function () {
+        let self = this;
         this.maxHeight = this.gate.height * 1.5;
+        this.shootCallback = function(){
+            self.shootResult();
+        }
+        console.log(this.shootCallback)
     },
 
     // 足球被扑到了
     keepOut: function () {
         let self = this;
+        self.isKeepOut = true;
         console.log('球被扑救到');
-        self.resetFootball();
+        this.unschedule(this.shootCallback);
+        self.shootResult();
     },
 
     // use this for initialization

@@ -9,11 +9,17 @@
 //  - [English] http://www.cocos2d-x.org/docs/creator/en/scripting/life-cycle-callbacks.html
 
 
-window.MOVESTEP = 20;
-window.playerrole = 'henry';
+// 单个游戏的socket
 window.mysocket = {};
+// 游戏大厅的socket
+window.hallsocket = null;
+// 游戏主机地址
 window.socketurl = 'http://localhost:9999?type=football';
+// 当前游戏模式
 window.gamemode = 'single';
+// 游戏玩家1
 window.player1 = cc.player;
+// 游戏玩家2
 window.player2 = cc.player;
+// 当前房间名
 window.currentroom = 'room1';
