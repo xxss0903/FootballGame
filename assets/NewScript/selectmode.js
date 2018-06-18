@@ -44,11 +44,19 @@ cc.Class({
         let self = this;
         self.single.on('click', function (event) {
             // 进入单人模式
-            self.chooseSingleMode();
+            gamemode = 0;
+            cc.director.loadScene('selectplayer', function () {
+                console.log('加载完毕')
+            });
+            // self.chooseSingleMode();
         });
         self.multi.on('click', function (event) {
             // 进入多人模式
-            self.chooseMultiMode();
+            gamemode = 1;
+            cc.director.loadScene('selectplayer', function () {
+                console.log('加载完毕')
+            });
+            // self.chooseMultiMode();
         })
     },
 
@@ -75,7 +83,7 @@ cc.Class({
             var obj = JSON.parse(msg);
             gamemode = obj.mode;
             currentroom = obj.room;
-            cc.director.loadScene('selectplayer', function(){
+            cc.director.loadScene('selectplayer', function () {
                 console.log('加载完毕')
             });
         })
@@ -120,7 +128,7 @@ cc.Class({
             var obj = JSON.parse(msg);
             gamemode = obj.mode;
             currentroom = obj.room;
-            cc.director.loadScene('selectplayer', function(){
+            cc.director.loadScene('selectplayer', function () {
                 console.log('加载完毕')
             });
         })
@@ -129,28 +137,34 @@ cc.Class({
             console.log('游戏断开链接')
         })
 
-        self.socket.on('error', (msg) => {
-            console.log('发生错误 ' + msg);
-        })
+    },
 
-        self.socket.on('timeout', (msg) => {
-            console.log('链接超时');
-        })
-
-        self.socket.on('handplay', (msg) => {
-            console.log('手柄 ' + msg);
+    setupSocket: function () {
+        if (cc.sys.isNative) {
+            window.io = SocketIO;
+        } else {
+            window.io = require('socket.io')
+        }
+        G.queueSocket = io.connect(rooturl + "/queue");
+        G.queueSocket.on('game mode', function (info) {
+            console.log('游戏模式 ' + info);
+        });
+        // 匹配成功，进入房间
+        G.queueSocket.on('match success', function (roomId) {
+            cc.log('match success ' + window.roomid);
+            G.roomSocket = io.connect(rooturl + '/rooms' + window.roomid, { 'force new connection': true });
+            // 断开排队队列，已经分配到了房间
+            G.queueSocket.disconnect();
         })
     },
 
     onLoad() {
-        cc.loader.onProgress = function (completedCount, totalCount, item) {
-            var progress = (completedCount / totalCount).toFixed(2);
-            console.log("completedCount = " + completedCount + ",totalCount=" + totalCount + ",progress=" + progress);
-        }
+        // 选择模式不需要链接socket
+        this.setupSocket();
+        this.setupControlEvent();
     },
 
     start() {
-        this.setupControlEvent();
     },
 
     // update (dt) {},

@@ -180,10 +180,15 @@ cc.Class({
     // 发送信号表示一个射击完成
     sendShootEndSinal: function () {
         var status = {
-            'shootstatus': "end"
+            // 当前射门状态，完成
+            'shootstatus': "end",
+            // 切换到下一个选手的手柄
+            'next': '0',
         }
         var statusStr = JSON.stringify(status)
-        mysocket.emit("shootstatus", statusStr);
+        // mysocket.emit("shootstatus", statusStr);
+        // 给当前房间发送信号
+        G.roomSocket.emit('shootstatus', statusStr);
     },
 
     setFootballStartPosition: function () {

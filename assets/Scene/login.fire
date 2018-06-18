@@ -62,17 +62,17 @@
         "__id__": 5
       },
       {
-        "__id__": 10
+        "__id__": 8
       }
     ],
     "_tag": -1,
     "_active": true,
     "_components": [
       {
-        "__id__": 13
+        "__id__": 11
       },
       {
-        "__id__": 14
+        "__id__": 12
       }
     ],
     "_prefab": null,
@@ -206,9 +206,6 @@
       },
       {
         "__id__": 7
-      },
-      {
-        "__id__": 9
       }
     ],
     "_prefab": null,
@@ -299,11 +296,7 @@
     },
     "duration": 0.1,
     "zoomScale": 1.2,
-    "clickEvents": [
-      {
-        "__id__": 8
-      }
-    ],
+    "clickEvents": [],
     "_N$interactable": true,
     "_N$enableAutoGrayEffect": false,
     "_N$normalColor": {
@@ -343,27 +336,6 @@
     }
   },
   {
-    "__type__": "cc.ClickEvent",
-    "target": {
-      "__id__": 5
-    },
-    "component": "startgame",
-    "handler": "startGame",
-    "customEventData": ""
-  },
-  {
-    "__type__": "2c541thYHtN7KohVPMfYgOm",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 5
-    },
-    "_enabled": true,
-    "football": {
-      "__id__": 10
-    }
-  },
-  {
     "__type__": "cc.Node",
     "_name": "ball",
     "_objFlags": 0,
@@ -375,10 +347,10 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 11
+        "__id__": 9
       },
       {
-        "__id__": 12
+        "__id__": 10
       }
     ],
     "_prefab": null,
@@ -423,7 +395,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 10
+      "__id__": 8
     },
     "_enabled": true,
     "_spriteFrame": {
@@ -449,7 +421,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 10
+      "__id__": 8
     },
     "_enabled": true,
     "_defaultClip": null,
@@ -485,7 +457,10 @@
     },
     "_enabled": true,
     "football": {
-      "__id__": 10
+      "__id__": 8
+    },
+    "btnstart": {
+      "__id__": 7
     }
   }
 ]

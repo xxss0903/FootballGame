@@ -114,11 +114,11 @@ cc.Class({
     setupClick: function () {
         let self = this;
         switch (gamemode) {
-            case 'single':
+            case 0:
                 this.selectSinglePlayer();
                 break;
 
-            case 'multi':
+            case 1:
                 this.selectMultiPlayer();
                 break;
         }
@@ -156,7 +156,7 @@ cc.Class({
 
     // 重置全局的player设置
     resetConfig: function () {
-        gamemode = 'single'
+        gamemode = 0
         player1 = {};
         player2 = {};
     },
@@ -176,7 +176,7 @@ cc.Class({
         self.playersp1.enabled = true
         self.playersp2.enabled = false
         try {
-            var selectedname = self.getSelectedPlayer();            
+            var selectedname = self.getSelectedPlayer();
             selectedname = selectedname + "_selected"
             cc.loader.loadRes(selectedname, cc.SpriteFrame, function (err, spriteFrame) {
                 self.playersp1.spriteFrame = spriteFrame;
@@ -199,7 +199,7 @@ cc.Class({
         player2 = new tmpplayer();
         player2.myname = 'player2';
         try {
-            var selectedname = self.getSelectedPlayer();            
+            var selectedname = self.getSelectedPlayer();
             selectedname = selectedname + "_selected"
             cc.loader.loadRes(selectedname, cc.SpriteFrame, function (err, spriteFrame) {
                 self.playersp1.spriteFrame = spriteFrame;
@@ -218,12 +218,12 @@ cc.Class({
         let self = this;
         self.hideAllPlayer();
         switch (gamemode) {
-            case 'single':
+            case 0:
                 // 单个玩家
                 this.setupSinglePlayer();
                 break;
 
-            case 'multi':
+            case 1:
                 // 多个玩家 
                 this.setupMultiPlayer();
                 break;

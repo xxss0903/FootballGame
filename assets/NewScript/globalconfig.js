@@ -13,13 +13,26 @@
 window.mysocket = {};
 // 游戏大厅的socket
 window.hallsocket = null;
+// window.rooturl = 'http://localhost:5757';
+window.rooturl = '127.0.0.1:5757';
+
 // 游戏主机地址
-window.socketurl = 'http://localhost:9999?type=football';
-// 当前游戏模式
-window.gamemode = 'single';
+window.socketurl = rooturl+'?type=football';
+// 当前游戏模式 0:单人模式; 1:多人模式
+window.gamemode = 0;
+// 当前游戏的房间id，每个界面的游戏有一个固定的roomid，
+// 然后手柄扫码也会进入到这个roomid对应的房间里面
+window.roomid = 11;
 // 游戏玩家1
 window.player1 = cc.player;
 // 游戏玩家2
 window.player2 = cc.player;
 // 当前房间名
 window.currentroom = 'room1';
+
+// socket 链接对象
+window.G = {
+    globalSocket: null,
+    hallSocket: null,
+    roomSocket: null,
+}
