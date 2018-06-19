@@ -110,7 +110,7 @@ cc.Class({
             onTouchMoved: function (touch, event) {
 
             },
-            onTouchEnded: function (touch, event) {}
+            onTouchEnded: function (touch, event) { }
         }, self.node);
     },
 
@@ -371,7 +371,59 @@ cc.Class({
     // 初始化socket
     setupWebsocket: function () {
         let self = this;
-        mysocket.on('handplay', (msg) => {
+        // mysocket.on('handplay', (msg) => {
+        //     var obj = JSON.parse(msg);
+
+        //     switch (obj.direction) {
+        //         case 'up':
+        //             self.resetFootballDirection('up')
+        //             break;
+        //         case 'down':
+        //             self.resetFootballDirection('down')
+        //             break;
+        //         case 'left':
+        //             self.resetFootballDirection('left')
+        //             break;
+        //         case 'right':
+        //             self.resetFootballDirection('right')
+        //             break;
+        //         case 'press':
+        //             self.resetFootballDirection('press', obj.power);
+        //             self.beginTiqiu();
+        //             break;
+        //     }
+        // })
+
+
+        // mysocket.on('disconnect', function (data) {
+        //     console.log('游戏断开链接')
+        //     self.tryConnectSocket();
+        // })
+
+        // mysocket.on('error', (msg) => {
+        //     console.log('发生错误 ' + msg);
+        //     self.tryConnectSocket();
+        // })
+
+        // mysocket.on('timeout', (msg) => {
+        //     self.tryConnectSocket();
+        //     console.log('链接超时');
+        // })
+
+
+        // 房间的roomsocket接受消息
+        G.roomSocket.on('shootstart', function (data) {
+            console.log('射球开始');
+            console.log(data);
+        })
+
+        G.roomSocket.on('shootend', function (data) {
+            console.log('射球结束')
+            console.log(data)
+        })
+
+        G.roomSocket.on('control', function (msg) {
+            console.log('调整方向');
             var obj = JSON.parse(msg);
 
             switch (obj.direction) {
@@ -394,21 +446,11 @@ cc.Class({
             }
         })
 
-
-        mysocket.on('disconnect', function (data) {
-            console.log('游戏断开链接')
-            self.tryConnectSocket();
+        G.roomSocket.on('disconnect', function(){
+            console.log('游戏界面断开链接')
         })
 
-        mysocket.on('error', (msg) => {
-            console.log('发生错误 ' + msg);
-            self.tryConnectSocket();
-        })
 
-        mysocket.on('timeout', (msg) => {
-            self.tryConnectSocket();
-            console.log('链接超时');
-        })
     },
 
     setupSingleMode: function () {
@@ -458,7 +500,7 @@ cc.Class({
     setupParams: function () {
         let self = this;
         this.maxHeight = this.gate.height * 1.5;
-        this.shootCallback = function(){
+        this.shootCallback = function () {
             self.shootResult();
         }
         console.log(this.shootCallback)

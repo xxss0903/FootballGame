@@ -1,0 +1,30 @@
+{
+  "ver": "1.0.0",
+  "uuid": "e9341a3f-5d9b-41dc-babb-ecba87664de3",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "subMetas": {
+    "football_game": {
+      "ver": "1.0.3",
+      "uuid": "c8133e79-ad31-4c09-8f2d-d329caf10852",
+      "rawTextureUuid": "e9341a3f-5d9b-41dc-babb-ecba87664de3",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": 0,
+      "trimX": 0,
+      "trimY": 0,
+      "width": 410,
+      "height": 409,
+      "rawWidth": 410,
+      "rawHeight": 409,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}
