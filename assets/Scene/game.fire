@@ -322,7 +322,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "football",
+    "_name": "keeper",
     "_objFlags": 0,
     "_parent": {
       "__id__": 2
@@ -342,139 +342,6 @@
       },
       {
         "__id__": 12
-      }
-    ],
-    "_prefab": null,
-    "_id": "7cFUhibFNHErrUj5islUBq",
-    "_opacity": 255,
-    "_color": {
-      "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
-      "a": 255
-    },
-    "_cascadeOpacityEnabled": true,
-    "_anchorPoint": {
-      "__type__": "cc.Vec2",
-      "x": 0.5,
-      "y": 0.5
-    },
-    "_contentSize": {
-      "__type__": "cc.Size",
-      "width": 100,
-      "height": 100
-    },
-    "_rotationX": 0,
-    "_rotationY": 0,
-    "_scaleX": 1,
-    "_scaleY": 1,
-    "_position": {
-      "__type__": "cc.Vec2",
-      "x": -150,
-      "y": -300
-    },
-    "_skewX": 0,
-    "_skewY": 0,
-    "_localZOrder": 0,
-    "_globalZOrder": 0,
-    "_opacityModifyRGB": false,
-    "groupIndex": 0
-  },
-  {
-    "__type__": "cc.Sprite",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 8
-    },
-    "_enabled": true,
-    "_spriteFrame": {
-      "__uuid__": "c8133e79-ad31-4c09-8f2d-d329caf10852"
-    },
-    "_type": 0,
-    "_sizeMode": 0,
-    "_fillType": 0,
-    "_fillCenter": {
-      "__type__": "cc.Vec2",
-      "x": 0,
-      "y": 0
-    },
-    "_fillStart": 0,
-    "_fillRange": 0,
-    "_isTrimmedMode": true,
-    "_srcBlendFactor": 770,
-    "_dstBlendFactor": 771,
-    "_atlas": null
-  },
-  {
-    "__type__": "a89d0CcwH5PhZBpTQayI/65",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 8
-    },
-    "_enabled": true,
-    "speed": "2",
-    "collisionStatus": false,
-    "cancollide": false
-  },
-  {
-    "__type__": "cc.Animation",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 8
-    },
-    "_enabled": true,
-    "_defaultClip": {
-      "__uuid__": "aa938f49-72ff-4605-8203-725a9f25891d"
-    },
-    "_clips": [
-      {
-        "__uuid__": "aa938f49-72ff-4605-8203-725a9f25891d"
-      }
-    ],
-    "playOnLoad": true
-  },
-  {
-    "__type__": "cc.CircleCollider",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 8
-    },
-    "_enabled": true,
-    "tag": 0,
-    "_offset": {
-      "__type__": "cc.Vec2",
-      "x": 0,
-      "y": 0
-    },
-    "_radius": 50
-  },
-  {
-    "__type__": "cc.Node",
-    "_name": "keeper",
-    "_objFlags": 0,
-    "_parent": {
-      "__id__": 2
-    },
-    "_children": [],
-    "_tag": -1,
-    "_active": true,
-    "_components": [
-      {
-        "__id__": 14
-      },
-      {
-        "__id__": 15
-      },
-      {
-        "__id__": 16
-      },
-      {
-        "__id__": 17
       }
     ],
     "_prefab": null,
@@ -519,7 +386,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 13
+      "__id__": 8
     },
     "_enabled": true,
     "_spriteFrame": {
@@ -545,7 +412,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 13
+      "__id__": 8
     },
     "_enabled": true
   },
@@ -554,7 +421,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 13
+      "__id__": 8
     },
     "_enabled": true,
     "_defaultClip": null,
@@ -585,7 +452,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 13
+      "__id__": 8
     },
     "_enabled": true,
     "tag": 0,
@@ -599,6 +466,139 @@
       "width": 127.2,
       "height": 128.6
     }
+  },
+  {
+    "__type__": "cc.Node",
+    "_name": "football",
+    "_objFlags": 0,
+    "_parent": {
+      "__id__": 2
+    },
+    "_children": [],
+    "_tag": -1,
+    "_active": true,
+    "_components": [
+      {
+        "__id__": 14
+      },
+      {
+        "__id__": 15
+      },
+      {
+        "__id__": 16
+      },
+      {
+        "__id__": 17
+      }
+    ],
+    "_prefab": null,
+    "_id": "7cFUhibFNHErrUj5islUBq",
+    "_opacity": 255,
+    "_color": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
+    "_cascadeOpacityEnabled": true,
+    "_anchorPoint": {
+      "__type__": "cc.Vec2",
+      "x": 0.5,
+      "y": 0.5
+    },
+    "_contentSize": {
+      "__type__": "cc.Size",
+      "width": 100,
+      "height": 100
+    },
+    "_rotationX": 0,
+    "_rotationY": 0,
+    "_scaleX": 1,
+    "_scaleY": 1,
+    "_position": {
+      "__type__": "cc.Vec2",
+      "x": -50,
+      "y": -620
+    },
+    "_skewX": 0,
+    "_skewY": 0,
+    "_localZOrder": 0,
+    "_globalZOrder": 0,
+    "_opacityModifyRGB": false,
+    "groupIndex": 0
+  },
+  {
+    "__type__": "cc.Sprite",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 13
+    },
+    "_enabled": true,
+    "_spriteFrame": {
+      "__uuid__": "c8133e79-ad31-4c09-8f2d-d329caf10852"
+    },
+    "_type": 0,
+    "_sizeMode": 0,
+    "_fillType": 0,
+    "_fillCenter": {
+      "__type__": "cc.Vec2",
+      "x": 0,
+      "y": 0
+    },
+    "_fillStart": 0,
+    "_fillRange": 0,
+    "_isTrimmedMode": true,
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
+    "_atlas": null
+  },
+  {
+    "__type__": "a89d0CcwH5PhZBpTQayI/65",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 13
+    },
+    "_enabled": true,
+    "speed": "2",
+    "collisionStatus": false,
+    "cancollide": false
+  },
+  {
+    "__type__": "cc.Animation",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 13
+    },
+    "_enabled": true,
+    "_defaultClip": {
+      "__uuid__": "aa938f49-72ff-4605-8203-725a9f25891d"
+    },
+    "_clips": [
+      {
+        "__uuid__": "aa938f49-72ff-4605-8203-725a9f25891d"
+      }
+    ],
+    "playOnLoad": true
+  },
+  {
+    "__type__": "cc.CircleCollider",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 13
+    },
+    "_enabled": true,
+    "tag": 0,
+    "_offset": {
+      "__type__": "cc.Vec2",
+      "x": 0,
+      "y": 0
+    },
+    "_radius": 50
   },
   {
     "__type__": "cc.Node",
@@ -720,8 +720,8 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": -150,
-      "y": -174
+      "x": -49,
+      "y": -495
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -804,8 +804,8 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": -322,
-      "y": -163
+      "x": -250,
+      "y": -550
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -851,7 +851,8 @@
     "score": 0,
     "rolepic": "",
     "roomname": "",
-    "myname": ""
+    "myname": "",
+    "shootcount": 0
   },
   {
     "__type__": "cc.Animation",
@@ -917,8 +918,8 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": 268,
-      "y": -622
+      "x": -250,
+      "y": -550
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -936,7 +937,7 @@
     },
     "_enabled": true,
     "_spriteFrame": {
-      "__uuid__": "ce481a6b-a488-45e8-914d-7843bc03bf8e"
+      "__uuid__": "90dcaa5e-a523-4b78-b22f-dee7d5738e20"
     },
     "_type": 0,
     "_sizeMode": 0,
@@ -964,7 +965,8 @@
     "score": 0,
     "rolepic": "",
     "roomname": "",
-    "myname": ""
+    "myname": "",
+    "shootcount": 0
   },
   {
     "__type__": "cc.Animation",
@@ -984,7 +986,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "shootcount",
+    "_name": "shootcount1",
     "_objFlags": 0,
     "_parent": {
       "__id__": 2
@@ -1062,7 +1064,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "shootscore",
+    "_name": "shootscore1",
     "_objFlags": 0,
     "_parent": {
       "__id__": 2
@@ -1615,7 +1617,7 @@
     },
     "_enabled": true,
     "football": {
-      "__id__": 8
+      "__id__": 13
     },
     "playersp": null,
     "playersp1": {
@@ -1627,7 +1629,8 @@
     "gate": {
       "__id__": 5
     },
-    "score": null,
+    "currentscore": null,
+    "currentshootcount": null,
     "score1": {
       "__id__": 35
     },
@@ -1638,7 +1641,7 @@
       "__id__": 18
     },
     "goalkeeper": {
-      "__id__": 13
+      "__id__": 8
     },
     "background": {
       "__id__": 3
@@ -1646,13 +1649,31 @@
     "arrow": {
       "__id__": 20
     },
+    "shootcounttag1": {
+      "__id__": 30
+    },
+    "scoretag1": {
+      "__id__": 32
+    },
+    "shootcounttag2": {
+      "__id__": 38
+    },
+    "scoretag2": {
+      "__id__": 40
+    },
+    "shootcount2": {
+      "__id__": 45
+    },
+    "shootcount1": {
+      "__id__": 37
+    },
     "shootTimes": 5,
     "maxHeight": 200,
     "moveDuration": 3,
     "startPosition": {
       "__type__": "cc.Vec2",
-      "x": -150,
-      "y": -300
+      "x": -50,
+      "y": -620
     },
     "endPosition": {
       "__type__": "cc.Vec2",
@@ -1679,6 +1700,7 @@
     "playduration": 0.2,
     "canCollide": false,
     "isKeepOut": false,
-    "shootCallback": null
+    "shootCallback": null,
+    "maxTime": 5
   }
 ]

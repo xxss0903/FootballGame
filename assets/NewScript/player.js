@@ -17,6 +17,8 @@ cc.Class({
         // 角色名
         roomname: "",
         myname: '',
+        // 射球数量
+        shootcount: 0,
         // foo: {
         //     // ATTRIBUTES:
         //     default: null,        // The default value will be used only when the component attaching
@@ -38,6 +40,11 @@ cc.Class({
     addScore: function(sc){
         this.score += sc;
         cc.sys.localStorage.setItem("score", this.score);
+    },
+
+    addShootCount: function(shoot){
+        let self = this;
+        self.shootcount += shoot;
     },
 
     // 移动踢球

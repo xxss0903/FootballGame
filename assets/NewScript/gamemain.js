@@ -30,8 +30,13 @@ cc.Class({
             default: null,
             type: cc.Node
         },
-
-        score: {
+        // 当前得分
+        currentscore: {
+            default: null,
+            type: cc.Label
+        },
+        // 当前射门数量的label
+        currentshootcount:{
             default: null,
             type: cc.Label
         },
@@ -65,6 +70,37 @@ cc.Class({
             type: cc.Node
         },
 
+        shootcounttag1: {
+            default: null,
+            type: cc.Node
+        },
+
+        scoretag1: {
+            default: null,
+            type: cc.Node
+        },
+
+        shootcounttag2: {
+            default: null,
+            type: cc.Node
+        },
+
+        scoretag2: {
+            default: null,
+            type: cc.Node
+        },
+        // 选手2的蛇球数
+        shootcount2: {
+            default: null,
+            type: cc.Label
+        },
+        // 选手1的射球数
+        shootcount1: {
+            default: null,
+            type: cc.Label
+        },
+
+
         // 每次射球次数，每个选手轮流射球
         shootTimes: 5,
         maxHeight: 400,
@@ -83,12 +119,14 @@ cc.Class({
         // 扑球在踢球后的时间
         keepdelay: 0.5,
         // 球员踢球动作的时间
-        playduration: 0.2,
+        playduration: 0.1,
         // 是否检测允许碰撞
         canCollide: false,
         // 是否被普救到
         isKeepOut: false,
         shootCallback: null,
+        // 最大轮回射球数
+        maxTime: 5,
     },
 
     // 初始化控制系统 
@@ -150,7 +188,7 @@ cc.Class({
         self.canCollide = false;
 
         // 判断是否切换球员
-        if (gamemode == 'multi') {
+        if (gamemode == 1) {
             self.switchPlayer();
         }
 
@@ -163,18 +201,53 @@ cc.Class({
         let self = this;
         var tmpposition1 = cc.p(self.playersp1.node.x, self.playersp1.node.y);
         var tmpposition2 = cc.p(self.playersp2.node.x, self.playersp2.node.y);
-
-        if (self.currentplayer.myname == 'player1') {
+        console.log('切换球员')
+        console.log(self.currentplayer)
+        if (self.currentplayer.myname === 'player1') {
+            // 切换到选手2
             self.currentplayer = player2;
             self.playersp = self.playersp2;
-            self.score = self.score2;
+            self.currentscore = self.score2;
+            self.currentshootcount = self.shootcount2
+            self.showPlayer2Views();
         } else {
+            // 切换到选手1
             self.currentplayer = player1;
             self.playersp = self.playersp1;
-            self.score = self.score1;
+            self.currentscore = self.score1;
+            self.currentshootcount = self.shootcount1;
+            self.showPlayer1Views();
         }
         self.playersp1.node.setPosition(tmpposition2);
         self.playersp2.node.setPosition(tmpposition1);
+    },
+
+    showPlayer1Views: function () {
+        var enablePlayer1 = true;
+        var enablePlayer2 = false;
+        this.showPlayerViews(enablePlayer1, enablePlayer2);
+    },
+
+    showPlayer2Views: function () {
+        var enablePlayer1 = false;
+        var enablePlayer2 = true;
+        this.showPlayerViews(enablePlayer1, enablePlayer2);
+    },
+
+    showPlayerViews: function(enablePlayer1, enablePlayer2){
+        let self = this;
+        console.log(self.score1)
+        self.playersp1.enabled = enablePlayer1;
+        self.shootcount1.enabled = enablePlayer1;
+        self.shootcounttag1.active = enablePlayer1;
+        self.scoretag1.active = enablePlayer1;
+        self.score1.enabled = enablePlayer1;
+
+        self.playersp2.enabled = enablePlayer2;
+        self.shootcount2.enabled = enablePlayer2;
+        self.shootcounttag2.active = enablePlayer2;
+        self.score2.enabled = enablePlayer2;
+        self.scoretag2.active = enablePlayer2;
     },
 
     // 发送信号表示一个射击完成
@@ -239,8 +312,9 @@ cc.Class({
         let self = this;
         // 先计算分数
         self.calculateScore();
-        // 重置足球
-        self.resetFootball();
+        this.schedule(function(){
+            self.resetFootball();
+        }, 0.5, 0)
     },
 
     // 足球踢出去的移动轨迹
@@ -287,7 +361,7 @@ cc.Class({
         var gt = self.gate.getComponent(tmpGate);
         console.log('计算fenshu ')
         console.log(pl);
-        console.log(self.score);
+        console.log(self.currentscore);
         if (!self.isKeepOut) {
             if (cc.rectIntersectsRect(gt.getRect1(), this.kickpoint.getBoundingBoxToWorld())) {
                 pl.addScore(2)
@@ -305,7 +379,7 @@ cc.Class({
                 pl.addScore(3)
             }
         }
-        self.score.string = pl.score;
+        self.currentscore.string = pl.score;
         self.isKeepOut = false;
     },
 
@@ -313,43 +387,19 @@ cc.Class({
         console.log("Hello Football cup");
     },
 
-    // 如果断开链接，尝试重新链接
-    tryConnectSocket: function () {
-        console.log('尝试重新链接');
-        if (cc.sys.isNative) {
-            window.io = SocketIO;
-        } else {
-            window.io = require('socket.io')
-        }
-        let self = this
-        self.socket = window.io(socketurl);
-        mysocket = self.socket;
-        self.socket.on('connection', function () {
-            console.log('连接上了')
-        });
-
-        self.socket.on('connect', function () {
-            mysocket = self.socket;
-            console.log('链接上了 ' + msg);
-        });
-
-        self.socket.on('disconnect', function (data) {
-            console.log('游戏断开链接')
-        })
-
-        self.socket.on('error', (msg) => {
-            console.log('发生错误 ' + msg);
-        })
-
-        self.socket.on('timeout', (msg) => {
-            console.log('链接超时');
-        })
-    },
-
     // 球员开始移动准备踢球
     playerBegin: function () {
         let self = this;
-        self.playersp.getComponent('player').playBall();
+        var player = self.playersp.getComponent('player');
+        player.playBall();
+        player.addShootCount(1);
+        self.updateShootCount();
+    },
+
+    // 更新当前选手的射球数
+    updateShootCount: function(){
+        let self = this;
+        var player = self.playersp.getComponent('player');
     },
 
     beginMoveBall: function () {
@@ -371,45 +421,6 @@ cc.Class({
     // 初始化socket
     setupWebsocket: function () {
         let self = this;
-        // mysocket.on('handplay', (msg) => {
-        //     var obj = JSON.parse(msg);
-
-        //     switch (obj.direction) {
-        //         case 'up':
-        //             self.resetFootballDirection('up')
-        //             break;
-        //         case 'down':
-        //             self.resetFootballDirection('down')
-        //             break;
-        //         case 'left':
-        //             self.resetFootballDirection('left')
-        //             break;
-        //         case 'right':
-        //             self.resetFootballDirection('right')
-        //             break;
-        //         case 'press':
-        //             self.resetFootballDirection('press', obj.power);
-        //             self.beginTiqiu();
-        //             break;
-        //     }
-        // })
-
-
-        // mysocket.on('disconnect', function (data) {
-        //     console.log('游戏断开链接')
-        //     self.tryConnectSocket();
-        // })
-
-        // mysocket.on('error', (msg) => {
-        //     console.log('发生错误 ' + msg);
-        //     self.tryConnectSocket();
-        // })
-
-        // mysocket.on('timeout', (msg) => {
-        //     self.tryConnectSocket();
-        //     console.log('链接超时');
-        // })
-
 
         // 房间的roomsocket接受消息
         G.roomSocket.on('shootstart', function (data) {
@@ -446,7 +457,7 @@ cc.Class({
             }
         })
 
-        G.roomSocket.on('disconnect', function(){
+        G.roomSocket.on('disconnect', function () {
             console.log('游戏界面断开链接')
         })
 
@@ -484,17 +495,19 @@ cc.Class({
         let self = this;
         self.currentplayer = player1;
         self.playersp = self.playersp1;
-        self.score = self.score1;
+        self.currentscore = self.score1;
+        self.currentshootcount = self.shootcount1;
         self.hideAllPlayer();
-        switch (gamemode) {
-            case 'single':
+        switch (gamemode) { 
+            case 0:
                 this.setupSingleMode();
                 break;
 
-            case 'multi':
+            case 1:
                 this.setupMultiMode();
                 break;
         }
+        self.showPlayer1Views();
     },
 
     setupParams: function () {
