@@ -14,7 +14,7 @@ window.mysocket = {};
 // 游戏大厅的socket
 window.hallsocket = null;
 // window.rooturl = 'http://localhost:5757';
-window.rooturl = '127.0.0.1:5757';
+window.rooturl = 'http://193.112.183.189:5757';
 
 // 游戏主机地址
 window.socketurl = rooturl+'?type=football';

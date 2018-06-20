@@ -100,6 +100,15 @@ cc.Class({
             type: cc.Label
         },
 
+        avatarl:{
+            default: null,
+            type: cc.Sprite
+        },
+        avatarr: {
+            default: null,
+            type: cc.Sprite
+        },
+
 
         // 每次射球次数，每个选手轮流射球
         shootTimes: 5,
@@ -242,12 +251,14 @@ cc.Class({
         self.shootcounttag1.active = enablePlayer1;
         self.scoretag1.active = enablePlayer1;
         self.score1.enabled = enablePlayer1;
+        self.avatarl.enabled = enablePlayer1;
 
         self.playersp2.enabled = enablePlayer2;
         self.shootcount2.enabled = enablePlayer2;
         self.shootcounttag2.active = enablePlayer2;
         self.score2.enabled = enablePlayer2;
         self.scoretag2.active = enablePlayer2;
+        self.avatarr.enabled = enablePlayer2;
     },
 
     // 发送信号表示一个射击完成
@@ -261,6 +272,9 @@ cc.Class({
         var statusStr = JSON.stringify(status)
         // mysocket.emit("shootstatus", statusStr);
         // 给当前房间发送信号
+        if(G.roomSocket == null){
+            return
+        }
         G.roomSocket.emit('shootstatus', statusStr);
     },
 
@@ -421,7 +435,9 @@ cc.Class({
     // 初始化socket
     setupWebsocket: function () {
         let self = this;
-
+        if(G.roomSocket == null){
+            return
+        }
         // 房间的roomsocket接受消息
         G.roomSocket.on('shootstart', function (data) {
             console.log('射球开始');
@@ -471,6 +487,14 @@ cc.Class({
         cc.loader.loadRes(player1.rolepic.toString(), cc.SpriteFrame, function (err, spriteFrame) {
             self.playersp1.spriteFrame = spriteFrame;
         });
+        // 形象
+        cc.loader.loadRes(self.getAvatarPic(player1.rolepic, 'l'), cc.SpriteFrame, function (err, spriteFrame) {
+            self.avatarl.spriteFrame = spriteFrame;
+        });
+    },
+
+    getAvatarPic: function(name, who){
+        return 'avatar_' + name + '_' + who 
     },
 
     setupMultiMode: function () {
@@ -482,6 +506,13 @@ cc.Class({
         });
         cc.loader.loadRes(player2.rolepic.toString(), cc.SpriteFrame, function (err, spriteFrame) {
             self.playersp2.spriteFrame = spriteFrame;
+        });
+        // 形象
+        cc.loader.loadRes(self.getAvatarPic(player1.rolepic, 'l'), cc.SpriteFrame, function (err, spriteFrame) {
+            self.avatarl.spriteFrame = spriteFrame;
+        });
+        cc.loader.loadRes(self.getAvatarPic(player2.rolepic, 'r'), cc.SpriteFrame, function (err, spriteFrame) {
+            self.avatarr.spriteFrame = spriteFrame;
         });
     },
 

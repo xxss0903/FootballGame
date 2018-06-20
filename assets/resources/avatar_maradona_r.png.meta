@@ -1,0 +1,30 @@
+{
+  "ver": "1.0.0",
+  "uuid": "2eeb74bd-f64c-4989-a00e-9ca585b9c912",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "subMetas": {
+    "avatar_maradona_r": {
+      "ver": "1.0.3",
+      "uuid": "4f2aa9c4-a973-4ffd-9851-058a56b0b47c",
+      "rawTextureUuid": "2eeb74bd-f64c-4989-a00e-9ca585b9c912",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": 0,
+      "trimX": 0,
+      "trimY": 0,
+      "width": 589,
+      "height": 166,
+      "rawWidth": 589,
+      "rawHeight": 166,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

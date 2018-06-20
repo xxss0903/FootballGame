@@ -1,0 +1,30 @@
+{
+  "ver": "1.0.0",
+  "uuid": "3a26912e-13cd-4f13-b50d-d56d666ff3c2",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "subMetas": {
+    "avatar_ronaldo_r": {
+      "ver": "1.0.3",
+      "uuid": "009a513e-46a2-4efc-a50c-3941e638eb6f",
+      "rawTextureUuid": "3a26912e-13cd-4f13-b50d-d56d666ff3c2",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": 0,
+      "trimX": 0,
+      "trimY": 0,
+      "width": 519,
+      "height": 146,
+      "rawWidth": 519,
+      "rawHeight": 146,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}
