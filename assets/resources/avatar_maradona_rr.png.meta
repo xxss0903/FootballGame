@@ -1,14 +1,14 @@
 {
   "ver": "1.0.0",
-  "uuid": "e1a31d1f-1784-44ea-927a-f604de92afdc",
+  "uuid": "e5c0c442-94c5-4084-92ba-ef790ed281d6",
   "type": "sprite",
   "wrapMode": "clamp",
   "filterMode": "bilinear",
   "subMetas": {
-    "arrow": {
+    "avatar_maradona_rr": {
       "ver": "1.0.3",
-      "uuid": "69a8ae5c-cd91-44f1-8ebf-b49fb2b60015",
-      "rawTextureUuid": "e1a31d1f-1784-44ea-927a-f604de92afdc",
+      "uuid": "b4664ea5-c1a8-4603-8ba0-75f4aefb075a",
+      "rawTextureUuid": "e5c0c442-94c5-4084-92ba-ef790ed281d6",
       "trimType": "auto",
       "trimThreshold": 1,
       "rotated": false,
@@ -16,10 +16,10 @@
       "offsetY": 0,
       "trimX": 0,
       "trimY": 0,
-      "width": 51,
-      "height": 144,
-      "rawWidth": 51,
-      "rawHeight": 144,
+      "width": 590,
+      "height": 166,
+      "rawWidth": 590,
+      "rawHeight": 166,
       "borderTop": 0,
       "borderBottom": 0,
       "borderLeft": 0,

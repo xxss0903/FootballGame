@@ -13,7 +13,7 @@ cc.Class({
 
     properties: {
         score: 0,
-        rolepic: "",
+        rolepic: "",    
         // 角色名
         roomname: "",
         myname: '',

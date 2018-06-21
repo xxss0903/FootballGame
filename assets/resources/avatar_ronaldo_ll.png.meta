@@ -1,14 +1,14 @@
 {
   "ver": "1.0.0",
-  "uuid": "e1a31d1f-1784-44ea-927a-f604de92afdc",
+  "uuid": "a3512908-38f4-4b45-b76d-c35ca4d8a952",
   "type": "sprite",
   "wrapMode": "clamp",
   "filterMode": "bilinear",
   "subMetas": {
-    "arrow": {
+    "avatar_ronaldo_ll": {
       "ver": "1.0.3",
-      "uuid": "69a8ae5c-cd91-44f1-8ebf-b49fb2b60015",
-      "rawTextureUuid": "e1a31d1f-1784-44ea-927a-f604de92afdc",
+      "uuid": "4afd7c13-f5f1-4a0b-bda4-cc2b26e6581c",
+      "rawTextureUuid": "a3512908-38f4-4b45-b76d-c35ca4d8a952",
       "trimType": "auto",
       "trimThreshold": 1,
       "rotated": false,
@@ -16,10 +16,10 @@
       "offsetY": 0,
       "trimX": 0,
       "trimY": 0,
-      "width": 51,
-      "height": 144,
-      "rawWidth": 51,
-      "rawHeight": 144,
+      "width": 519,
+      "height": 146,
+      "rawWidth": 519,
+      "rawHeight": 146,
       "borderTop": 0,
       "borderBottom": 0,
       "borderLeft": 0,

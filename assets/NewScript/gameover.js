@@ -34,15 +34,52 @@ cc.Class({
     },
 
     // LIFE-CYCLE CALLBACKS:
+    // 进入游戏界面，利用当前信息继续游戏
+    continueGame: function () {
+        this.clearScore();
+        cc.director.loadScene('game');
+    },
 
-    setup: function(){
+    clearScore: function () {
+        switch (gamemode) {
+            case 0:
+                player1.score = 0;
+                player1.shootcount = 0;
+                break;
+            case 1:
+                player1.score = 0;
+                player1.shootcount = 0;
+                player2.score = 0;
+                player2.shootcount = 0;
+                break;
+        }
+    },
+
+    resetPlayer: function(){
+        player1 = null;
+        player2 = null;
+    },
+
+    quitGame: function () {
+        this.resetPlayer();
+        cc.director.loadScene('startgame');
+    },
+
+    setup: function () {
         var sc = cc.sys.localStorage.getItem("score");
         this.score.string = "积分：" + sc
     },
 
-    // onLoad () {},
+    // 初始化获取当前奖品
+    setupRewards: function(){
 
-    start () {
+    },
+
+    onLoad () {
+        this.setupRewards();
+    },
+
+    start() {
 
     },
 

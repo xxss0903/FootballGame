@@ -36,7 +36,7 @@ cc.Class({
             type: cc.Label
         },
         // 当前射门数量的label
-        currentshootcount:{
+        currentshootcount: {
             default: null,
             type: cc.Label
         },
@@ -75,6 +75,16 @@ cc.Class({
             type: cc.Node
         },
 
+        avatartag1: {
+            default: null,
+            type: cc.Node
+        },
+
+        avatartag2: {
+            default: null,
+            type: cc.Node
+        },
+
         scoretag1: {
             default: null,
             type: cc.Node
@@ -100,7 +110,7 @@ cc.Class({
             type: cc.Label
         },
 
-        avatarl:{
+        avatarl: {
             default: null,
             type: cc.Sprite
         },
@@ -169,7 +179,7 @@ cc.Class({
     // 更新箭头的转动角度
     updateArrowDirection: function () {
         var p = this.startPosition.sub(this.endPosition);
-        var rotateAngle = 180 - cc.pToAngle(p) / Math.PI * 180;
+        var rotateAngle = 270 - cc.pToAngle(p) / Math.PI * 180;
 
         this.arrow.rotation = rotateAngle;
     },
@@ -203,6 +213,41 @@ cc.Class({
 
         // 重置了，发信号给手柄能够继续点击按钮
         this.sendShootEndSinal();
+
+        this.judgeGameFinished();
+    },
+
+    // 判断射球是否完成
+    judgeGameFinished: function () {
+        switch (gamemode) {
+            case 0:
+                this.singleModeFinish();
+                break;
+            case 1:
+                this.multiModeFinish();
+                break;
+        }
+    },
+
+    // 单人是否完成
+    singleModeFinish: function () {
+        
+        if (player1 == null) {
+            return
+        }
+        if (player1.shootcount == this.shootTimes) {
+            this.gameOver();
+        }
+    },
+    // 双人是否完成
+    multiModeFinish() {
+        if (player2 == null || player1 == null) {
+            return
+        }
+        var shootcount = player2.shootcount + player1.shootcount;
+        if (shootcount == this.shootTimes * 2) {
+            this.gameOver();
+        }
     },
 
     // 切换球员进行射
@@ -243,7 +288,7 @@ cc.Class({
         this.showPlayerViews(enablePlayer1, enablePlayer2);
     },
 
-    showPlayerViews: function(enablePlayer1, enablePlayer2){
+    showPlayerViews: function (enablePlayer1, enablePlayer2) {
         let self = this;
         console.log(self.score1)
         self.playersp1.enabled = enablePlayer1;
@@ -252,6 +297,7 @@ cc.Class({
         self.scoretag1.active = enablePlayer1;
         self.score1.enabled = enablePlayer1;
         self.avatarl.enabled = enablePlayer1;
+        self.avatartag1.active = enablePlayer1;
 
         self.playersp2.enabled = enablePlayer2;
         self.shootcount2.enabled = enablePlayer2;
@@ -259,6 +305,7 @@ cc.Class({
         self.score2.enabled = enablePlayer2;
         self.scoretag2.active = enablePlayer2;
         self.avatarr.enabled = enablePlayer2;
+        self.avatartag2.active = enablePlayer2;
     },
 
     // 发送信号表示一个射击完成
@@ -272,7 +319,7 @@ cc.Class({
         var statusStr = JSON.stringify(status)
         // mysocket.emit("shootstatus", statusStr);
         // 给当前房间发送信号
-        if(G.roomSocket == null){
+        if (G.roomSocket == null) {
             return
         }
         G.roomSocket.emit('shootstatus', statusStr);
@@ -326,7 +373,7 @@ cc.Class({
         let self = this;
         // 先计算分数
         self.calculateScore();
-        this.schedule(function(){
+        this.schedule(function () {
             self.resetFootball();
         }, 0.5, 0)
     },
@@ -411,9 +458,10 @@ cc.Class({
     },
 
     // 更新当前选手的射球数
-    updateShootCount: function(){
+    updateShootCount: function () {
         let self = this;
-        var player = self.playersp.getComponent('player');
+        var pl = self.playersp.getComponent('player');
+        self.currentshootcount.string = pl.shootcount;
     },
 
     beginMoveBall: function () {
@@ -435,7 +483,7 @@ cc.Class({
     // 初始化socket
     setupWebsocket: function () {
         let self = this;
-        if(G.roomSocket == null){
+        if (G.roomSocket == null) {
             return
         }
         // 房间的roomsocket接受消息
@@ -484,23 +532,29 @@ cc.Class({
         let self = this;
         self.playersp1.enabled = true;
         self.playersp2.enabled = false;
+        if (!player1) {
+            return
+        }
         cc.loader.loadRes(player1.rolepic.toString(), cc.SpriteFrame, function (err, spriteFrame) {
             self.playersp1.spriteFrame = spriteFrame;
         });
         // 形象
-        cc.loader.loadRes(self.getAvatarPic(player1.rolepic, 'l'), cc.SpriteFrame, function (err, spriteFrame) {
+        cc.loader.loadRes(self.getAvatarPic(player1.rolepic, 'll'), cc.SpriteFrame, function (err, spriteFrame) {
             self.avatarl.spriteFrame = spriteFrame;
         });
     },
 
-    getAvatarPic: function(name, who){
-        return 'avatar_' + name + '_' + who 
+    getAvatarPic: function (name, who) {
+        return 'avatar_' + name + '_' + who
     },
 
     setupMultiMode: function () {
         let self = this;
         self.playersp1.enabled = true;
         self.playersp2.enabled = true;
+        if (!player1) {
+            return
+        }
         cc.loader.loadRes(player1.rolepic.toString(), cc.SpriteFrame, function (err, spriteFrame) {
             self.playersp1.spriteFrame = spriteFrame;
         });
@@ -508,10 +562,10 @@ cc.Class({
             self.playersp2.spriteFrame = spriteFrame;
         });
         // 形象
-        cc.loader.loadRes(self.getAvatarPic(player1.rolepic, 'l'), cc.SpriteFrame, function (err, spriteFrame) {
+        cc.loader.loadRes(self.getAvatarPic(player1.rolepic, 'll'), cc.SpriteFrame, function (err, spriteFrame) {
             self.avatarl.spriteFrame = spriteFrame;
         });
-        cc.loader.loadRes(self.getAvatarPic(player2.rolepic, 'r'), cc.SpriteFrame, function (err, spriteFrame) {
+        cc.loader.loadRes(self.getAvatarPic(player2.rolepic, 'rr'), cc.SpriteFrame, function (err, spriteFrame) {
             self.avatarr.spriteFrame = spriteFrame;
         });
     },
@@ -529,7 +583,7 @@ cc.Class({
         self.currentscore = self.score1;
         self.currentshootcount = self.shootcount1;
         self.hideAllPlayer();
-        switch (gamemode) { 
+        switch (gamemode) {
             case 0:
                 this.setupSingleMode();
                 break;
