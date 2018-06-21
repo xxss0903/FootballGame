@@ -75,16 +75,6 @@ cc.Class({
             type: cc.Node
         },
 
-        avatartag1: {
-            default: null,
-            type: cc.Node
-        },
-
-        avatartag2: {
-            default: null,
-            type: cc.Node
-        },
-
         scoretag1: {
             default: null,
             type: cc.Node
@@ -115,6 +105,16 @@ cc.Class({
             type: cc.Sprite
         },
         avatarr: {
+            default: null,
+            type: cc.Sprite
+        },
+
+        avatarbgl: {
+            default: null,
+            type: cc.Sprite
+        },
+
+        avatarbgr: {
             default: null,
             type: cc.Sprite
         },
@@ -186,12 +186,22 @@ cc.Class({
 
     // 游戏结束
     gameOver: function () {
+        console.log('game over ')
         cc.director.loadScene("gameover");
+    },
+
+    // 重置守门员
+    resetKeeper: function(){
+        let self = this;
+        cc.loader.loadRes('jump1', cc.SpriteFrame, function (err, spriteFrame) {
+            self.goalkeeper.spriteFrame = spriteFrame;
+        });
     },
 
     // 重置足球，摆到球员脚下
     resetFootball: function () {
         let self = this;
+        this.resetKeeper();
         var ftball = this.football.getComponent(tmpFootball);
         // 关闭碰撞
         ftball.switchCollide(false);
@@ -214,39 +224,47 @@ cc.Class({
         // 重置了，发信号给手柄能够继续点击按钮
         this.sendShootEndSinal();
 
-        this.judgeGameFinished();
+        this.judgeShootFinish();
+
+        
     },
 
-    // 判断射球是否完成
-    judgeGameFinished: function () {
+    judgeShootFinish: function () {
+        let self = this;
         switch (gamemode) {
             case 0:
-                this.singleModeFinish();
+                self.judgeSingleShootFinish();
                 break;
             case 1:
-                this.multiModeFinish();
+                self.judgeMultiShootFinish();
                 break;
+        }
+
+    },
+
+    judgeSingleShootFinish: function () {
+        let self = this;
+        if(player1 == undefined){
+            return
+        }
+        var pl1 = self.playersp1.getComponent(tmpPlayer);
+        player1.score = pl1.score;
+        player1.shootcount = pl1.shootcount;
+        if (pl1.shootcount == self.shootTimes) {
+            self.gameOver();
         }
     },
 
-    // 单人是否完成
-    singleModeFinish: function () {
-        
-        if (player1 == null) {
-            return
-        }
-        if (player1.shootcount == this.shootTimes) {
-            this.gameOver();
-        }
-    },
-    // 双人是否完成
-    multiModeFinish() {
-        if (player2 == null || player1 == null) {
-            return
-        }
-        var shootcount = player2.shootcount + player1.shootcount;
-        if (shootcount == this.shootTimes * 2) {
-            this.gameOver();
+    judgeMultiShootFinish: function () {
+        let self = this;
+        var pl1 = self.playersp1.getComponent(tmpPlayer);
+        var pl2 = self.playersp2.getComponent(tmpPlayer);
+        player1.score = pl1.score;
+        player1.shootcount = pl1.shootcount;
+        player2.score = pl2.score;
+        player2.shootcount = pl2.shootcount;
+        if (pl1.shootcount + pl2.shootcount == 2 * self.shootTimes) {
+            self.gameOver();
         }
     },
 
@@ -297,7 +315,7 @@ cc.Class({
         self.scoretag1.active = enablePlayer1;
         self.score1.enabled = enablePlayer1;
         self.avatarl.enabled = enablePlayer1;
-        self.avatartag1.active = enablePlayer1;
+        self.avatarbgl.enabled = enablePlayer1;
 
         self.playersp2.enabled = enablePlayer2;
         self.shootcount2.enabled = enablePlayer2;
@@ -305,7 +323,7 @@ cc.Class({
         self.score2.enabled = enablePlayer2;
         self.scoretag2.active = enablePlayer2;
         self.avatarr.enabled = enablePlayer2;
-        self.avatartag2.active = enablePlayer2;
+        self.avatarbgr.enabled = enablePlayer2;
     },
 
     // 发送信号表示一个射击完成
@@ -460,8 +478,8 @@ cc.Class({
     // 更新当前选手的射球数
     updateShootCount: function () {
         let self = this;
-        var pl = self.playersp.getComponent('player');
-        self.currentshootcount.string = pl.shootcount;
+        var player = self.playersp.getComponent('player');
+        self.currentshootcount.string = player.shootcount;
     },
 
     beginMoveBall: function () {
@@ -532,7 +550,7 @@ cc.Class({
         let self = this;
         self.playersp1.enabled = true;
         self.playersp2.enabled = false;
-        if (!player1) {
+        if (player1 == undefined) {
             return
         }
         cc.loader.loadRes(player1.rolepic.toString(), cc.SpriteFrame, function (err, spriteFrame) {
@@ -552,7 +570,7 @@ cc.Class({
         let self = this;
         self.playersp1.enabled = true;
         self.playersp2.enabled = true;
-        if (!player1) {
+        if (player1 == undefined) {
             return
         }
         cc.loader.loadRes(player1.rolepic.toString(), cc.SpriteFrame, function (err, spriteFrame) {
@@ -578,6 +596,7 @@ cc.Class({
 
     setupPlayer: function () {
         let self = this;
+
         self.currentplayer = player1;
         self.playersp = self.playersp1;
         self.currentscore = self.score1;
@@ -621,6 +640,8 @@ cc.Class({
         self.setupControl();
         self.setFootballStartPosition();
         self.setupWebsocket();
+        console.log('player sp');
+        console.log(self.playersp1);
     },
 
     // called every frame

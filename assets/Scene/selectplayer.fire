@@ -185,7 +185,7 @@
     },
     "_enabled": true,
     "_spriteFrame": {
-      "__uuid__": "1fb77246-3bae-4eed-9121-045088953b02"
+      "__uuid__": "9cec8461-77e4-461f-8181-7e4de716958b"
     },
     "_type": 0,
     "_sizeMode": 0,
@@ -2085,7 +2085,8 @@
     "score": 0,
     "rolepic": "",
     "roomname": "",
-    "myname": "player1"
+    "myname": "player1",
+    "shootcount": 0
   },
   {
     "__type__": "cc.Node",
@@ -2179,7 +2180,8 @@
     "score": 0,
     "rolepic": "",
     "roomname": "",
-    "myname": "player2"
+    "myname": "player2",
+    "shootcount": 0
   },
   {
     "__type__": "cc.Canvas",

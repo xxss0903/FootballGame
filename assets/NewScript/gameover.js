@@ -41,12 +41,19 @@ cc.Class({
     },
 
     clearScore: function () {
+
         switch (gamemode) {
             case 0:
+                if (player1 == undefined) {
+                    return
+                }
                 player1.score = 0;
                 player1.shootcount = 0;
                 break;
             case 1:
+                if (player1 == undefined || player2 == undefined) {
+                    return
+                }
                 player1.score = 0;
                 player1.shootcount = 0;
                 player2.score = 0;
@@ -55,7 +62,7 @@ cc.Class({
         }
     },
 
-    resetPlayer: function(){
+    resetPlayer: function () {
         player1 = null;
         player2 = null;
     },
@@ -71,11 +78,11 @@ cc.Class({
     },
 
     // 初始化获取当前奖品
-    setupRewards: function(){
+    setupRewards: function () {
 
     },
 
-    onLoad () {
+    onLoad() {
         this.setupRewards();
     },
 

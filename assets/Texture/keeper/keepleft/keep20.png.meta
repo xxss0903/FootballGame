@@ -1,14 +1,14 @@
 {
   "ver": "1.0.0",
-  "uuid": "8379c19e-e364-4299-84ce-9ec120122462",
+  "uuid": "d5a31efd-7d11-46a6-a526-df9449c8d676",
   "type": "sprite",
   "wrapMode": "clamp",
   "filterMode": "bilinear",
   "subMetas": {
-    "football_player": {
+    "keep20": {
       "ver": "1.0.3",
-      "uuid": "ce481a6b-a488-45e8-914d-7843bc03bf8e",
-      "rawTextureUuid": "8379c19e-e364-4299-84ce-9ec120122462",
+      "uuid": "fcb11bec-0f8b-4ef4-971a-5a049be6cbc6",
+      "rawTextureUuid": "d5a31efd-7d11-46a6-a526-df9449c8d676",
       "trimType": "auto",
       "trimThreshold": 1,
       "rotated": false,
@@ -16,10 +16,10 @@
       "offsetY": 0,
       "trimX": 0,
       "trimY": 0,
-      "width": 500,
-      "height": 455,
-      "rawWidth": 500,
-      "rawHeight": 455,
+      "width": 306,
+      "height": 162,
+      "rawWidth": 306,
+      "rawHeight": 162,
       "borderTop": 0,
       "borderBottom": 0,
       "borderLeft": 0,

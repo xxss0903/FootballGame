@@ -1984,12 +1984,6 @@
     "shootcounttag1": {
       "__id__": 30
     },
-    "avatartag1": {
-      "__id__": 48
-    },
-    "avatartag2": {
-      "__id__": 46
-    },
     "scoretag1": {
       "__id__": 32
     },
@@ -2010,6 +2004,12 @@
     },
     "avatarr": {
       "__id__": 53
+    },
+    "avatarbgl": {
+      "__id__": 49
+    },
+    "avatarbgr": {
+      "__id__": 47
     },
     "shootTimes": 5,
     "maxHeight": 200,
