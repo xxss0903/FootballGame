@@ -2013,7 +2013,7 @@
     },
     "shootTimes": 5,
     "maxHeight": 200,
-    "moveDuration": 3,
+    "moveDuration": 1,
     "startPosition": {
       "__type__": "cc.Vec2",
       "x": -50,

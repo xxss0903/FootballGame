@@ -123,7 +123,7 @@ cc.Class({
         // 每次射球次数，每个选手轮流射球
         shootTimes: 5,
         maxHeight: 400,
-        moveDuration: 5,
+        moveDuration: 1,
         // 足球起始点
         startPosition: cc.p(),
         // 足球踢出去的点
@@ -136,7 +136,7 @@ cc.Class({
         // 当前踢球的运动员
         currentplayer: cc.player,
         // 扑球在踢球后的时间
-        keepdelay: 0.5,
+        keepdelay: 0.2,
         // 球员踢球动作的时间
         playduration: 0.1,
         // 是否检测允许碰撞
@@ -191,7 +191,7 @@ cc.Class({
     },
 
     // 重置守门员
-    resetKeeper: function(){
+    resetKeeper: function () {
         let self = this;
         cc.loader.loadRes('jump1', cc.SpriteFrame, function (err, spriteFrame) {
             self.goalkeeper.spriteFrame = spriteFrame;
@@ -226,7 +226,7 @@ cc.Class({
 
         this.judgeShootFinish();
 
-        
+
     },
 
     judgeShootFinish: function () {
@@ -244,7 +244,7 @@ cc.Class({
 
     judgeSingleShootFinish: function () {
         let self = this;
-        if(player1 == undefined){
+        if (player1 == undefined) {
             return
         }
         var pl1 = self.playersp1.getComponent(tmpPlayer);
@@ -383,6 +383,7 @@ cc.Class({
 
     // 根据足球上左右位移，计算出一对点
     getFootLinePoints: function (kickpoint) {
+ 
 
         return Pair
     },
@@ -403,23 +404,21 @@ cc.Class({
         if (power == undefined) {
             power = 0;
         }
-        var moveTime = this.moveDuration + 1 - power * 2;
-
+        var moveTime = this.moveDuration - power;
+        console.log('movetime = ' + moveTime);
         var startP = cc.p(this.football.x, this.football.y);
         var endP = this.endPosition;
 
         var moveto = cc.moveTo(moveTime, endP);
         moveto.easing(cc.easeOut(moveTime));
         var rotateto = cc.rotateTo(moveTime, 720);
-        var fadeto = cc.fadeTo(moveTime, 0);
+        var fadeto = cc.fadeTo(moveTime, 200);
         var movePath = cc.spawn(moveto, rotateto, fadeto);
         this.football.runAction(movePath);
         // 定时重置足球乙级计算最后分数
         this.schedule(self.shootCallback, moveTime, 0, moveTime);
         // 定时进行扑球
-        this.schedule(function () {
-            self.keepBall();
-        }, self.keepdelay, 0);
+        self.keepBall();
     },
 
     keepBall: function () {
