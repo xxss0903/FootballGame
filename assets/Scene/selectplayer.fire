@@ -2084,6 +2084,7 @@
     "_enabled": true,
     "score": 0,
     "rolepic": "",
+    "playpic": "play1",
     "roomname": "",
     "myname": "player1",
     "shootcount": 0
@@ -2179,6 +2180,7 @@
     "_enabled": true,
     "score": 0,
     "rolepic": "",
+    "playpic": "play1",
     "roomname": "",
     "myname": "player2",
     "shootcount": 0

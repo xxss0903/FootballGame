@@ -13,7 +13,10 @@ cc.Class({
 
     properties: {
         score: 0,
+        // 角色卡片图片
         rolepic: "",    
+        // 角色踢球的图片
+        playpic: "play1",
         // 角色名
         roomname: "",
         myname: '',

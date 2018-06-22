@@ -37,7 +37,7 @@ cc.Class({
     // 进入游戏界面，利用当前信息继续游戏
     continueGame: function () {
         this.clearScore();
-        cc.director.loadScene('game');
+        cc.director.loadScene('selectmode');
     },
 
     clearScore: function () {
@@ -69,7 +69,7 @@ cc.Class({
 
     quitGame: function () {
         this.resetPlayer();
-        cc.director.loadScene('startgame');
+        cc.director.loadScene('login');
     },
 
     setup: function () {

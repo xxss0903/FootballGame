@@ -34,7 +34,6 @@ cc.Class({
     keepBall: function () {
         // 生成随机得扑救方向
         var randomDirection = Math.floor(Math.random() * 6);
-        console.log('扑球方向 ' + randomDirection);
         switch (randomDirection) {
             case 0:
                 this.keepLeftDown();
@@ -97,8 +96,8 @@ cc.Class({
 
     switchCollide: function(collide){
         cc.director.getCollisionManager().enabled = collide;
-        cc.director.getCollisionManager().enabledDebugDraw = collide;
-        cc.director.getCollisionManager().enabledDrawBoundingBox = collide;
+        // cc.director.getCollisionManager().enabledDebugDraw = collide;
+        // cc.director.getCollisionManager().enabledDrawBoundingBox = collide;
     },
 
     // 初始化碰撞系统

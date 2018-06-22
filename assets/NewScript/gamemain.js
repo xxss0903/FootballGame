@@ -206,7 +206,7 @@ cc.Class({
         // 关闭碰撞
         ftball.switchCollide(false);
         ftball.node.setPosition(this.startPosition);
-        this.endPosition = cc.p(0, 0);
+        this.endPosition = cc.p(0, 51);
         this.kickpoint.setPosition(this.endPosition)
         ftball.node.stopAllActions();
         ftball.node.runAction(cc.fadeTo(0, 255));
@@ -351,8 +351,10 @@ cc.Class({
 
     // 手柄控制小红点的位置
     resetFootballDirection: function (direction, power) {
-        var self = this;
-        var ftball = self.football.getComponent(tmpFootball);
+        let self = this;
+        console.log('重置目的点 ' )
+        console.log(self.football);
+        // var ftball = self.football.getComponent(tmpFootball);
 
         var x = this.kickpoint.x
         var y = this.kickpoint.y
@@ -418,11 +420,20 @@ cc.Class({
         // 定时重置足球乙级计算最后分数
         this.schedule(self.shootCallback, moveTime, 0, moveTime);
         // 定时进行扑球
-        self.keepBall();
+        self.delayKeepBall();
+    },
+
+    delayKeepBall: function(){
+        let self = this;
+        console.log('准备扑球')
+        this.schedule(function(){
+            self.keepBall();
+        }, self.keepdelay, 0);
     },
 
     keepBall: function () {
         let self = this;
+        console.log('扑球 ...');
         self.canCollide = true;
         var keeper = self.goalkeeper.getComponent(tmpKeeper);
         keeper.keepBall();
@@ -517,6 +528,12 @@ cc.Class({
         G.roomSocket.on('control', function (msg) {
             console.log('调整方向');
             var obj = JSON.parse(msg);
+            if(obj.playername != self.currentplayer.myname){
+                // 如果不是当前球员的手柄在控制，那么就跳过
+                return
+            } else {
+                console.log(obj.playername + " 开始");
+            }
 
             switch (obj.direction) {
                 case 'up':
@@ -552,7 +569,7 @@ cc.Class({
         if (player1 == undefined) {
             return
         }
-        cc.loader.loadRes(player1.rolepic.toString(), cc.SpriteFrame, function (err, spriteFrame) {
+        cc.loader.loadRes(player1.playpic, cc.SpriteFrame, function (err, spriteFrame) {
             self.playersp1.spriteFrame = spriteFrame;
         });
         // 形象
@@ -572,13 +589,13 @@ cc.Class({
         if (player1 == undefined) {
             return
         }
-        cc.loader.loadRes(player1.rolepic.toString(), cc.SpriteFrame, function (err, spriteFrame) {
+        cc.loader.loadRes(player1.playpic, cc.SpriteFrame, function (err, spriteFrame) {
             self.playersp1.spriteFrame = spriteFrame;
         });
-        cc.loader.loadRes(player2.rolepic.toString(), cc.SpriteFrame, function (err, spriteFrame) {
+        cc.loader.loadRes(player2.playpic, cc.SpriteFrame, function (err, spriteFrame) {
             self.playersp2.spriteFrame = spriteFrame;
         });
-        // 形象
+        // 形象图标图像初始化
         cc.loader.loadRes(self.getAvatarPic(player1.rolepic, 'll'), cc.SpriteFrame, function (err, spriteFrame) {
             self.avatarl.spriteFrame = spriteFrame;
         });
@@ -600,6 +617,9 @@ cc.Class({
         self.playersp = self.playersp1;
         self.currentscore = self.score1;
         self.currentshootcount = self.shootcount1;
+        console.log(self.playersp1);
+        console.log('c初始化足球');
+        console.log(self.football);
         self.hideAllPlayer();
         switch (gamemode) {
             case 0:

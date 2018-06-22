@@ -145,17 +145,22 @@ cc.Class({
         } else {
             window.io = require('socket.io')
         }
-        G.queueSocket = io.connect(rooturl + "/queue");
-        G.queueSocket.on('game mode', function (info) {
-            console.log('游戏模式 ' + info);
-        });
+
         // 匹配成功，进入房间
-        G.queueSocket.on('match success', function (roomId) {
-            cc.log('match success ' + window.roomid);
-            G.roomSocket = io.connect(rooturl + '/rooms' + window.roomid, { 'force new connection': true });
-            // 断开排队队列，已经分配到了房间
-            G.queueSocket.disconnect();
-        })
+        if(G.queueSocket == null){
+            G.queueSocket = io.connect(rooturl + "/queue");
+            G.queueSocket.on('game mode', function (info) {
+                console.log('游戏模式 ' + info);
+            });
+            G.queueSocket.on('match success', function (roomId) {
+                cc.log('match success ' + window.roomid);
+                if(G.roomSocket == null){
+                    G.roomSocket = io.connect(rooturl + '/rooms' + window.roomid, { 'force new connection': true });
+                    // 断开排队队列，已经分配到了房间
+                    G.queueSocket.disconnect();
+                }
+            })
+        }
     },
 
     onLoad() {

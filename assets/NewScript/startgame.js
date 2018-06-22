@@ -19,7 +19,7 @@ cc.Class({
             type: cc.Node
         },
 
-        btnstart:{
+        btnstart: {
             default: null,
             type: cc.Button
         },
@@ -58,6 +58,21 @@ cc.Class({
         var hallurl = rooturl + '/hall'
         console.log('hall url = ' + hallurl);
         G.hallSocket = io.connect(hallurl);
+
+        this.resetSocket();
+    },
+
+    // 重置房间的socket 链接
+    resetSocket: function () {
+        if (G.queueSocket != null) {
+            G.queueSocket.disconnect();
+            G.queueSocket = null;
+
+        }
+        if (G.roomSocket != null) {
+            G.roomSocket.disconnect();
+            G.roomSocket = null;
+        }
     },
 
     onLoad: function () {
@@ -67,7 +82,7 @@ cc.Class({
         this.setupClick();
     },
 
-    setupClick: function(){
+    setupClick: function () {
         let self = this;
         this.btnstart.node.on('click', function (event) {
             self.startGame();

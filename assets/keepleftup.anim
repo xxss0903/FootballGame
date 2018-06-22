@@ -3,33 +3,23 @@
   "_name": "keepleftup",
   "_objFlags": 0,
   "_rawFiles": null,
-  "_duration": 1.9833333333333334,
+  "_duration": 0.5,
   "sample": 60,
   "speed": 1,
   "wrapMode": 1,
   "curveData": {
     "props": {
-      "rotation": [
-        {
-          "frame": 0,
-          "value": 0
-        },
-        {
-          "frame": 1,
-          "value": -45
-        }
-      ],
       "x": [
         {
           "frame": 0,
           "value": 28
         },
         {
-          "frame": 1,
+          "frame": 0.25,
           "value": -100
         },
         {
-          "frame": 1.9833333333333334,
+          "frame": 0.5,
           "value": -300
         }
       ],
@@ -39,14 +29,48 @@
           "value": 100
         },
         {
-          "frame": 1,
-          "value": 150
+          "frame": 0.25,
+          "value": 180
         },
         {
-          "frame": 1.9833333333333334,
-          "value": 180
+          "frame": 0.4,
+          "value": 160
+        },
+        {
+          "frame": 0.5,
+          "value": 120
+        }
+      ],
+      "rotation": [
+        {
+          "frame": 0,
+          "value": 0
+        },
+        {
+          "frame": 0.13333333333333333,
+          "value": -45
+        },
+        {
+          "frame": 0.4666666666666667,
+          "value": -60
+        },
+        {
+          "frame": 0.5,
+          "value": -60
         }
       ]
+    },
+    "comps": {
+      "cc.Sprite": {
+        "spriteFrame": [
+          {
+            "frame": 0,
+            "value": {
+              "__uuid__": "7bf7b1ac-28e7-4974-bbb6-6696d57e40c8"
+            }
+          }
+        ]
+      }
     }
   },
   "events": []

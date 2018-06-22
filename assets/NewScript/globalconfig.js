@@ -11,10 +11,9 @@
 
 // 单个游戏的socket
 window.mysocket = {};
-// 游戏大厅的socket
-window.hallsocket = null;
-// window.rooturl = 'http://localhost:5757';
-window.rooturl = 'http://193.112.183.189:5757';
+// 服务器地址
+window.rooturl = 'http://127.0.0.1:5757';
+// window.rooturl = 'http://193.112.183.189:5757';
 
 // 游戏主机地址
 window.socketurl = rooturl+'?type=football';
@@ -32,6 +31,7 @@ window.currentroom = 'room1';
 
 // socket 链接对象
 window.G = {
+    queueSocket: null,
     globalSocket: null,
     hallSocket: null,
     roomSocket: null,
