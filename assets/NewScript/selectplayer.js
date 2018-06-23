@@ -224,7 +224,7 @@ cc.Class({
                 break;
 
             case 1:
-                // 多个玩家 
+                // 多个玩家进入
                 this.setupMultiPlayer();
                 break;
         }
