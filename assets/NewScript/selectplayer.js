@@ -84,7 +84,8 @@ cc.Class({
     // 选择球员之后设置
     changeToggleItem: function (item) {
         let self = this;
-        var name = item.name.replace('<Toggle>', '') + "_selected";
+        var name = item.name.replace('<Toggle>', '');
+        name = self.getSelectedUrl(name);
         try {
             cc.loader.loadRes(name.toString(), cc.SpriteFrame, function (err, spriteFrame) {
                 self.currentsprite.spriteFrame = spriteFrame;
@@ -168,6 +169,12 @@ cc.Class({
         self.playersp2.enabled = false;
     },
 
+    // 获取资源中的url路径
+    getSelectedUrl: function(name){
+        name = name.replace('<Toggle>', '');
+        return "selectplayer/" + name + "_s";
+    },
+
     setupSinglePlayer: function () {
         let self = this;
         player1 = new tmpplayer();
@@ -177,7 +184,7 @@ cc.Class({
         self.playersp2.enabled = false
         try {
             var selectedname = self.getSelectedPlayer();
-            selectedname = selectedname + "_selected"
+            selectedname = self.getSelectedUrl(selectedname);
             cc.loader.loadRes(selectedname, cc.SpriteFrame, function (err, spriteFrame) {
                 self.playersp1.spriteFrame = spriteFrame;
             });
@@ -200,7 +207,7 @@ cc.Class({
         player2.myname = 'player2';
         try {
             var selectedname = self.getSelectedPlayer();
-            selectedname = selectedname + "_selected"
+            selectedname = self.getSelectedUrl(selectedname);
             cc.loader.loadRes(selectedname, cc.SpriteFrame, function (err, spriteFrame) {
                 self.playersp1.spriteFrame = spriteFrame;
                 self.playersp2.spriteFrame = spriteFrame;

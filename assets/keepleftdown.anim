@@ -5,7 +5,7 @@
   "_rawFiles": null,
   "_duration": 0.5,
   "sample": 60,
-  "speed": 1,
+  "speed": 1.4,
   "wrapMode": 1,
   "curveData": {
     "props": {
@@ -16,15 +16,11 @@
         },
         {
           "frame": 0.25,
-          "value": -150
-        },
-        {
-          "frame": 0.4666666666666667,
-          "value": -250
+          "value": -500
         },
         {
           "frame": 0.5,
-          "value": -250
+          "value": -1000
         }
       ],
       "rotation": [
@@ -34,21 +30,21 @@
         },
         {
           "frame": 0.5,
-          "value": -80
+          "value": -66.66666666666667
         }
       ],
       "y": [
         {
           "frame": 0,
-          "value": 101
+          "value": 800
         },
         {
           "frame": 0.25,
-          "value": 120
+          "value": 1200
         },
         {
           "frame": 0.5,
-          "value": 103.53333333333333
+          "value": 800
         }
       ]
     },

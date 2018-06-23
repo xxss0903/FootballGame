@@ -3,24 +3,38 @@
   "_name": "keeprightdown",
   "_objFlags": 0,
   "_rawFiles": null,
-  "_duration": 0.5166666666666667,
+  "_duration": 0.5,
   "sample": 60,
-  "speed": 1,
+  "speed": 1.4,
   "wrapMode": 1,
   "curveData": {
     "props": {
-      "x": [
+      "y": [
         {
           "frame": 0,
-          "value": 28
+          "value": 800
         },
         {
           "frame": 0.25,
-          "value": 120
+          "value": 1000
         },
         {
-          "frame": 0.5166666666666667,
-          "value": 300
+          "frame": 0.5,
+          "value": 800
+        }
+      ],
+      "x": [
+        {
+          "frame": 0,
+          "value": 0
+        },
+        {
+          "frame": 0.25,
+          "value": 600
+        },
+        {
+          "frame": 0.5,
+          "value": 1000
         }
       ],
       "rotation": [
@@ -30,39 +44,13 @@
         },
         {
           "frame": 0.25,
-          "value": 30
+          "value": 50
         },
         {
-          "frame": 0.5166666666666667,
+          "frame": 0.5,
           "value": 80
         }
-      ],
-      "y": [
-        {
-          "frame": 0,
-          "value": 100
-        },
-        {
-          "frame": 0.25,
-          "value": 130
-        },
-        {
-          "frame": 0.5166666666666667,
-          "value": 100
-        }
       ]
-    },
-    "comps": {
-      "cc.Sprite": {
-        "spriteFrame": [
-          {
-            "frame": 0,
-            "value": {
-              "__uuid__": "7bf7b1ac-28e7-4974-bbb6-6696d57e40c8"
-            }
-          }
-        ]
-      }
     }
   },
   "events": []

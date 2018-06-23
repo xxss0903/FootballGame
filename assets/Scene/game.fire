@@ -149,8 +149,8 @@
     },
     "_rotationX": 0,
     "_rotationY": 0,
-    "_scaleX": 1,
-    "_scaleY": 1,
+    "_scaleX": 0.4,
+    "_scaleY": 0.4,
     "_position": {
       "__type__": "cc.Vec2",
       "x": 2400,
@@ -2029,8 +2029,8 @@
     "moveDuration": 0.5,
     "startPosition": {
       "__type__": "cc.Vec2",
-      "x": -50,
-      "y": -620
+      "x": 0,
+      "y": 800
     },
     "endPosition": {
       "__type__": "cc.Vec2",
