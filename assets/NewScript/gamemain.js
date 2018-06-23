@@ -456,6 +456,10 @@ cc.Class({
 
     shootResult: function () {
         let self = this;
+        // 没有被扑到，就进球数加一
+        if(!self.isKeepOut){
+            self.currentplayer.incount++;
+        }
         // 先计算分数
         self.calculateScore();
         this.schedule(function () {

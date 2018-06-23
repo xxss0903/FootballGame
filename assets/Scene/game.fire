@@ -2045,8 +2045,8 @@
     "maxMoveSpeed": 0,
     "keeperPosition": {
       "__type__": "cc.Vec2",
-      "x": 20,
-      "y": 100
+      "x": 0,
+      "y": 800
     },
     "defaultKickPoint": {
       "__type__": "cc.Vec2",
@@ -2066,6 +2066,6 @@
     "isKeepOut": false,
     "shootCallback": null,
     "maxTime": 5,
-    "ftballSize": 100
+    "ftballSize": 400
   }
 ]
