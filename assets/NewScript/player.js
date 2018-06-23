@@ -22,6 +22,8 @@ cc.Class({
         myname: '',
         // 射球数量
         shootcount: 0,
+        // 进球数量
+        incount: 0,
         // foo: {
         //     // ATTRIBUTES:
         //     default: null,        // The default value will be used only when the component attaching

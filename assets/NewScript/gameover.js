@@ -36,7 +36,7 @@ cc.Class({
     // LIFE-CYCLE CALLBACKS:
     // 进入游戏界面，利用当前信息继续游戏
     continueGame: function () {
-        this.clearScore();
+        this.resetPlayer();
         cc.director.loadScene('selectmode');
     },
 
@@ -65,6 +65,10 @@ cc.Class({
     resetPlayer: function () {
         player1 = null;
         player2 = null;
+        G.queueSocket.disconnect();
+        G.roomSocket.disconnect();
+        G.queueSocket = null;
+        G.roomSocket = null;
     },
 
     quitGame: function () {

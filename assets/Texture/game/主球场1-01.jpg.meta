@@ -1,0 +1,30 @@
+{
+  "ver": "1.0.0",
+  "uuid": "30406974-f6a5-4cd3-9d10-2d46d88339fd",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "subMetas": {
+    "主球场1-01": {
+      "ver": "1.0.3",
+      "uuid": "0cecd33e-6ab1-46d8-b9b4-c1179e0035c5",
+      "rawTextureUuid": "30406974-f6a5-4cd3-9d10-2d46d88339fd",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": 0,
+      "trimX": 0,
+      "trimY": 0,
+      "width": 4791,
+      "height": 7917,
+      "rawWidth": 4791,
+      "rawHeight": 7917,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

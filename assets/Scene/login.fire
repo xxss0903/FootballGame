@@ -93,8 +93,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 1100,
-      "height": 1900
+      "width": 4800,
+      "height": 8000
     },
     "_rotationX": 0,
     "_rotationY": 0,
@@ -102,8 +102,8 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": 550,
-      "y": 950
+      "x": 2400,
+      "y": 4000
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -145,8 +145,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 1100,
-      "height": 1900
+      "width": 4800,
+      "height": 8000
     },
     "_rotationX": 0,
     "_rotationY": 0,
@@ -226,8 +226,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 600,
-      "height": 200
+      "width": 3000,
+      "height": 800
     },
     "_rotationX": 0,
     "_rotationY": 0,
@@ -235,8 +235,8 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": 15,
-      "y": -574
+      "x": 74,
+      "y": -2018
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -254,7 +254,7 @@
     },
     "_enabled": true,
     "_spriteFrame": {
-      "__uuid__": "816bd8d9-1f24-4aab-b344-be793c2f21e0"
+      "__uuid__": "c1dacc11-a1a9-4d6a-88c9-9d87232f5606"
     },
     "_type": 1,
     "_sizeMode": 0,
@@ -314,7 +314,7 @@
       "a": 255
     },
     "_N$normalSprite": {
-      "__uuid__": "816bd8d9-1f24-4aab-b344-be793c2f21e0"
+      "__uuid__": "c1dacc11-a1a9-4d6a-88c9-9d87232f5606"
     },
     "_N$pressedSprite": {
       "__uuid__": "816bd8d9-1f24-4aab-b344-be793c2f21e0"
@@ -371,8 +371,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 200,
-      "height": 200
+      "width": 800,
+      "height": 800
     },
     "_rotationX": 0,
     "_rotationY": 0,
@@ -380,8 +380,8 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": -294,
-      "y": 423
+      "x": -1424,
+      "y": 1743
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -442,8 +442,8 @@
     "_enabled": true,
     "_designResolution": {
       "__type__": "cc.Size",
-      "width": 1100,
-      "height": 1900
+      "width": 4800,
+      "height": 8000
     },
     "_fitWidth": false,
     "_fitHeight": true

@@ -1,3 +1,5 @@
+import { dirname } from "path";
+
 var tmpPlayer = require("player");
 var tmpFootball = require("football");
 var tmpGate = require("gate");
@@ -119,24 +121,53 @@ cc.Class({
             type: cc.Sprite
         },
 
+        //游戏音效
+        bgMusic: {
+            url: cc.AudioClip,
+            default: null
+        },
+
+        tiqiuMusic: {
+            url: cc.AudioClip,
+            default: null
+        },
+
+        koushaoMusic: {
+            url: cc.AudioClip,
+            default: null
+        },
 
         // 每次射球次数，每个选手轮流射球
         shootTimes: 5,
         maxHeight: 400,
-        moveDuration: 1,
+        moveDuration: 0.5,
         // 足球起始点
         startPosition: cc.p(),
         // 足球踢出去的点
         endPosition: cc.p(),
+        // 左边方向速度开关
+        accLeft: false,
+        // 右边速度开关
+        accRight: false,
+        // 加速度
+        accel: 0,
+        // 球在x方向的速度
+        xSpeed: 0,
+        // 球在y方向的速度
+        ySpeed: 0,
+        // 最大的移动速度
+        maxMoveSpeed: 0,
+        // 足球的起始点
+        startPosition: cc.p(),
         keeperPosition: cc.p(),
         defaultKickPoint: cc.p(),
         socket: {},
         resetSize: 1,
         center: new cc.p(),
         // 当前踢球的运动员
-        currentplayer: cc.player,
+        currentplayer: null,
         // 扑球在踢球后的时间
-        keepdelay: 0.2,
+        keepdelay: 0.1,
         // 球员踢球动作的时间
         playduration: 0.1,
         // 是否检测允许碰撞
@@ -146,6 +177,7 @@ cc.Class({
         shootCallback: null,
         // 最大轮回射球数
         maxTime: 5,
+        ftballSize: 100,
     },
 
     // 初始化控制系统 
@@ -184,10 +216,22 @@ cc.Class({
         this.arrow.rotation = rotateAngle;
     },
 
+    stopMusic: function () {
+        cc.audioEngine.stopAll();
+    },
+
     // 游戏结束
     gameOver: function () {
+        this.stopMusic();
         console.log('game over ')
-        cc.director.loadScene("gameover");
+        switch (gamemode) {
+            case 0:
+                cc.director.loadScene("singlescore");
+                break;
+            case 1:
+                cc.director.loadScene("multiscore");
+                break;
+        }
     },
 
     // 重置守门员
@@ -206,6 +250,14 @@ cc.Class({
         // 关闭碰撞
         ftball.switchCollide(false);
         ftball.node.setPosition(this.startPosition);
+        console.log('重置足球大小');
+        console.log(self.football);
+        // 球的大小还原
+        self.football.width = self.ftballSize;
+        self.football.height = self.ftballSize;
+        self.football.scaleX = 1;
+        self.football.scaleY = 1;
+
         this.endPosition = cc.p(0, 51);
         this.kickpoint.setPosition(this.endPosition)
         ftball.node.stopAllActions();
@@ -227,6 +279,18 @@ cc.Class({
         this.judgeShootFinish();
 
 
+    },
+
+    playBgm: function (playOrStop) {
+        cc.audioEngine.play(this.bgMusic, true, 0.2)
+    },
+
+    playTiqiu: function () {
+        cc.audioEngine.play(this.tiqiuMusic, false, 1);
+    },
+
+    playKoushao: function () {
+        cc.audioEngine.play(this.koushaoMusic, false, 1);
     },
 
     judgeShootFinish: function () {
@@ -352,7 +416,7 @@ cc.Class({
     // 手柄控制小红点的位置
     resetFootballDirection: function (direction, power) {
         let self = this;
-        console.log('重置目的点 ' )
+        console.log('重置目的点 ')
         console.log(self.football);
         // var ftball = self.football.getComponent(tmpFootball);
 
@@ -385,7 +449,7 @@ cc.Class({
 
     // 根据足球上左右位移，计算出一对点
     getFootLinePoints: function (kickpoint) {
- 
+
 
         return Pair
     },
@@ -409,13 +473,33 @@ cc.Class({
         var moveTime = this.moveDuration - power;
         console.log('movetime = ' + moveTime);
         var startP = cc.p(this.football.x, this.football.y);
+        // 设置起始和结束坐标
+        this.startPosition = startP;
         var endP = this.endPosition;
 
-        var moveto = cc.moveTo(moveTime, endP);
-        moveto.easing(cc.easeOut(moveTime));
-        var rotateto = cc.rotateTo(moveTime, 720);
+        // 计算贝塞尔的中间线，得到曲线
+        // 如果落球点在射球点右边，那么向右边偏
+        // 如果落球点在射球点左边，那么向左偏
+        var bX = this.startPosition.x;
+        var dis = 150;
+        if (this.endPosition.x >= this.startPosition.x) {
+            bX = this.endPosition.x + dis;
+        } else {
+            bX = this.endPosition.x - dis;
+        }
+        var bY = this.startPosition.y + (this.endPosition.y - this.startPosition.y) / 2;
+        var bezierPoint = cc.p(bX, bY);
+        var bezierToPath = [cc.p(this.startPosition), bezierPoint, cc.p(this.endPosition)];
+        var moveto = cc.bezierTo(moveTime, bezierToPath);
+
+        // 直线运动
+        // var moveto = cc.moveTo(moveTime, endP);
+
+        // moveto.easing(cc.easeOut(moveTime));
+        var scaleto = cc.scaleTo(moveTime, 0.6, 0.6);
+        var rotateto = cc.rotateTo(moveTime, 3600);
         var fadeto = cc.fadeTo(moveTime, 200);
-        var movePath = cc.spawn(moveto, rotateto, fadeto);
+        var movePath = cc.spawn(moveto, rotateto, fadeto, scaleto);
         this.football.runAction(movePath);
         // 定时重置足球乙级计算最后分数
         this.schedule(self.shootCallback, moveTime, 0, moveTime);
@@ -423,10 +507,10 @@ cc.Class({
         self.delayKeepBall();
     },
 
-    delayKeepBall: function(){
+    delayKeepBall: function () {
         let self = this;
         console.log('准备扑球')
-        this.schedule(function(){
+        this.schedule(function () {
             self.keepBall();
         }, self.keepdelay, 0);
     },
@@ -483,6 +567,7 @@ cc.Class({
         player.playBall();
         player.addShootCount(1);
         self.updateShootCount();
+        self.playTiqiu();
     },
 
     // 更新当前选手的射球数
@@ -526,9 +611,11 @@ cc.Class({
         })
 
         G.roomSocket.on('control', function (msg) {
-            console.log('调整方向');
+            console.log('控制球');
+            console.log(msg)
+            console.log(self.currentplayer);
             var obj = JSON.parse(msg);
-            if(obj.playername != self.currentplayer.myname){
+            if (obj.playername != self.currentplayer.myname) {
                 // 如果不是当前球员的手柄在控制，那么就跳过
                 return
             } else {
@@ -614,6 +701,8 @@ cc.Class({
         let self = this;
 
         self.currentplayer = player1;
+        console.log('当前球员')
+        console.log(self.currentplayer);
         self.playersp = self.playersp1;
         self.currentscore = self.score1;
         self.currentshootcount = self.shootcount1;
@@ -661,12 +750,33 @@ cc.Class({
         self.setupWebsocket();
         console.log('player sp');
         console.log(self.playersp1);
+        self.playBgm();
+    },
+
+    // 更新足球的轨迹
+    updateFootballPath: function (ftball, dt) {
+        let self = this;
+        // 根据当前加速度方向每帧更新速度
+        if (this.accLeft) {
+            this.xSpeed -= this.accel * dt;
+        } else if (this.accRight) {
+            this.xSpeed += this.accel * dt;
+        }
+        // 限制主角的速度不能超过最大值
+        if (Math.abs(this.xSpeed) > this.maxMoveSpeed) {
+            // if speed reach limit, use max speed with current direction
+            this.xSpeed = this.maxMoveSpeed * this.xSpeed / Math.abs(this.xSpeed);
+        }
+
+        // 根据当前速度更新主角的位置
+        ftball.x += this.xSpeed * dt;
     },
 
     // called every frame
     update: function (dt) {
         let self = this;
         var ftball = self.football.getComponent(tmpFootball);
+        // self.updateFootballPath(ftball, dt);
         if (ftball.getCollisionStatus()) {
             // 已经碰撞到了，得分，重置
             self.keepOut();

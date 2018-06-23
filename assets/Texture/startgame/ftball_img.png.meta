@@ -1,0 +1,30 @@
+{
+  "ver": "1.0.0",
+  "uuid": "33157be8-1031-44e5-acf3-17449edcfd3e",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "subMetas": {
+    "ftball_img": {
+      "ver": "1.0.3",
+      "uuid": "94aa975d-8d53-4f3c-9ae8-f7c86ef2a6c6",
+      "rawTextureUuid": "33157be8-1031-44e5-acf3-17449edcfd3e",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": 30.5,
+      "trimX": 72,
+      "trimY": 112,
+      "width": 3202,
+      "height": 660,
+      "rawWidth": 3346,
+      "rawHeight": 945,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}
