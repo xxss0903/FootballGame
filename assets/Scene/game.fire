@@ -402,7 +402,7 @@
     },
     "_enabled": true,
     "_spriteFrame": {
-      "__uuid__": "0f0cc8b1-7a50-4945-a894-3792543fa394"
+      "__uuid__": "c2ef9c64-a586-4348-aca6-b9213037271f"
     },
     "_type": 0,
     "_sizeMode": 0,
@@ -2037,7 +2037,7 @@
       "__id__": 18
     },
     "goalkeeper": {
-      "__id__": 8
+      "__id__": 9
     },
     "background": {
       "__id__": 3

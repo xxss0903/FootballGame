@@ -3,7 +3,7 @@
   "_name": "keepleftup",
   "_objFlags": 0,
   "_rawFiles": null,
-  "_duration": 0.8333333333333334,
+  "_duration": 0.83,
   "sample": 60,
   "speed": 1.4,
   "wrapMode": 1,
@@ -58,7 +58,13 @@
           {
             "frame": 0,
             "value": {
-              "__uuid__": "7bf7b1ac-28e7-4974-bbb6-6696d57e40c8"
+              "__uuid__": "c2ef9c64-a586-4348-aca6-b9213037271f"
+            }
+          },
+          {
+            "frame": 0.11666666666666667,
+            "value": {
+              "__uuid__": "ae50824d-1389-4225-b6f9-3be954121a3d"
             }
           }
         ]

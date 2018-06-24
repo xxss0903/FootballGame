@@ -3,7 +3,7 @@
   "_name": "keeprightdown",
   "_objFlags": 0,
   "_rawFiles": null,
-  "_duration": 0.8333333333333334,
+  "_duration": 0.97,
   "sample": 60,
   "speed": 1.4,
   "wrapMode": 1,
@@ -20,7 +20,15 @@
         },
         {
           "frame": 0.8333333333333334,
-          "value": 800
+          "value": 603.2
+        },
+        {
+          "frame": 0.8833333333333333,
+          "value": 650
+        },
+        {
+          "frame": 0.9666666666666667,
+          "value": 600
         }
       ],
       "x": [
@@ -34,7 +42,15 @@
         },
         {
           "frame": 0.8333333333333334,
-          "value": 1200
+          "value": 1250
+        },
+        {
+          "frame": 0.8833333333333333,
+          "value": 1300
+        },
+        {
+          "frame": 0.9666666666666667,
+          "value": 1380
         }
       ],
       "rotation": [
@@ -51,6 +67,24 @@
           "value": 85
         }
       ]
+    },
+    "comps": {
+      "cc.Sprite": {
+        "spriteFrame": [
+          {
+            "frame": 0,
+            "value": {
+              "__uuid__": "c2ef9c64-a586-4348-aca6-b9213037271f"
+            }
+          },
+          {
+            "frame": 0.13333333333333333,
+            "value": {
+              "__uuid__": "ae50824d-1389-4225-b6f9-3be954121a3d"
+            }
+          }
+        ]
+      }
     }
   },
   "events": []

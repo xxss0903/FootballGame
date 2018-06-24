@@ -61,7 +61,7 @@ cc.Class({
 
         goalkeeper: {
             default: null,
-            type: cc.Node
+            type: cc.Sprite
         },
 
         background: {
@@ -248,18 +248,20 @@ cc.Class({
     // 重置守门员
     resetKeeper: function () {
         let self = this;
-        this.goalkeeper.setPosition(this.keeperPosition);
-        this.goalkeeper.rotation = 0;
+        this.goalkeeper.node.setPosition(this.keeperPosition);
+        this.goalkeeper.node.rotation = 0;
         cc.loader.loadRes('jump1', cc.SpriteFrame, function (err, spriteFrame) {
+            console.log('重置守门员图片')
             self.goalkeeper.spriteFrame = spriteFrame;
         });
         // 播放守门员动画
-        var keeper = this.goalkeeper.getComponent(tmpKeeper);
+        var keeper = this.goalkeeper.node.getComponent(tmpKeeper);
         keeper.updown();
     },
 
     // 重置守门员，足球，等
     resetNpc: function(){
+        let self = this;
         // 重置守门员
         this.resetKeeper();
         // 重置足球
@@ -276,7 +278,6 @@ cc.Class({
         if (gamemode == 1) {
             self.switchPlayer();
         }
-
     },
 
     // 重置足球，摆到球员脚下
@@ -546,7 +547,7 @@ cc.Class({
         let self = this;
         console.log('扑球 ...');
         self.canCollide = true;
-        var keeper = self.goalkeeper.getComponent(tmpKeeper);
+        var keeper = self.goalkeeper.node.getComponent(tmpKeeper);
         keeper.keepBall();
         // 开启碰撞
         var ftball = self.football.getComponent(tmpFootball);

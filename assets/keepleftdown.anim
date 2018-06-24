@@ -3,7 +3,7 @@
   "_name": "keepleftdown",
   "_objFlags": 0,
   "_rawFiles": null,
-  "_duration": 0.8333333333333334,
+  "_duration": 0.95,
   "sample": 60,
   "speed": 1.4,
   "wrapMode": 1,
@@ -20,7 +20,15 @@
         },
         {
           "frame": 0.8333333333333334,
-          "value": -1200
+          "value": -1194.6153846153845
+        },
+        {
+          "frame": 0.9,
+          "value": -1300
+        },
+        {
+          "frame": 0.95,
+          "value": -1350
         }
       ],
       "rotation": [
@@ -44,7 +52,15 @@
         },
         {
           "frame": 0.8333333333333334,
-          "value": 800
+          "value": 600
+        },
+        {
+          "frame": 0.9,
+          "value": 650
+        },
+        {
+          "frame": 0.95,
+          "value": 600
         }
       ]
     },
@@ -54,7 +70,13 @@
           {
             "frame": 0,
             "value": {
-              "__uuid__": "7bf7b1ac-28e7-4974-bbb6-6696d57e40c8"
+              "__uuid__": "c2ef9c64-a586-4348-aca6-b9213037271f"
+            }
+          },
+          {
+            "frame": 0.13333333333333333,
+            "value": {
+              "__uuid__": "ae50824d-1389-4225-b6f9-3be954121a3d"
             }
           }
         ]
