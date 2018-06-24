@@ -113,8 +113,8 @@
     },
     "_rotationX": 0,
     "_rotationY": 0,
-    "_scaleX": 0.4,
-    "_scaleY": 0.4,
+    "_scaleX": 1,
+    "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
       "x": 2395.5,
@@ -820,7 +820,7 @@
     "target": {
       "__id__": 2
     },
-    "component": "scoreboard",
+    "component": "singlescoreboard",
     "handler": "goBack",
     "customEventData": ""
   },
@@ -968,7 +968,7 @@
     "target": {
       "__id__": 2
     },
-    "component": "scoreboard",
+    "component": "singlescoreboard",
     "handler": "getRewards",
     "customEventData": ""
   },
@@ -1103,6 +1103,12 @@
     },
     "football": {
       "__id__": 25
+    },
+    "btnback": {
+      "__id__": 19
+    },
+    "btnreward": {
+      "__id__": 23
     }
   }
 ]

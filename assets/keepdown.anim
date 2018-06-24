@@ -8,7 +8,26 @@
   "speed": 1,
   "wrapMode": 1,
   "curveData": {
-    "props": {}
+    "props": {
+      "x": [
+        {
+          "frame": 0,
+          "value": 0
+        }
+      ],
+      "y": [
+        {
+          "frame": 0,
+          "value": 800
+        }
+      ],
+      "rotation": [
+        {
+          "frame": 0,
+          "value": 0
+        }
+      ]
+    }
   },
   "events": []
 }

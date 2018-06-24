@@ -1,4 +1,6 @@
-import { dirname } from "path";
+import {
+    dirname
+} from "path";
 
 var tmpPlayer = require("player");
 var tmpFootball = require("football");
@@ -139,8 +141,8 @@ cc.Class({
 
         // 每次射球次数，每个选手轮流射球
         shootTimes: 5,
-        maxHeight: 400,
-        moveDuration: 0.5,
+        maxHeight: 200,
+        moveDuration: 6,
         // 足球起始点
         startPosition: cc.p(),
         // 足球踢出去的点
@@ -162,7 +164,7 @@ cc.Class({
         keeperPosition: cc.p(),
         defaultKickPoint: cc.p(),
         socket: {},
-        resetSize: 1,
+        resetSize: 140,
         center: new cc.p(),
         // 当前踢球的运动员
         currentplayer: null,
@@ -178,6 +180,7 @@ cc.Class({
         // 最大轮回射球数
         maxTime: 5,
         ftballSize: 100,
+        bezierDis: 300,
     },
 
     // 初始化控制系统 
@@ -199,7 +202,7 @@ cc.Class({
             onTouchMoved: function (touch, event) {
 
             },
-            onTouchEnded: function (touch, event) { }
+            onTouchEnded: function (touch, event) {}
         }, self.node);
     },
 
@@ -220,10 +223,18 @@ cc.Class({
         cc.audioEngine.stopAll();
     },
 
+    disconnectSocket: function () {
+        if (G.roomSocket != null) {
+            G.roomSocket.disconnect();
+            G.roomSocket = null;
+        }
+    },
+
     // 游戏结束
     gameOver: function () {
         this.stopMusic();
-        console.log('game over ')
+        console.log('game over ' + gamemode)
+        this.disconnectSocket();
         switch (gamemode) {
             case 0:
                 cc.director.loadScene("singlescore");
@@ -258,8 +269,8 @@ cc.Class({
         self.football.scaleX = 1;
         self.football.scaleY = 1;
 
-        this.endPosition = cc.p(0, 51);
-        this.kickpoint.setPosition(this.endPosition)
+        this.endPosition = self.defaultKickPoint;
+        this.kickpoint.setPosition(self.defaultKickPoint)
         ftball.node.stopAllActions();
         ftball.node.runAction(cc.fadeTo(0, 255));
         this.updateArrowDirection();
@@ -338,17 +349,17 @@ cc.Class({
         var tmpposition1 = cc.p(self.playersp1.node.x, self.playersp1.node.y);
         var tmpposition2 = cc.p(self.playersp2.node.x, self.playersp2.node.y);
         console.log('切换球员')
-        console.log(self.currentplayer)
-        if (self.currentplayer.myname === 'player1') {
+        console.log(G.currentplayer)
+        if (G.currentplayer.myname === 'player1') {
             // 切换到选手2
-            self.currentplayer = player2;
+            G.currentplayer = player2;
             self.playersp = self.playersp2;
             self.currentscore = self.score2;
             self.currentshootcount = self.shootcount2
             self.showPlayer2Views();
         } else {
             // 切换到选手1
-            self.currentplayer = player1;
+            G.currentplayer = player1;
             self.playersp = self.playersp1;
             self.currentscore = self.score1;
             self.currentshootcount = self.shootcount1;
@@ -418,6 +429,7 @@ cc.Class({
         let self = this;
         console.log('重置目的点 ')
         console.log(self.football);
+        console.log(G.currentplayer);
         // var ftball = self.football.getComponent(tmpFootball);
 
         var x = this.kickpoint.x
@@ -456,9 +468,13 @@ cc.Class({
 
     shootResult: function () {
         let self = this;
+        if (G.currentplayer == null || G.currentplayer == undefined) {
+            self.resetFootball();
+            return
+        }
         // 没有被扑到，就进球数加一
-        if(!self.isKeepOut){
-            self.currentplayer.incount++;
+        if (!self.isKeepOut) {
+            G.currentplayer.incount++;
         }
         // 先计算分数
         self.calculateScore();
@@ -485,11 +501,10 @@ cc.Class({
         // 如果落球点在射球点右边，那么向右边偏
         // 如果落球点在射球点左边，那么向左偏
         var bX = this.startPosition.x;
-        var dis = 150;
         if (this.endPosition.x >= this.startPosition.x) {
-            bX = this.endPosition.x + dis;
+            bX = this.endPosition.x + self.bezierDis;
         } else {
-            bX = this.endPosition.x - dis;
+            bX = this.endPosition.x - self.bezierDis;
         }
         var bY = this.startPosition.y + (this.endPosition.y - this.startPosition.y) / 2;
         var bezierPoint = cc.p(bX, bY);
@@ -499,7 +514,7 @@ cc.Class({
         // 直线运动
         // var moveto = cc.moveTo(moveTime, endP);
 
-        // moveto.easing(cc.easeOut(moveTime));
+        moveto.easing(cc.easeOut(4));
         var scaleto = cc.scaleTo(moveTime, 0.6, 0.6);
         var rotateto = cc.rotateTo(moveTime, 3600);
         var fadeto = cc.fadeTo(moveTime, 200);
@@ -601,8 +616,16 @@ cc.Class({
     setupWebsocket: function () {
         let self = this;
         if (G.roomSocket == null) {
-            return
+            if (cc.sys.isNative) {
+                window.io = SocketIO;
+            } else {
+                window.io = require('socket.io')
+            }
+            G.roomSocket = io.connect(rooturl + '/rooms' + window.roomid, {
+                'force new connection': true
+            });
         }
+
         // 房间的roomsocket接受消息
         G.roomSocket.on('shootstart', function (data) {
             console.log('射球开始');
@@ -617,9 +640,11 @@ cc.Class({
         G.roomSocket.on('control', function (msg) {
             console.log('控制球');
             console.log(msg)
-            console.log(self.currentplayer);
+            console.log(G.currentplayer);
+            console.log(player1);
+            console.log(player2);
             var obj = JSON.parse(msg);
-            if (obj.playername != self.currentplayer.myname) {
+            if (obj.playername != G.currentplayer.myname) {
                 // 如果不是当前球员的手柄在控制，那么就跳过
                 return
             } else {
@@ -703,10 +728,17 @@ cc.Class({
 
     setupPlayer: function () {
         let self = this;
-
-        self.currentplayer = player1;
+        if (player1 == null || player1 == undefined) {
+            player1 = new tmpPlayer();
+            player1.myname = 'player1';
+        }
+        if (player2 == null || player2 == undefined) {
+            player2 = new tmpPlayer();
+            player2.myname = 'player2';
+        }
+        G.currentplayer = player1;
         console.log('当前球员')
-        console.log(self.currentplayer);
+        console.log(G.currentplayer);
         self.playersp = self.playersp1;
         self.currentscore = self.score1;
         self.currentshootcount = self.shootcount1;
@@ -728,7 +760,7 @@ cc.Class({
 
     setupParams: function () {
         let self = this;
-        this.maxHeight = this.gate.height * 1.5;
+        this.maxHeight = this.gate.height * 1;
         this.shootCallback = function () {
             self.shootResult();
         }
@@ -752,8 +784,8 @@ cc.Class({
         self.setupControl();
         self.setFootballStartPosition();
         self.setupWebsocket();
-        console.log('player sp');
-        console.log(self.playersp1);
+        console.log('当前球员 1');
+        console.log(G.currentplayer);
         self.playBgm();
     },
 

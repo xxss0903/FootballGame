@@ -104,8 +104,8 @@
     },
     "_rotationX": 0,
     "_rotationY": 0,
-    "_scaleX": 0.4,
-    "_scaleY": 0.4,
+    "_scaleX": 1,
+    "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
       "x": 2400,
@@ -543,7 +543,9 @@
     "_enabled": true,
     "score": {
       "__id__": 13
-    }
+    },
+    "btncontinue": null,
+    "btnquit": null
   },
   {
     "__type__": "cc.Node",
@@ -719,6 +721,12 @@
     "_enabled": true,
     "score": {
       "__id__": 13
+    },
+    "btncontinue": {
+      "__id__": 10
+    },
+    "btnquit": {
+      "__id__": 17
     }
   }
 ]

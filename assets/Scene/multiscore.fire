@@ -113,8 +113,8 @@
     },
     "_rotationX": 0,
     "_rotationY": 0,
-    "_scaleX": 0.4,
-    "_scaleY": 0.4,
+    "_scaleX": 1,
+    "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
       "x": 2395.5,
@@ -1137,7 +1137,7 @@
     "target": {
       "__id__": 2
     },
-    "component": "scoreboard",
+    "component": "multiscoreboard",
     "handler": "goBack",
     "customEventData": ""
   },
@@ -1285,7 +1285,7 @@
     "target": {
       "__id__": 2
     },
-    "component": "scoreboard",
+    "component": "multiscoreboard",
     "handler": "getRewards",
     "customEventData": ""
   },
@@ -1405,21 +1405,39 @@
     "_fitHeight": true
   },
   {
-    "__type__": "f4ac7+qEgRDIYr3XqlAoOUA",
+    "__type__": "d2b5571I0tEXKUcRkjc3j3r",
     "_name": "",
     "_objFlags": 0,
     "node": {
       "__id__": 2
     },
     "_enabled": true,
-    "score": {
+    "score1": {
       "__id__": 13
     },
-    "shootcount": {
+    "shootcount1": {
       "__id__": 15
+    },
+    "name1": {
+      "__id__": 11
+    },
+    "score2": {
+      "__id__": 21
+    },
+    "shootcount2": {
+      "__id__": 23
+    },
+    "name2": {
+      "__id__": 19
     },
     "football": {
       "__id__": 33
+    },
+    "btnback": {
+      "__id__": 27
+    },
+    "btnreward": {
+      "__id__": 31
     }
   }
 ]

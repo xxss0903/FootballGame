@@ -12,11 +12,11 @@
       "y": [
         {
           "frame": 0,
-          "value": 100
+          "value": 800
         },
         {
           "frame": 0.5,
-          "value": 240
+          "value": 1400
         }
       ]
     }

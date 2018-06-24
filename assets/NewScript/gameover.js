@@ -15,7 +15,18 @@ cc.Class({
         score: {
             default: null,
             type: cc.Label
-        }
+        },
+
+        btncontinue: {
+            default: null,
+            type: cc.Button
+        },
+
+        btnquit: {
+            default: null,
+            type: cc.Button
+        },
+
         // foo: {
         //     // ATTRIBUTES:
         //     default: null,        // The default value will be used only when the component attaching
@@ -65,6 +76,9 @@ cc.Class({
     resetPlayer: function () {
         player1 = null;
         player2 = null;
+        if (G.queueSocket == null || G.roomSocket == null) {
+            return
+        }
         G.queueSocket.disconnect();
         G.roomSocket.disconnect();
         G.queueSocket = null;

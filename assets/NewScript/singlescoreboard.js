@@ -18,16 +18,26 @@ cc.Class({
             type: cc.Label
         },
 
-        shootcount:{
+        shootcount: {
             default: null,
             type: cc.Label
         },
 
-        football:{
+        football: {
             type: cc.Node,
             default: null
         },
-        
+
+        btnback: {
+            default: null,
+            type: cc.Button
+        },
+
+        btnreward: {
+            default: null,
+            type: cc.Button
+        },
+
         // foo: {
         //     // ATTRIBUTES:
         //     default: null,        // The default value will be used only when the component attaching
@@ -48,35 +58,45 @@ cc.Class({
     // LIFE-CYCLE CALLBACKS:
 
     // 重新游戏
-    resetGame: function(){
+    resetGame: function () {
+        if (G.roomSocket != null) {
+            G.roomSocket.disconnect();
+        }
+        G.isReconnect = true;
+        if (player1 == null || player1 == undefined) {
+            return
+        }
         player1.score = 0;
         player1.shootcount = 0;
         player1.incount = 0;
     },
 
     // 返回，重新开始游戏
-    goBack: function(){
+    goBack: function () {
         this.resetGame();
         // 重新进入游戏界面
         cc.director.loadScene('game');
     },
 
     // 领取奖品界面
-    getRewards: function(){
+    getRewards: function () {
         cc.director.loadScene("gameover");
     },
 
     // 重置分数信息等
-    setupParams: function(){
+    setupParams: function () {
+        if (player1 == null || player1 == undefined) {
+            return
+        }
         this.score.string = player1.score;
         this.shootcount.string = player1.incount;
     },
 
-    onLoad () {
+    onLoad() {
         this.setupParams();
     },
 
-    start () {
+    start() {
 
     },
 

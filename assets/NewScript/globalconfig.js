@@ -35,4 +35,6 @@ window.G = {
     globalSocket: null,
     hallSocket: null,
     roomSocket: null,
+    currentplayer: null,
+    isReconnect: false,
 }

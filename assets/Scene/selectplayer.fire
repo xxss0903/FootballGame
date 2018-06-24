@@ -116,8 +116,8 @@
     },
     "_rotationX": 0,
     "_rotationY": 0,
-    "_scaleX": 0.4,
-    "_scaleY": 0.4,
+    "_scaleX": 1,
+    "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
       "x": 2400,
@@ -2110,8 +2110,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 962,
-      "height": 374
+      "width": 895,
+      "height": 347
     },
     "_rotationX": 0,
     "_rotationY": 0,
@@ -2138,7 +2138,7 @@
     },
     "_enabled": true,
     "_spriteFrame": {
-      "__uuid__": "cc493e0d-3067-4dd0-9bf4-aa888dffabd0"
+      "__uuid__": "437c0fba-64d6-4384-a22c-76711d10022f"
     },
     "_type": 0,
     "_sizeMode": 1,
@@ -2390,6 +2390,12 @@
     },
     "playersp2": {
       "__id__": 53
+    },
+    "player1tag": {
+      "__id__": 46
+    },
+    "player2tag": {
+      "__id__": 48
     },
     "currentsprite": null
   }

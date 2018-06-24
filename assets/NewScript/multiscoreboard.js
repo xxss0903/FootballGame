@@ -23,6 +23,11 @@ cc.Class({
             type: cc.Label
         },
 
+        name1: {
+            default: null,
+            type: cc.Label
+        },
+
         score2: {
             default: null,
             type: cc.Label
@@ -33,10 +38,25 @@ cc.Class({
             type: cc.Label
         },
 
+        name2: {
+            default: null,
+            type: cc.Label
+        },
+
 
         football: {
             type: cc.Node,
             default: null
+        },
+
+        btnback: {
+            default: null,
+            type: cc.Button
+        },
+
+        btnreward: {
+            default: null,
+            type: cc.Button
         },
 
         // foo: {
@@ -83,9 +103,11 @@ cc.Class({
     setupParams: function () {
         this.score1.string = player1.score;
         this.shootcount1.string = player1.incount;
+        this.name1.string = player1.rolepic;
 
         this.score2.string = player2.score;
         this.shootcount2.string = player2.incount;
+        this.name2.string = player2.rolepic;
     },
 
     onLoad() {

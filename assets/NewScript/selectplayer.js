@@ -43,6 +43,15 @@ cc.Class({
             default: null,
             type: cc.Sprite
         },
+        player1tag:{
+            default: null,
+            type: cc.Sprite
+        },
+        player2tag:{
+            default: null,
+            type: cc.Sprite
+        },
+
         // 当前选择显示的角色精灵
         currentsprite: {
             default: null,
@@ -167,6 +176,16 @@ cc.Class({
         let self = this;
         self.playersp1.enabled = false;
         self.playersp2.enabled = false;
+        self.player1tag.enabled = false;
+        self.player2tag.enabled = false;
+    },
+
+    hidePlayer1: function(){
+
+    },
+
+    hidePlayer2: function(){
+
     },
 
     // 获取资源中的url路径
@@ -181,7 +200,9 @@ cc.Class({
         player1.myname = 'player1';
 
         self.playersp1.enabled = true
+        self.player1tag.enabled = true;
         self.playersp2.enabled = false
+        self.player2tag.enabled = false;
         try {
             var selectedname = self.getSelectedPlayer();
             selectedname = self.getSelectedUrl(selectedname);
@@ -198,7 +219,9 @@ cc.Class({
     setupMultiPlayer: function () {
         let self = this;
         self.playersp1.enabled = true
-        self.playersp2.enabled = true
+        self.player1tag.enabled = true;
+        self.playersp2.enabled = true;
+        self.player2tag.enabled = true;
 
         player1 = new tmpplayer();
         player1.myname = 'player1';

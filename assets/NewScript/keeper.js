@@ -118,9 +118,14 @@ cc.Class({
         console.log("发生碰撞 exit" + other)
     },
 
+    setupKeeperAnimation: function(){
+        var moveAnim = this.getComponent(cc.Animation);
+        var animState = moveAnim.play("keepermove");
+    },
+
 
     onLoad() {
-
+        this.setupKeeperAnimation();
     },
 
     start() {
