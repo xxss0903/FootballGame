@@ -123,7 +123,17 @@ cc.Class({
         var animState = moveAnim.play("keepermove");
     },
 
+    stopUpdown: function(){
+        var moveAnim = this.getComponent(cc.Animation);
+        moveAnim.stop();
+    },
 
+    // 上下摆动
+    updown: function(){
+        this.setupKeeperAnimation();
+    },
+    
+    
     onLoad() {
         this.setupKeeperAnimation();
     },

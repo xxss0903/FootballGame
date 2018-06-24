@@ -248,15 +248,41 @@ cc.Class({
     // 重置守门员
     resetKeeper: function () {
         let self = this;
+        this.goalkeeper.setPosition(this.keeperPosition);
+        this.goalkeeper.rotation = 0;
         cc.loader.loadRes('jump1', cc.SpriteFrame, function (err, spriteFrame) {
             self.goalkeeper.spriteFrame = spriteFrame;
         });
+        // 播放守门员动画
+        var keeper = this.goalkeeper.getComponent(tmpKeeper);
+        keeper.updown();
+    },
+
+    // 重置守门员，足球，等
+    resetNpc: function(){
+        // 重置守门员
+        this.resetKeeper();
+        // 重置足球
+        this.resetFootball();
+        // 重置箭头
+        this.updateArrowDirection();
+        // 重置了，发信号给手柄能够继续点击按钮
+        this.sendShootEndSinal();
+        this.judgeShootFinish();
+        
+        // 可以被碰撞
+        self.canCollide = false;
+        // 判断是否切换球员
+        if (gamemode == 1) {
+            self.switchPlayer();
+        }
+
     },
 
     // 重置足球，摆到球员脚下
     resetFootball: function () {
         let self = this;
-        this.resetKeeper();
+
         var ftball = this.football.getComponent(tmpFootball);
         // 关闭碰撞
         ftball.switchCollide(false);
@@ -273,23 +299,6 @@ cc.Class({
         this.kickpoint.setPosition(self.defaultKickPoint)
         ftball.node.stopAllActions();
         ftball.node.runAction(cc.fadeTo(0, 255));
-        this.updateArrowDirection();
-        this.goalkeeper.setPosition(this.keeperPosition);
-        this.goalkeeper.rotation = 0;
-
-        self.canCollide = false;
-
-        // 判断是否切换球员
-        if (gamemode == 1) {
-            self.switchPlayer();
-        }
-
-        // 重置了，发信号给手柄能够继续点击按钮
-        this.sendShootEndSinal();
-
-        this.judgeShootFinish();
-
-
     },
 
     playBgm: function (playOrStop) {
@@ -465,11 +474,10 @@ cc.Class({
 
         return Pair
     },
-
     shootResult: function () {
         let self = this;
         if (G.currentplayer == null || G.currentplayer == undefined) {
-            self.resetFootball();
+            self.resetNpc();
             return
         }
         // 没有被扑到，就进球数加一
@@ -479,7 +487,7 @@ cc.Class({
         // 先计算分数
         self.calculateScore();
         this.schedule(function () {
-            self.resetFootball();
+            self.resetNpc();
         }, 0.5, 0)
     },
 
@@ -674,8 +682,6 @@ cc.Class({
         G.roomSocket.on('disconnect', function () {
             console.log('游戏界面断开链接')
         })
-
-
     },
 
     setupSingleMode: function () {
