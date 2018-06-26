@@ -7,13 +7,22 @@
 // Learn life-cycle callbacks:
 //  - [Chinese] http://docs.cocos.com/creator/manual/zh/scripting/life-cycle-callbacks.html
 //  - [English] http://www.cocos2d-x.org/docs/creator/en/scripting/life-cycle-callbacks.html
-
+var tmpFootball = require("football");
 
 cc.Class({
     extends: cc.Component,
 
     properties: {
 
+        fire: {
+            default: null,
+            type: cc.Sprite
+        },
+
+        football: {
+            default: null,
+            type: cc.Sprite
+        },
         // foo: {
         //     // ATTRIBUTES:
         //     default: null,        // The default value will be used only when the component attaching
@@ -60,72 +69,79 @@ cc.Class({
     // },
 
     // LIFE-CYCLE CALLBACKS:
-    // getBox: function () {
-    //     return this.node.getBoundingBoxToWorld();
-    // },
-
-    rotateMe: function (rotate) {
-        if(rotate){
-            var rotateAnim = this.getComponent(cc.Animation);
-            var animState = rotateAnim.play("football");
-        } else {
-            this.node.stopAllActions();
-        }
+    getBox: function () {
+        return this.node.getBoundingBoxToWorld();
     },
 
-    // getCollisionStatus: function(){
-    //     return this.collisionStatus;
-    // },
+    kickMe: function () {
+        var rotateAnim = this.getComponent(cc.Animation);
+        var animState = rotateAnim.play("football");
+        this.showFire(true);
+    },
 
-    // resetCollisionStatus: function(){
-    //     this.showFire(false);
-    //     this.collisionStatus = false;
-    // },
+    getCollisionStatus: function () {
+        return this.collisionStatus;
+    },
 
-    // switchCollide: function(collide){
-    //     cc.director.getCollisionManager().enabled = collide;
-    //     this.showFire(collide);
-    //     // cc.director.getCollisionManager().enabledDebugDraw = collide;
-    //     // cc.director.getCollisionManager().enabledDrawBoundingBox = collide;
-    // },
+    resetCollisionStatus: function () {
+        this.showFire(false);
+        this.collisionStatus = false;
+    },
+
+    switchCollide: function (collide) {
+        cc.director.getCollisionManager().enabled = collide;
+        // 是否显示火焰效果
+        this.showFire(collide);
+        // 播放足球的旋转动画
+        var ftball = this.football.getComponent(tmpFootball);
+        console.log('切换足球')
+        console.log(ftball);
+        ftball.rotateMe(collide);
+        // cc.director.getCollisionManager().enabledDebugDraw = collide;
+        // cc.director.getCollisionManager().enabledDrawBoundingBox = collide;
+    },
 
 
-    // // 播放开始进入游戏的足球动画
-    // playStartAnim: function () {
-    //     var rotateAnim = this.getComponent(cc.Animation);
-    //     var animState = rotateAnim.play("footballin");
-    // },
+    // 播放开始进入游戏的足球动画
+    playStartAnim: function () {
+        var anim = this.getComponent(cc.Animation);
+        var animState = anim.play("footballin");
+        // var ftball = this.getComponent(tmpFootball);
+        // var rotateAnim = ftball.getComponent(cc.Animation);
+        // var animState = rotateAnim.play("footballin");
+    },
 
-    // // 初始化碰撞系统
-    // setupCollisionSystem: function(){
+    // 初始化碰撞系统
+    setupCollisionSystem: function () {
 
-    // },
+    },
 
-    // onCollisionEnter: function(other, self){
-    //     this.collisionStatus = true;
-    //     console.log('发生碰撞 enter')
-    // },
+    onCollisionEnter: function (other, self) {
+        this.collisionStatus = true;
+        console.log('发生碰撞 enter')
+    },
 
-    // onCollisionStay: function(other, self){
-    //     console.log("发生碰撞 stay")
-    // },
+    onCollisionStay: function (other, self) {
+        console.log("发生碰撞 stay")
+    },
 
-    // onCollisionExit: function(other, self){
-    //     console.log("发生碰撞 exit")
-    // },
+    onCollisionExit: function (other, self) {
+        console.log("发生碰撞 exit")
+    },
 
-    // showFire: function(show){
-    //     this.fire.enabled = show;
-    // },
+    showFire: function (show) {
+        this.fire.enabled = show;
+    },
 
 
     onLoad() {
-        // this.setupCollisionSystem();
+        this.showFire(false);
+        this.setupCollisionSystem();
     },
 
     start() {
 
     },
 
-    update(dt) {},
+    update(dt) { },
 });
