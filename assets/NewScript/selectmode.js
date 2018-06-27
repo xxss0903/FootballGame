@@ -75,6 +75,7 @@ cc.Class({
                 cc.log('match success ' + window.roomid);
                 if(G.roomSocket == null){
                     G.roomSocket = io.connect(rooturl + '/rooms' + window.roomid, { 'force new connection': true });
+                    G.roomSocket.emit('who', 'game');
                     // 断开排队队列，已经分配到了房间
                     G.queueSocket.disconnect();
                 }
