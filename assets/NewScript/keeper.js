@@ -96,8 +96,6 @@ cc.Class({
 
     switchCollide: function(collide){
         cc.director.getCollisionManager().enabled = collide;
-        // cc.director.getCollisionManager().enabledDebugDraw = collide;
-        // cc.director.getCollisionManager().enabledDrawBoundingBox = collide;
     },
 
     // 初始化碰撞系统

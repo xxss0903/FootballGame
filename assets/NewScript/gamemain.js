@@ -3,6 +3,7 @@ import {
 } from "path";
 
 var tmpPlayer = require("player");
+var tmpFootballLayout = require("footballlayout");
 var tmpFootball = require("football");
 var tmpGate = require("gate");
 var tmpKeeper = require("keeper");
@@ -186,7 +187,7 @@ cc.Class({
     // 初始化控制系统 
     setupControl: function () {
         var self = this;
-        var ftball = self.football.getComponent(tmpFootball);
+        var ftball = self.football.getComponent(tmpFootballLayout);
         var pl = self.playersp.getComponent(tmpPlayer);
         var gt = self.gate.getComponent(tmpGate);
 
@@ -284,7 +285,7 @@ cc.Class({
     resetFootball: function () {
         let self = this;
 
-        var ftball = this.football.getComponent(tmpFootball);
+        var ftball = this.football.getComponent(tmpFootballLayout);
         // 关闭碰撞
         ftball.switchCollide(false);
         ftball.node.setPosition(this.startPosition);
@@ -525,9 +526,8 @@ cc.Class({
 
         moveto.easing(cc.easeOut(4));
         var scaleto = cc.scaleTo(moveTime, 0.6, 0.6);
-        var rotateto = cc.rotateTo(moveTime, 3600);
         var fadeto = cc.fadeTo(moveTime, 200);
-        var movePath = cc.spawn(moveto, rotateto, fadeto, scaleto);
+        var movePath = cc.spawn(moveto, fadeto, scaleto);
         this.football.runAction(movePath);
         // 定时重置足球乙级计算最后分数
         this.schedule(self.shootCallback, moveTime, 0, moveTime);
@@ -550,7 +550,7 @@ cc.Class({
         var keeper = self.goalkeeper.node.getComponent(tmpKeeper);
         keeper.keepBall();
         // 开启碰撞
-        var ftball = self.football.getComponent(tmpFootball);
+        var ftball = self.football.getComponent(tmpFootballLayout);
         ftball.switchCollide(self.isEndPositionInGate());
     },
 
@@ -783,6 +783,17 @@ cc.Class({
         self.shootResult();
     },
 
+    // 进入游戏界面播放一些动画
+    playStartAnims: function(){
+        let self = this;
+        var ftball = self.football.getComponent(tmpFootballLayout);
+        console.log('足球')
+        console.log(ftball);
+
+        ftball.playStartAnim();
+    },
+
+
     // use this for initialization
     onLoad: function () {
         let self = this;
@@ -794,6 +805,7 @@ cc.Class({
         console.log('当前球员 1');
         console.log(G.currentplayer);
         self.playBgm();
+        self.playStartAnims();
     },
 
     // 更新足球的轨迹
@@ -818,7 +830,7 @@ cc.Class({
     // called every frame
     update: function (dt) {
         let self = this;
-        var ftball = self.football.getComponent(tmpFootball);
+        var ftball = self.football.getComponent(tmpFootballLayout);
         // self.updateFootballPath(ftball, dt);
         if (ftball.getCollisionStatus()) {
             // 已经碰撞到了，得分，重置

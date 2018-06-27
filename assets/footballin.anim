@@ -1,0 +1,35 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "footballin",
+  "_objFlags": 0,
+  "_rawFiles": null,
+  "_duration": 6.016666666666667,
+  "sample": 60,
+  "speed": 6,
+  "wrapMode": 1,
+  "curveData": {
+    "props": {
+      "x": [
+        {
+          "frame": 0,
+          "value": 3000
+        },
+        {
+          "frame": 6.016666666666667,
+          "value": 0
+        }
+      ],
+      "rotation": [
+        {
+          "frame": 0,
+          "value": 0
+        },
+        {
+          "frame": 6.016666666666667,
+          "value": -1080
+        }
+      ]
+    }
+  },
+  "events": []
+}
