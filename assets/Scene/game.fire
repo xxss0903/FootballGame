@@ -2671,6 +2671,15 @@
       "__id__": 2
     },
     "_enabled": true,
+    "celitem1": {
+      "__uuid__": "2e1e41d2-8400-4939-9f1b-8670c77c95ae"
+    },
+    "celitem2": {
+      "__uuid__": "7aa6bf60-6c00-45dd-b570-467e6330309a"
+    },
+    "celitem3": {
+      "__uuid__": "b8d6c3a9-9c32-490e-9758-e73c113c2715"
+    },
     "football": {
       "__id__": 13
     },
@@ -2786,6 +2795,8 @@
     "shootCallback": null,
     "maxTime": 5,
     "ftballSize": 400,
-    "bezierDis": 500
+    "bezierDis": 500,
+    "celebratetime": 2,
+    "celebratecount": 100
   }
 ]

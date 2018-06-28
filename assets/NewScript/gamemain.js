@@ -13,6 +13,21 @@ cc.Class({
 
     properties: {
 
+        celitem1: {
+            default: null,
+            type: cc.Prefab
+        },
+
+        celitem2: {
+            default: null,
+            type: cc.Prefab
+        },
+
+        celitem3: {
+            default: null,
+            type: cc.Prefab
+        },
+
         football: {
             default: null,
             type: cc.Node
@@ -182,6 +197,10 @@ cc.Class({
         maxTime: 5,
         ftballSize: 100,
         bezierDis: 300,
+        // 比赛完后庆祝的时间
+        celebratetime: 2,
+        // 庆祝的item的数量
+        celebratecount: 100,
     },
 
     // 初始化控制系统 
@@ -203,7 +222,7 @@ cc.Class({
             onTouchMoved: function (touch, event) {
 
             },
-            onTouchEnded: function (touch, event) {}
+            onTouchEnded: function (touch, event) { }
         }, self.node);
     },
 
@@ -261,7 +280,7 @@ cc.Class({
     },
 
     // 重置守门员，足球，等
-    resetNpc: function(){
+    resetNpc: function () {
         let self = this;
         // 重置守门员
         this.resetKeeper();
@@ -272,7 +291,7 @@ cc.Class({
         // 重置了，发信号给手柄能够继续点击按钮
         this.sendShootEndSinal();
         this.judgeShootFinish();
-        
+
         // 可以被碰撞
         self.canCollide = false;
         // 判断是否切换球员
@@ -338,6 +357,53 @@ cc.Class({
         player1.shootcount = pl1.shootcount;
         if (pl1.shootcount == self.shootTimes) {
             self.gameOver();
+        }
+    },
+
+    // 随机创建一个庆祝的标签
+    initCelebrateItem: function () {
+        var randomItem = parseInt((cc.random0To1() * 10) % 3);
+        var item = null;
+        switch (randomItem) {
+            case 0:
+                item = cc.instantiate(this.celitem1);
+                break;
+            case 1:
+                item = cc.instantiate(this.celitem3);
+                break;
+            case 2:
+                item = cc.instantiate(this.celitem2);
+                break;
+            default:
+                item = cc.instantiate(this.celitem1);
+                break;
+        }
+
+        this.node.addChild(item, 88);
+        var startPosition = this.getRandomStartPosition();
+        var endPosition = this.getRandomEndPosition();
+        item.setPosition(startPosition);
+        var moveto = cc.moveTo(this.celebratetime, endPosition);
+        item.runAction(moveto);
+    },
+
+    getRandomStartPosition: function () {
+        var randX = 2000 - cc.random0To1() * 4000;
+        var Y = 4000;
+        return cc.p(randX, Y);
+    },
+
+    getRandomEndPosition: function () {
+        var randX = 2000 - cc.random0To1() * 4000;
+        var randY = cc.random0To1() * 2000 - 1000;
+        return cc.p(randX, randY);
+    },
+
+    // 射进球门之后显示庆祝动画
+    showCelebrate: function () {
+        // 产生10个庆祝的
+        for (var i = 0; i < this.celebratecount; i++) {
+            this.initCelebrateItem();
         }
     },
 
@@ -482,9 +548,11 @@ cc.Class({
             self.resetNpc();
             return
         }
-        // 没有被扑到，就进球数加一
+        // 没有被扑到，就进球数加一，进球了
         if (!self.isKeepOut) {
             G.currentplayer.incount++;
+            // 进球了
+            this.showCelebrate();
         }
         // 先计算分数
         self.calculateScore();
@@ -784,7 +852,7 @@ cc.Class({
     },
 
     // 进入游戏界面播放一些动画
-    playStartAnims: function(){
+    playStartAnims: function () {
         let self = this;
         var ftball = self.football.getComponent(tmpFootballLayout);
         console.log('足球')
