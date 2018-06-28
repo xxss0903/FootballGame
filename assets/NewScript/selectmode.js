@@ -21,7 +21,7 @@ cc.Class({
             type: cc.Node
         },
 
-        socket: {}
+        socket: null,
         // foo: {
         //     // ATTRIBUTES:
         //     default: null,        // The default value will be used only when the component attaching

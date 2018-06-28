@@ -24,6 +24,11 @@ cc.Class({
             type: cc.Button
         },
 
+        qrcode:{
+            default: null,
+            type: cc.Sprite
+        },
+
         // foo: {
         //     // ATTRIBUTES:
         //     default: null,        // The default value will be used only when the component attaching
@@ -75,11 +80,30 @@ cc.Class({
         }
     },
 
+    setupQrcode: function(){
+        let self = this;
+        var div = document.createElement("div");
+        var qrcode = new QRCode(div, "http://193.112.183.189:5757/shoubing1");
+        var img = div.children[1];
+        img.onload = () => {
+            var texture = new cc.Texture2D();
+            texture.initWithElement(img);
+            texture.handleLoadedTexture();
+            var spriteFrame = new cc.SpriteFrame(texture);
+            self.qrcode.spriteFrame = spriteFrame;
+            // var node = new cc.Node();
+            // var sprite = node.addComponent(cc.Sprite);
+            // sprite.spriteFrame = spriteFrame;
+            // this.node.addChild(node);
+        }
+    },
+
     onLoad: function () {
         console.log('onload')
         this.setupSocket();
         this.rotateFootball();
         this.setupClick();
+        this.setupQrcode();
     },
 
     setupClick: function () {

@@ -138,7 +138,17 @@ cc.Class({
         let self = this;
         this.confirm.node.on('click', function (event) {
             self.currentplayer.rolepic = self.getSelectedPlayer();
-            cc.director.loadScene('game');
+
+            console.log("开始准备预加载");
+            cc.loader.onProgress = function (completedCount, totalCount, item) {
+                var progress = (completedCount / totalCount).toFixed(2);
+                console.log("completedCount = "+completedCount+",totalCount="+totalCount+",progress="+progress);
+            };
+            // 开始加载游戏主界面
+            cc.director.preloadScene('loading', function(){
+                console.log('预加载完成');
+                cc.director.loadScene('loading');
+            })
         })
 
         this.back.node.on('click', function (event) {

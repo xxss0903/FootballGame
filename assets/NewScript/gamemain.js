@@ -895,6 +895,27 @@ cc.Class({
         ftball.x += this.xSpeed * dt;
     },
 
+    updateLoadingProgress: function () {
+        var self = this;
+        cc.loader.onProgress = function (completedCount, totalCount, item) {
+            var progress = (completedCount / totalCount).toFixed(2);
+            console.log("completedCount = "+completedCount+",totalCount="+totalCount+",progress="+progress);
+            if (item && item.uuid && progress > self.loadBar.fillRange) {
+                self.loadBar.fillRange = progress;
+            }
+        };
+
+        // cc.director.loadScene('Hall', null, function () {
+        //     cc.loader.onProgress = null;
+        // });
+    },
+
+    onStart: function () {
+        self.updateLoadingProgress();
+    },
+
+
+
     // called every frame
     update: function (dt) {
         let self = this;
