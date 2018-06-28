@@ -3,7 +3,7 @@
   "_name": "football",
   "_objFlags": 0,
   "_rawFiles": null,
-  "_duration": 10.083333333333334,
+  "_duration": 10.033333333333333,
   "sample": 60,
   "speed": 200,
   "wrapMode": 1,
@@ -17,10 +17,6 @@
         {
           "frame": 10.033333333333333,
           "value": 72
-        },
-        {
-          "frame": 10.083333333333334,
-          "value": 480
         }
       ]
     }

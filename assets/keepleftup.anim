@@ -3,55 +3,11 @@
   "_name": "keepleftup",
   "_objFlags": 0,
   "_rawFiles": null,
-  "_duration": 0.83,
+  "_duration": 0.5,
   "sample": 60,
-  "speed": 1.4,
+  "speed": 1.8,
   "wrapMode": 1,
   "curveData": {
-    "props": {
-      "x": [
-        {
-          "frame": 0,
-          "value": 0
-        },
-        {
-          "frame": 0.4166666666666667,
-          "value": -600
-        },
-        {
-          "frame": 0.8333333333333334,
-          "value": -1000
-        }
-      ],
-      "y": [
-        {
-          "frame": 0,
-          "value": 800
-        },
-        {
-          "frame": 0.4166666666666667,
-          "value": 1000
-        },
-        {
-          "frame": 0.8333333333333334,
-          "value": 1300
-        }
-      ],
-      "rotation": [
-        {
-          "frame": 0,
-          "value": 0
-        },
-        {
-          "frame": 0.4166666666666667,
-          "value": -45
-        },
-        {
-          "frame": 0.8333333333333334,
-          "value": -70
-        }
-      ]
-    },
     "comps": {
       "cc.Sprite": {
         "spriteFrame": [
@@ -62,13 +18,55 @@
             }
           },
           {
-            "frame": 0.11666666666666667,
+            "frame": 0.1,
             "value": {
-              "__uuid__": "ae50824d-1389-4225-b6f9-3be954121a3d"
+              "__uuid__": "edd4d919-323a-48eb-82c7-438c5fd3428c"
             }
           }
         ]
       }
+    },
+    "props": {
+      "x": [
+        {
+          "frame": 0,
+          "value": 0
+        },
+        {
+          "frame": 0.5,
+          "value": -1200
+        }
+      ],
+      "y": [
+        {
+          "frame": 0,
+          "value": 800
+        },
+        {
+          "frame": 0.5,
+          "value": 1300
+        }
+      ],
+      "scaleX": [
+        {
+          "frame": 0,
+          "value": 1
+        },
+        {
+          "frame": 0.1,
+          "value": 1.6
+        }
+      ],
+      "scaleY": [
+        {
+          "frame": 0,
+          "value": 1
+        },
+        {
+          "frame": 0.1,
+          "value": 0.6
+        }
+      ]
     }
   },
   "events": []

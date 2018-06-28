@@ -5,7 +5,7 @@
   "_rawFiles": null,
   "_duration": 0.5,
   "sample": 60,
-  "speed": 0.4,
+  "speed": 1,
   "wrapMode": 2,
   "curveData": {
     "props": {
@@ -35,6 +35,50 @@
         {
           "frame": 0.5,
           "value": 800
+        }
+      ],
+      "skewX": [
+        {
+          "frame": 0,
+          "value": 0
+        },
+        {
+          "frame": 0.13333333333333333,
+          "value": 10
+        },
+        {
+          "frame": 0.25,
+          "value": 0
+        },
+        {
+          "frame": 0.36666666666666664,
+          "value": -10
+        },
+        {
+          "frame": 0.5,
+          "value": 0
+        }
+      ],
+      "x": [
+        {
+          "frame": 0,
+          "value": 0
+        },
+        {
+          "frame": 0.13333333333333333,
+          "value": 50
+        },
+        {
+          "frame": 0.25,
+          "value": 0
+        },
+        {
+          "frame": 0.36666666666666664,
+          "value": -50
+        },
+        {
+          "frame": 0.5,
+          "value": 0
         }
       ]
     }

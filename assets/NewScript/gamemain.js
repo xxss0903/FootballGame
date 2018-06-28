@@ -7,11 +7,17 @@ var tmpFootballLayout = require("footballlayout");
 var tmpFootball = require("football");
 var tmpGate = require("gate");
 var tmpKeeper = require("keeper");
+var tmpMessage = require('message');
 
 cc.Class({
     extends: cc.Component,
 
     properties: {
+
+        message: {
+            default: null,
+            type: cc.Label
+        },
 
         celitem1: {
             default: null,
@@ -203,6 +209,25 @@ cc.Class({
         celebratecount: 100,
     },
 
+    // 动画显示字体效果
+    showMessage: function(data){
+        let self = this;
+        self.message.enabled = true;
+        self.message.string = data;
+        var msg = self.message.getComponent(tmpMessage);
+        msg.playAnim();
+        this.schedule(function(){
+            self.hideMessage();
+        }, 2, 0)
+    },
+
+    hideMessage: function(){
+        let self = this;
+        self.message.enabled = false;
+        self.message.node.scaleX = 0;
+        self.message.node.scaleY = 0;
+    },
+
     // 初始化控制系统 
     setupControl: function () {
         var self = this;
@@ -252,28 +277,34 @@ cc.Class({
 
     // 游戏结束
     gameOver: function () {
-        this.stopMusic();
-        console.log('game over ' + gamemode)
-        this.disconnectSocket();
-        switch (gamemode) {
-            case 0:
-                cc.director.loadScene("singlescore");
-                break;
-            case 1:
-                cc.director.loadScene("multiscore");
-                break;
-        }
+        let self = this;
+        this.goalkeeper.node.stopAllActions();
+        this.schedule(function(){
+            self.stopMusic();
+            console.log('game over ' + gamemode)
+            self.disconnectSocket();
+            switch (gamemode) {
+                case 0:
+                    cc.director.loadScene("singlescore");
+                    break;
+                case 1:
+                    cc.director.loadScene("multiscore");
+                    break;
+            }
+        }, 2);
     },
 
     // 重置守门员
     resetKeeper: function () {
         let self = this;
         this.goalkeeper.node.setPosition(this.keeperPosition);
-        this.goalkeeper.node.rotation = 0;
         cc.loader.loadRes('jump1', cc.SpriteFrame, function (err, spriteFrame) {
             console.log('重置守门员图片')
             self.goalkeeper.spriteFrame = spriteFrame;
         });
+        this.goalkeeper.node.rotation = 0;
+        this.goalkeeper.node.scaleX = 1;
+        this.goalkeeper.node.scaleY = 1;
         // 播放守门员动画
         var keeper = this.goalkeeper.node.getComponent(tmpKeeper);
         keeper.updown();
@@ -356,7 +387,7 @@ cc.Class({
         player1.score = pl1.score;
         player1.shootcount = pl1.shootcount;
         if (pl1.shootcount == self.shootTimes) {
-            self.gameOver();
+                self.gameOver();
         }
     },
 
@@ -402,6 +433,7 @@ cc.Class({
     // 射进球门之后显示庆祝动画
     showCelebrate: function () {
         // 产生10个庆祝的
+        this.showMessage("CONGRADULATION!");
         for (var i = 0; i < this.celebratecount; i++) {
             this.initCelebrateItem();
         }
@@ -504,9 +536,6 @@ cc.Class({
     // 手柄控制小红点的位置
     resetFootballDirection: function (direction, power) {
         let self = this;
-        console.log('重置目的点 ')
-        console.log(self.football);
-        console.log(G.currentplayer);
         // var ftball = self.football.getComponent(tmpFootball);
 
         var x = this.kickpoint.x
@@ -553,6 +582,8 @@ cc.Class({
             G.currentplayer.incount++;
             // 进球了
             this.showCelebrate();
+        } else {
+            this.showMessage("MISSED!");
         }
         // 先计算分数
         self.calculateScore();
@@ -840,6 +871,9 @@ cc.Class({
             self.shootResult();
         }
         console.log(this.shootCallback)
+        // 隐藏庆祝的那个文字
+        console.log(self.message);
+        self.message.enabled = false;
     },
 
     // 足球被扑到了
@@ -867,7 +901,9 @@ cc.Class({
         let self = this;
         self.setupParams();
         self.setupPlayer();
+        self.hideMessage();
         self.setupControl();
+        self.resetKeeper;
         self.setFootballStartPosition();
         self.setupWebsocket();
         console.log('当前球员 1');
