@@ -10,7 +10,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "item2",
+    "_name": "item6",
     "_objFlags": 0,
     "_parent": null,
     "_children": [],
@@ -75,7 +75,7 @@
     },
     "_enabled": true,
     "_spriteFrame": {
-      "__uuid__": "94b328fa-3f9a-40b2-904e-8bf8f083db45"
+      "__uuid__": "a1abc787-dbcf-450d-b7f0-83f195c66e55"
     },
     "_type": 0,
     "_sizeMode": 0,
@@ -128,7 +128,7 @@
     "asset": {
       "__id__": 0
     },
-    "fileId": "4dSCVVlHVBYqzJHPsW1GIc",
+    "fileId": "7cpUgiFlZNKYmbaoofswLH",
     "sync": false
   }
 ]

@@ -33,6 +33,19 @@ cc.Class({
             default: null,
             type: cc.Prefab
         },
+        celitem4: {
+            default: null,
+            type: cc.Prefab
+        },
+        celitem5: {
+            default: null,
+            type: cc.Prefab
+        },
+        celitem6: {
+            default: null,
+            type: cc.Prefab
+        },
+
 
         football: {
             default: null,
@@ -160,6 +173,14 @@ cc.Class({
             url: cc.AudioClip,
             default: null
         },
+
+        // 固定的射门点
+        shootpoint1: cc.p(),
+        shootpoint2: cc.p(),
+        shootpoint3: cc.p(),
+        shootpoint4: cc.p(),
+        shootpoint5: cc.p(),
+
 
         // 每次射球次数，每个选手轮流射球
         shootTimes: 5,
@@ -393,7 +414,7 @@ cc.Class({
 
     // 随机创建一个庆祝的标签
     initCelebrateItem: function () {
-        var randomItem = parseInt((cc.random0To1() * 10) % 3);
+        var randomItem = parseInt((cc.random0To1() * 10) % 6);
         var item = null;
         switch (randomItem) {
             case 0:
@@ -404,6 +425,15 @@ cc.Class({
                 break;
             case 2:
                 item = cc.instantiate(this.celitem2);
+                break;
+            case 3:
+                item = cc.instantiate(this.celitem4);
+                break;
+            case 4:
+                item = cc.instantiate(this.celitem5);
+                break;
+            case 5:
+                item = cc.instantiate(this.celitem6);
                 break;
             default:
                 item = cc.instantiate(this.celitem1);

@@ -31,16 +31,21 @@ cc.Class({
     },
 
     // LIFE-CYCLE CALLBACKS:
+    playAnim: function () {
+        var rotateAnim = this.getComponent(cc.Animation);
+        var animState = rotateAnim.play("celrotate");
+    },
 
-    onLoad () {
+    onLoad() {
         let self = this;
         // 定时移除
         this.schedule(function () {
             self.node.removeFromParent();
         }, 2, 0)
+        this.playAnim();
     },
 
-    start () {
+    start() {
 
     },
 
