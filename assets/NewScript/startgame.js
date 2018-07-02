@@ -29,6 +29,11 @@ cc.Class({
             type: cc.Sprite
         },
 
+        welcome:{
+            default: null,
+            type: cc.Node
+        },
+
         // foo: {
         //     // ATTRIBUTES:
         //     default: null,        // The default value will be used only when the component attaching
@@ -98,12 +103,18 @@ cc.Class({
         }
     },
 
+    // 欢迎的动画
+    setupWelcome: function(){
+        
+    },
+
     onLoad: function () {
         console.log('onload')
         this.setupSocket();
         this.rotateFootball();
         this.setupClick();
         this.setupQrcode();
+        this.setupWelcome();
     },
 
     setupClick: function () {

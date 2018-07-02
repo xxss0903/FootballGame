@@ -1,0 +1,7 @@
+{
+  "ver": "1.0.0",
+  "uuid": "7ecccd43-e1aa-4f94-8dc5-ce82bb3d97d9",
+  "atlasJson": "{\"width\":512,\"height\":1024,\"name\":\"keeper\",\"imagePath\":\"keeper_tex.png\",\"SubTexture\":[{\"width\":222,\"y\":425,\"height\":194,\"name\":\"body\",\"x\":1},{\"width\":76,\"y\":586,\"height\":121,\"name\":\"hand_l2\",\"x\":225},{\"width\":459,\"y\":1,\"height\":422,\"name\":\"head_2\",\"x\":1},{\"width\":115,\"y\":425,\"height\":153,\"name\":\"leg_l\",\"x\":341},{\"width\":80,\"y\":580,\"height\":123,\"name\":\"hand_l11\",\"x\":422},{\"width\":114,\"y\":425,\"height\":159,\"name\":\"leg_r\",\"x\":225},{\"width\":76,\"y\":621,\"height\":121,\"name\":\"hand_l22\",\"x\":1},{\"width\":79,\"y\":580,\"height\":177,\"name\":\"hand_r1\",\"x\":341},{\"width\":80,\"y\":705,\"height\":123,\"name\":\"hand_l1\",\"x\":422}]}",
+  "texture": "173ab121-ce56-44c1-a3ca-ab45cfc09795",
+  "subMetas": {}
+}

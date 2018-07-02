@@ -8,6 +8,7 @@ var tmpFootball = require("football");
 var tmpGate = require("gate");
 var tmpKeeper = require("keeper");
 var tmpMessage = require('message');
+var tmpDbKeeper = require('dbkeeper');
 
 cc.Class({
     extends: cc.Component,
@@ -174,6 +175,12 @@ cc.Class({
             default: null
         },
 
+        // dragonbones 的对象
+        dbkeeper: {
+            default: null,
+            type: cc.Node
+        },
+
         // 固定的射门点
         shootpoint1: cc.p(),
         shootpoint2: cc.p(),
@@ -231,22 +238,32 @@ cc.Class({
     },
 
     // 动画显示字体效果
-    showMessage: function(data){
+    showMessage: function (data) {
         let self = this;
         self.message.enabled = true;
         self.message.string = data;
         var msg = self.message.getComponent(tmpMessage);
         msg.playAnim();
-        this.schedule(function(){
+        this.schedule(function () {
             self.hideMessage();
         }, 2, 0)
     },
 
-    hideMessage: function(){
+    hideMessage: function () {
         let self = this;
         self.message.enabled = false;
         self.message.node.scaleX = 0;
         self.message.node.scaleY = 0;
+    },
+
+
+    dbkeeperPlay: function () {
+        let self = this;
+        var kp = self.dbkeeper.getComponent(tmpDbKeeper);
+        kp.keepLeft();
+        this.schedule(function () {
+            self.setupKeeper();
+        }, 2, 0)
     },
 
     // 初始化控制系统 
@@ -263,6 +280,7 @@ cc.Class({
             event: cc.EventListener.TOUCH_ONE_BY_ONE,
             swallowTouches: true,
             onTouchBegan: function (touch, event) {
+                self.dbkeeperPlay();
                 self.beginTiqiu();
             },
             onTouchMoved: function (touch, event) {
@@ -300,7 +318,7 @@ cc.Class({
     gameOver: function () {
         let self = this;
         this.goalkeeper.node.stopAllActions();
-        this.schedule(function(){
+        this.schedule(function () {
             self.stopMusic();
             console.log('game over ' + gamemode)
             self.disconnectSocket();
@@ -408,7 +426,7 @@ cc.Class({
         player1.score = pl1.score;
         player1.shootcount = pl1.shootcount;
         if (pl1.shootcount == self.shootTimes) {
-                self.gameOver();
+            self.gameOver();
         }
     },
 
@@ -464,9 +482,9 @@ cc.Class({
     showCelebrate: function () {
         // 产生10个庆祝的
         this.showMessage("CONGRADULATION!");
-        for (var i = 0; i < this.celebratecount; i++) {
-            this.initCelebrateItem();
-        }
+        // for (var i = 0; i < this.celebratecount; i++) {
+        //     this.initCelebrateItem();
+        // }
     },
 
     judgeMultiShootFinish: function () {
@@ -925,6 +943,15 @@ cc.Class({
         ftball.playStartAnim();
     },
 
+    // 初始化守门员
+    setupKeeper: function () {
+        let self = this;
+        if (self.dbkeeper != undefined && self.dbkeeper != null) {
+            var kp = self.dbkeeper.getComponent(tmpDbKeeper);
+            kp.standMove();
+        }
+    },
+
 
     // use this for initialization
     onLoad: function () {
@@ -940,6 +967,7 @@ cc.Class({
         console.log(G.currentplayer);
         self.playBgm();
         self.playStartAnims();
+        self.setupKeeper();
     },
 
     // 更新足球的轨迹
@@ -965,7 +993,7 @@ cc.Class({
         var self = this;
         cc.loader.onProgress = function (completedCount, totalCount, item) {
             var progress = (completedCount / totalCount).toFixed(2);
-            console.log("completedCount = "+completedCount+",totalCount="+totalCount+",progress="+progress);
+            console.log("completedCount = " + completedCount + ",totalCount=" + totalCount + ",progress=" + progress);
             if (item && item.uuid && progress > self.loadBar.fillRange) {
                 self.loadBar.fillRange = progress;
             }
