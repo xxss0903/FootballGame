@@ -95,10 +95,10 @@ cc.Class({
             type: cc.Node
         },
 
-        goalkeeper: {
-            default: null,
-            type: cc.Sprite
-        },
+        // goalkeeper: {
+        //     default: null,
+        //     type: cc.Sprite
+        // },
 
         background: {
             default: null,
@@ -235,6 +235,12 @@ cc.Class({
         celebratetime: 2,
         // 庆祝的item的数量
         celebratecount: 100,
+        leftupp: cc.p(),
+        leftdownp: cc.p(),
+        rightdownp: cc.p(),
+        rightupp: cc.p(),
+        centerp: cc.p(),
+        shootdirection: 'center',
     },
 
     // 动画显示字体效果
@@ -260,7 +266,7 @@ cc.Class({
     dbkeeperPlay: function () {
         let self = this;
         var kp = self.dbkeeper.getComponent(tmpDbKeeper);
-        kp.keepLeft();
+        kp.keepBall();
         this.schedule(function () {
             self.setupKeeper();
         }, 2, 0)
@@ -280,7 +286,6 @@ cc.Class({
             event: cc.EventListener.TOUCH_ONE_BY_ONE,
             swallowTouches: true,
             onTouchBegan: function (touch, event) {
-                self.dbkeeperPlay();
                 self.beginTiqiu();
             },
             onTouchMoved: function (touch, event) {
@@ -301,6 +306,7 @@ cc.Class({
         var rotateAngle = 270 - cc.pToAngle(p) / Math.PI * 180;
 
         this.arrow.rotation = rotateAngle;
+
     },
 
     stopMusic: function () {
@@ -317,7 +323,10 @@ cc.Class({
     // 游戏结束
     gameOver: function () {
         let self = this;
-        this.goalkeeper.node.stopAllActions();
+
+        this.dbkeeper.stopAllActions();
+        // this.goalkeeper.node.stopAllActions();
+
         this.schedule(function () {
             self.stopMusic();
             console.log('game over ' + gamemode)
@@ -333,27 +342,31 @@ cc.Class({
         }, 2);
     },
 
-    // 重置守门员
-    resetKeeper: function () {
-        let self = this;
-        this.goalkeeper.node.setPosition(this.keeperPosition);
-        cc.loader.loadRes('jump1', cc.SpriteFrame, function (err, spriteFrame) {
-            console.log('重置守门员图片')
-            self.goalkeeper.spriteFrame = spriteFrame;
-        });
-        this.goalkeeper.node.rotation = 0;
-        this.goalkeeper.node.scaleX = 1;
-        this.goalkeeper.node.scaleY = 1;
-        // 播放守门员动画
-        var keeper = this.goalkeeper.node.getComponent(tmpKeeper);
-        keeper.updown();
-    },
+    // // 重置守门员
+    // resetKeeper: function () {
+    //     let self = this;
+
+    //     var dbkp = this.dbkeeper.getComponent(tmpDbKeeper);
+    //     dbkp.standMove();
+
+    //     // this.goalkeeper.node.setPosition(this.keeperPosition);
+    //     // cc.loader.loadRes('jump1', cc.SpriteFrame, function (err, spriteFrame) {
+    //     //     console.log('重置守门员图片')
+    //     //     self.goalkeeper.spriteFrame = spriteFrame;
+    //     // });
+    //     // this.goalkeeper.node.rotation = 0;
+    //     // this.goalkeeper.node.scaleX = 1;
+    //     // this.goalkeeper.node.scaleY = 1;
+    //     // // 播放守门员动画
+    //     // var keeper = this.goalkeeper.node.getComponent(tmpKeeper);
+    //     // keeper.updown();
+    // },
 
     // 重置守门员，足球，等
     resetNpc: function () {
         let self = this;
         // 重置守门员
-        this.resetKeeper();
+        this.setupKeeper();
         // 重置足球
         this.resetFootball();
         // 重置箭头
@@ -588,26 +601,34 @@ cc.Class({
 
         var x = this.kickpoint.x
         var y = this.kickpoint.y
+
         switch (direction) {
-            case 'up':
-                y = y + this.resetSize / 2;
+            case 'leftdown':
+                this.shootdirection = 'leftdown';
+                this.endPosition = this.leftdownp;
                 break;
-            case 'down':
-                y = y - this.resetSize / 2;
+            case 'leftup':
+                this.shootdirection = 'leftup';
+                this.endPosition = this.leftupp;
                 break;
-            case 'left':
-                x = x - this.resetSize;
+            case 'rightdown':
+                this.shootdirection = 'rightdown';
+                this.endPosition = this.rightdownp;
                 break;
-            case 'right':
-                x = x + this.resetSize;
+            case 'rightup':
+                this.shootdirection = 'rightup';
+                this.endPosition = this.rightupp;
+                break;
+            case 'center':
+                this.shootdirection = 'centerup';
+                this.endPosition = this.centerp;
                 break;
             case 'press':
-                // 根据能量计算y轴的点
-                y = y + power * this.maxHeight;
+                // 开始踢球
+
                 break;
         }
 
-        this.endPosition = cc.p(x, y);
         this.kickpoint.setPosition(this.endPosition);
         // 计算箭头的转动角度
         this.updateArrowDirection();
@@ -647,7 +668,7 @@ cc.Class({
         if (power == undefined) {
             power = 0;
         }
-        var moveTime = this.moveDuration - power;
+        var moveTime = this.moveDuration;
         console.log('movetime = ' + moveTime);
         var startP = cc.p(this.football.x, this.football.y);
         // 设置起始和结束坐标
@@ -694,8 +715,19 @@ cc.Class({
         let self = this;
         console.log('扑球 ...');
         self.canCollide = true;
-        var keeper = self.goalkeeper.node.getComponent(tmpKeeper);
-        keeper.keepBall();
+
+        console.log(this.dbkeeper);
+        var dbkp = this.dbkeeper.getComponent(tmpDbKeeper);
+        var keepDirection = dbkp.keepBall();
+        if(keepDirection === this.shootdirection){
+            // 被扑出去了
+            this.schedule(function () {
+                self.keepOut();
+            }, self.moveDuration, 0);
+        } else {
+
+        }
+
         // 开启碰撞
         var ftball = self.football.getComponent(tmpFootballLayout);
         ftball.switchCollide(self.isEndPositionInGate());
@@ -808,23 +840,45 @@ cc.Class({
             }
 
             switch (obj.direction) {
-                case 'up':
-                    self.resetFootballDirection('up')
+                case 'leftup':
+                    self.resetFootballDirection('leftup')
                     break;
-                case 'down':
-                    self.resetFootballDirection('down')
+                case 'leftdown':
+                    self.resetFootballDirection('leftdown')
                     break;
-                case 'left':
-                    self.resetFootballDirection('left')
+                case 'rightdown':
+                    self.resetFootballDirection('rightdown')
                     break;
-                case 'right':
-                    self.resetFootballDirection('right')
+                case 'rightup':
+                    self.resetFootballDirection('rightup')
+                    break;
+                case 'center':
+                    self.resetFootballDirection('center');
                     break;
                 case 'press':
                     self.resetFootballDirection('press', obj.power);
                     self.beginTiqiu();
                     break;
             }
+
+            // switch (obj.direction) {
+            //     case 'up':
+            //         self.resetFootballDirection('up')
+            //         break;
+            //     case 'down':
+            //         self.resetFootballDirection('down')
+            //         break;
+            //     case 'left':
+            //         self.resetFootballDirection('left')
+            //         break;
+            //     case 'right':
+            //         self.resetFootballDirection('right')
+            //         break;
+            //     case 'press':
+            //         self.resetFootballDirection('press', obj.power);
+            //         self.beginTiqiu();
+            //         break;
+            // }
         })
 
         G.roomSocket.on('disconnect', function () {
@@ -960,7 +1014,7 @@ cc.Class({
         self.setupPlayer();
         self.hideMessage();
         self.setupControl();
-        self.resetKeeper;
+        // self.resetKeeper();
         self.setFootballStartPosition();
         self.setupWebsocket();
         console.log('当前球员 1');
